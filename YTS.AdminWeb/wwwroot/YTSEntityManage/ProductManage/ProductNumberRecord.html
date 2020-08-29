@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+        content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>产品数量修改记录</title>
+
+    <link rel="stylesheet" type="text/css" href="/extends/release/Content/css.css" />
+    <link rel="stylesheet" type="text/css" href="/extends/release/Scripts/jquery-easyui/themes/insdep/css.css" />
+
+    <link rel="stylesheet" type="text/css" href="/style/base.css" />
+    <link rel="stylesheet" type="text/css" href="/style/index.css" />
+    <link rel="stylesheet" type="text/css" href="/style/cruq.css" />
+
+    <script type="text/javascript" charset="utf-8" src="/extends/release/Scripts/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/extends/release/Scripts/jquery-easyui/themes/insdep/js.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/extends/release/Scripts/indexjs.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="/scripts/base.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/scripts/appConfig.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/scripts/app.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/scripts/cruq.js"></script>
+    <script type="text/javascript">
+        var page = new window.BasicCRUQ({
+            'search_form': '#search_form',
+            'datagrid': '#datagrid',
+            'dialog': '#dialog',
+            'dialog_form': '#dialog_form',
+            'tableName': '产品数量修改记录',
+        });
+    </script>
+</head>
+<body>
+    <div class="ibox">
+        <div class="ibox-content">
+            <div class="easyui-panel CRUQBasicPage">
+                <div id="search" class="easyui-panel" title="查询条件" iconcls="icon-search" style="padding: 10px; margin-bottom: 10px;">
+                    <form id="search_form" onSubmit="return page.Search()">
+                        <div class="search_item">
+                            <label>产品名称:</label>
+                            <input name="ProductName" type="text" class="easyui-textbox" />
+                        </div>
+                        <div class="search_item">
+                            <label>操作类型:</label>
+                            <input name="OperateType" type="text" class="easyui-textbox" />
+                        </div>
+                        <div class="search_item">
+                            <label>操作产品数量:</label>
+                            <select name="OperateNumberWhere" class="easyui-combobox" editable="false" style="width:120px">
+                                <option value="0">请选择</option>
+                                <option value="1">小于(<)</option>
+                                <option value="2">小于等于(<=)</option>
+                                <option value="3">等于(==)</option>
+                                <option value="4">大于(>)</option>
+                                <option value="5">大于等于(>=)</option>
+                            </select>
+                            -
+                            <input type="text" name="OperateNumber" class="easyui-numberbox" data-options="min:0,precision:0" value="0" style="width:60px" />
+                        </div>
+                        <div class="search_item">
+                            <label>是否无限数量:</label>
+                            <select name="IsUnlimitedNumber" class="easyui-combobox" data-options="width:90,">
+                                <option value="">请选择</option>
+                                <option value="true">是</option>
+                                <option value="false">否</option>
+                            </select>
+                        </div>
+                        <div class="search_item">
+                            <label>相关标识:</label>
+                            <input name="RelatedSign" type="text" class="easyui-textbox" />
+                        </div>
+                        <div class="search_item">
+                            <label>添加时间:</label>
+                            <input name="AddTimeStart" class="easyui-datetimebox" data-options="showSeconds:false" />
+                            -
+                            <input name="AddTimeEnd" class="easyui-datetimebox" data-options="showSeconds:false" />
+                        </div>
+                        <div class="search_item">
+                            <label>备注:</label>
+                            <input name="Remark" type="text" class="easyui-textbox" />
+                        </div>
+                        <span class="search_item">
+                            <button type="submit" class="easyui-linkbutton" iconCls="icon-magnifier" style="width:80px;">搜索</button>
+                        </span>
+                        <span class="search_item">
+                            <button type="button" class="easyui-linkbutton" iconcls="icon-remove" style="width:120px;"
+                                onclick="$(this).parents('form').form('clear');">清除条件</button>
+                        </span>
+                    </form>
+                </div>
+
+                <div id="toolbar">
+                </div>
+                <table id="datagrid" class="easyui-datagrid"
+                    style="padding: 10px;"
+                    data-options="
+                        title:'产品数量修改记录',
+                        toolbar:'#toolbar',
+                        iconcls:'icon-application_view_list',
+                        pagination:true,
+                        pageSize:10,
+                        pageList:[10,20,30,40,50],
+                        sortName:'ID',
+                        sortOrder:'desc',
+                        singleSelect:false,
+                        fitColumns:true,
+                        striped:true,
+                        url:Api.UrlFormat('/api/ProductNumberRecord/GetProductNumberRecordList'),
+                        method:'get',
+                        queryParams: page.GetSearchData(),
+                        onDblClickRow:function(){
+                            page.Edit();
+                        },
+                        onClickRow:function(index, row) {
+                            $(this).datagrid('clearSelections');
+                            $(this).datagrid('selectRow',index);
+                        },
+                    ">
+                    <thead>
+                        <tr>
+                            <th field="Check" checkbox="true" width="40"></th>
+                            <th field="ID" width="50" sortable="true">ID</th>
+                            <th field="ProductID" width="100">产品ID</th>
+                            <th field="ProductName" width="120">产品名称</th>
+                            <th field="OperateType" width="100">操作类型</th>
+                            <th field="OperateNumber" width="90" sortable="true">操作产品数量</th>
+                            <th field="IsUnlimitedNumber" width="80" data-options="formatter:function(val,row){return val == true ? '是' : '否';}">是否无限数量</th>
+                            <th field="RelatedSign" width="120">相关标识</th>
+                            <th field="AddTime" width="160" data-options="formatter:function(value,row,index){return value == null ? '' : new Date(value).FormatAsString();}">添加时间</th>
+                            <th field="AddManagerName" width="100">添加人</th>
+                            <th field="Remark" width="120">备注</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

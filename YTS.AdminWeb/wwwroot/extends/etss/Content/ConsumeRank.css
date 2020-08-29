@@ -1,0 +1,380 @@
+﻿
+
+/*#region FrameWork */
+
+.rank_main {
+    width: 20%;
+    height: 600px;
+    background-color: #f2f3b836;
+}
+
+.rank_sub {
+    width: 17%;
+    height: 500px;
+    margin-top: 2%; 
+    background-color: #d9eafc2b; 
+}
+
+.rank_main, .rank_sub {
+    float: left;
+    margin-left: 2%;
+}
+
+.rank_u_class {
+    border-radius: 10px;
+}
+
+
+ul.rank_list {
+    padding: 0;
+    width: 100%;
+    height: fit-content;
+    list-style: none;
+}
+
+.rank_list li {
+    width: 100%;
+    padding-left: 2%;
+    padding-right: 2%;
+    cursor: pointer;
+}
+
+
+.rank_header {
+    height: 80px;
+    width: 100%;
+    text-align: center;
+    padding-top: 3%;
+    font-size: 20px;
+}
+
+    .rank_header img {
+        max-width: 48px;
+    }
+
+.rank_sub .rank_header img {
+    filter: invert(1);
+}
+
+.rank_body {
+    width: 100%;
+    height: 80%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.rank_userinfo {
+    height: 50px;
+    padding-top: 1%;
+    margin-bottom: 2%;
+}
+
+    .rank_userinfo b {
+        font-size: 20px;
+        float: right;
+        padding-top: 3%;
+        font-family: fantasy;
+        letter-spacing: 3px;
+        font-weight: 500;
+        color: #9d3e51;
+    }
+
+    .rank_userinfo img {
+        max-width: 50px;
+        border-radius: 30px;
+    }
+
+    .rank_userinfo font {
+        font-size: 14px;
+        padding-left: 3%;
+    }
+
+
+/*#endregion */
+
+
+/*#region Rank Shadow */
+
+.rank_main .slider {
+    background-color: #ffc645;
+}
+
+.rank_sub .slider {
+    background-color: rgba(95, 159, 255, 0.68);
+    filter: blur(0.5px);
+}
+
+.slider {
+    height: 2px;
+    border-radius: 5px;
+    width: 0%;
+}
+
+.rank_sub {
+    animation: subshadow 3s alternate infinite;
+}
+
+@keyframes subshadow {
+    from {
+        box-shadow: 0px 1px 2px #52a1f3c7;
+    }
+
+    to {
+        box-shadow: 0px 1px 14px #52a1f3;
+    }
+}
+
+.rank_main {
+    animation: moveshadow 3s alternate infinite;
+}
+
+@keyframes moveshadow {
+    from {
+        box-shadow: 0px 1px 2px #ffcf408b;
+    }
+
+    to {
+        box-shadow: 0px 1px 14px #ffcf40c9;
+    }
+}
+
+/*#endregion */
+
+
+/*#region Li Style */
+
+.fir_li {
+    background-image: linear-gradient(22deg, #ffda6d,#ffe2b0,transparent);
+}
+
+.sec_li {
+    background-image: linear-gradient(89deg, #ffe8a2,#ffedce,transparent);
+}
+
+.thi_li {
+    background-image: linear-gradient(90deg, #ffefbf,#fffefd,transparent);
+}
+
+.fir_li_sub {
+    background-image: linear-gradient(22deg, #e6f2ff,#e5eff9,transparent);
+}
+
+.sec_li_sub {
+    background-image: linear-gradient(22deg, #eff7ff,#f8fafb,transparent);
+}
+
+.thi_li_sub {
+    background-image: linear-gradient(22deg, #f4f9ff,#ffffff,transparent);
+}
+
+.sub_li_active {
+    background-image: linear-gradient(45deg, #afd6ff, #c6e2ff);
+}
+
+.main_li_active {
+    background-image: linear-gradient(45deg, #ffce36, #ffde93);
+}
+
+/*#endregion */
+
+
+/*#region Scroll Bar */
+
+/*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+.rank_body::-webkit-scrollbar,
+textarea::-webkit-scrollbar {
+    width: 3px;
+    height: 100%;
+    background-color: #bfdeff;
+}
+
+/*定义滚动条的轨道，内阴影及圆角*/
+.rank_body::-webkit-scrollbar-track,
+textarea::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #f5faff;
+}
+
+/*定义滑块，内阴影及圆角*/
+.rank_body::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb {
+    height: 20px;
+    border-radius: 10px;
+    background-color: #bfdeff;
+}
+
+
+/*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+.rank_body.fix_main::-webkit-scrollbar,
+textarea::-webkit-scrollbar {
+    background-color: #ffde90;
+}
+
+/*定义滚动条的轨道，内阴影及圆角*/
+.rank_body.fix_main::-webkit-scrollbar-track,
+textarea::-webkit-scrollbar-track {
+    background-color: #f5faff;
+}
+
+/*定义滑块，内阴影及圆角*/
+.rank_body.fix_main::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb {
+    background-color: #ffde90;
+}
+
+/*#endregion */
+
+
+/*#region Spread */
+
+.sp_container {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    top: -20%;
+    text-align: center;
+    opacity: 0;
+}
+
+.sp_line {
+    width: 50px;
+    height: 22px;
+    border-left: 1px dotted #c5dffb;
+    border-right: 1px dotted #c5dffb;
+    margin: 0px auto;
+    border-width: 3px;
+}
+
+    .sp_line.fix_main {
+        border-color: #ffde93;
+    }
+
+.sp_main {
+    width: 100%;
+    height: 75%;
+    border: 1px solid #b5d7fb;
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    box-shadow: 2px 1px 4px 0px #aed3f9;
+}
+
+    .sp_main.fix_main {
+        border-color: #ffde93;
+        box-shadow: 2px 1px 4px 0px #ffde93;
+    }
+
+.patch_sp {
+    opacity: 1;
+    top: 5%;
+    transition: all 0.5s ease-in-out;
+}
+
+.patch_sp_main {
+    opacity: 1;
+    top: 7%;
+    transition: all 0.5s ease-in-out;
+}
+
+/*#endregion */
+
+
+/*#region Spread Button */
+
+.sp_btn {
+    width: 73px;
+    height: 73px;
+    vertical-align: middle;
+    border-radius: 60px;
+    cursor: pointer;
+}
+
+.sp_btn_sub_left {
+    border: 1px solid #bedeff;
+}
+
+.sp_btn_sub_right {
+    border: 1px solid #b9dcff;
+}
+
+.sp_btn_main_left {
+    border: 1px solid #ffde93;
+}
+
+.sp_btn_main_right {
+    border: 1px solid #ffde93;
+}
+
+.sp_btn_main_left, .sp_btn_sub_left {
+    float: left;
+    margin-left: 12%;
+}
+
+.sp_btn_main_right, .sp_btn_sub_right {
+    float: right;
+    margin-right: 12%;
+}
+/*#endregion */
+
+
+
+/*#region detail css */
+
+.topleft,
+.topright {
+    width: 56%;
+    position: absolute;
+    opacity: 0;
+    z-index:3;
+}
+
+.d_close {
+    padding: 7px;
+    width: 10px;
+    float: right;
+}
+
+.topleft {
+    left: -100%;
+    top: 15%;
+    background-image: linear-gradient(45deg, #d1f3ff6b, transparent);
+    box-shadow: -3px 1px 4px 1px #d1f3ff6b;
+    overflow: visible;
+    height: 50%;
+}
+
+.topright {
+    right: -100%;
+    top: 66%;
+    /*background-image: linear-gradient(45deg, #8e8e8e5e, #666);*/
+    background-image: linear-gradient(45deg, #d1f3ff6b, #9fd6ffcf);
+    box-shadow: -3px 1px 4px 1px #d1f3ff6b;
+    height: 5%;
+    text-align: right;
+    padding-right: 1%;
+    cursor: pointer;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    z-index: 3;
+    font-size: 20px;
+    color: #fff;
+}
+
+.container {
+    width: 100%;
+    height: 112%;
+    opacity: 0;
+    padding: 0 !important;
+}
+.layout_cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(242, 251, 255, 0.59);
+    filter: blur(0.5);
+    opacity: 0;
+    z-index: 2;
+}
+.hidden{
+    display:none;
+}
+/*#endregion */

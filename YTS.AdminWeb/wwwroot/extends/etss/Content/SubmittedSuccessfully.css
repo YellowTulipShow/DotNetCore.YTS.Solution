@@ -1,0 +1,89 @@
+﻿body {
+    background: url('../Image/ActivityPrize/pic2.png') no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+.Box {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.title_div p {
+    margin-top: 30px;
+    font-size: 23px;
+    color: #ffffff;
+    font-family: "Microsoft YaHei";
+    text-align: center;
+}
+
+.img_Trophy {
+    width: 100%;
+    text-align: center;
+    margin-top: 150px;
+    z-index: 100;
+}
+
+.content {
+    width: 310px;
+    height: 295px;
+    background: #ffffff;
+    position: relative;
+    margin: -50px auto 0px;
+    padding-top: 35px;
+    border-radius: 11px 11px 11px 11px;
+    z-index: -1;
+}
+
+.btn_Receive {
+    width: 260px;
+    height: 45px;
+    margin: 30px auto 10px;
+    text-align: center;
+    border-radius: 25px 25px 25px 25px;
+    background: -webkit-linear-gradient(left, #ffe641, #ff2769); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, #ffe641, #ff2769); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, #ffe641, #ff2769); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, #ffe641, #ff2769); /* 标准的语法（必须放在最后） */
+}
+
+    .btn_Receive p {
+        font-size: 17px;
+        color: #ffffff;
+        font-family: "Microsoft YaHei";
+        padding-top: 8px;
+    }
+
+.img_content {
+    width: 150px;
+    height: 160px;
+    margin: auto;
+}
+
+.content {
+    text-align: center;
+}
+
+    .content h3 {
+        color: #27366c;
+    }
+
+    .content > p {
+        margin: auto;
+        width: 240px;
+        font-size: 16px;
+        color: #56618b;
+    }
+
+.txt {
+    font-size: 18px;
+    color: #fe3d61;
+    text-align: center;
+}
+
+.txt2 {
+    font-size: 18px;
+    color: #fe3d61;
+    text-align: center;
+}

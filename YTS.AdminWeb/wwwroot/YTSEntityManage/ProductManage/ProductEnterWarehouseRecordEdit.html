@@ -1,0 +1,76 @@
+﻿<form id="dialog_form" class="easyui-form form_label_120" data-options="novalidate:true">
+    <input type="hidden" name="ID" value="0" />
+    <input type="hidden" name="BatchNo" value="" />
+    <input type="hidden" name="AddTime" value="" />
+    <input type="hidden" name="AddManagerID" value="" />
+
+    <div class="form_item">
+        <label for="dialog_ProductID">产品选择:</label>
+        <input id="dialog_ProductID" name="ProductID" type="text" class="easyui-combogrid"
+               toolbar="#toolbar_dialog_ProductID"
+               data-options="
+                required:true,
+                panelWidth:600,
+                panelHeight:500,
+                url:Api.UrlFormat('/api/Product/GetProductList'),
+                delay: 100,
+                editable:false,
+                mode:'remote',
+                pageSize:10,
+                pageList:[10,20,30,40,50],
+                pagination:true,
+                sortName:'ID',
+                sortOrder:'desc',
+                method:'get',
+                queryParams:{
+                    IsPhysicalEntity: true,
+                    Name: $('#toolbar_dialog_ProductID_Name').val(),
+                },
+                idField:'ID',
+                textField:'Name',
+                columns:[[
+                    {field:'ID',title:'ID',hidden:true,width:50,sortable:true},
+                    {field:'Name',title:'产品名称',width:150},
+                    {field:'Price',title:'产品价格',width:100},
+                    {field:'Number',title:'产品数量',width:100},
+                    {field:'IsUnlimitedNumber',title:'是否无限数量',width:100,formatter:function(val,row){return val == true ? '是' : '否';}},
+                    {field:'IsPhysicalEntity',title:'是否实物产品',width:100,formatter:function(val,row){return val == true ? '是' : '否';}},
+                ]],
+                onClickRow:function(index,row){
+                    if (row) {
+                        $('#dialog_ProductName').textbox('setValue', row.Name);
+                    }
+                }" />
+        <div id="toolbar_dialog_ProductID">
+            <label>产品名称：</label>
+            <input id="toolbar_dialog_ProductID_Name" class="easyui-textbox" style="width: 150px;" type="text">
+            <button type="button" class="easyui-linkbutton" style="height: 28px;" iconcls="icon-zoom"
+                    onclick="$('#dialog_ProductID').combogrid('grid').datagrid('load',{
+                        IsPhysicalEntity: true,
+                        Name: $('#toolbar_dialog_ProductID_Name').val(),
+                    })">
+                搜索
+            </button>
+            <button type="button" class="easyui-linkbutton" style="height: 28px; float: right;" iconcls="icon-remove"
+                    onclick="$('#dialog_ProductID').combogrid('setValue', '');$('#dialog_ProductID').combogrid('hidePanel')">
+                清除
+            </button>
+        </div>
+    </div>
+    <div class="form_item">
+        <label>产品名称:</label>
+        <input id="dialog_ProductName" name="ProductName" type="text" class="easyui-textbox" />
+    </div>
+    <div class="form_item">
+        <label>入库数量：</label>
+        <input id="dialog_Number" type="text" name="Number" class="easyui-numberbox" data-options="min:0,precision:0" value="0" />
+    </div>
+    <div class="form_item">
+        <label>入库来源:</label>
+        <input id="dialog_Source" name="Source" type="text" class="easyui-textbox" />
+    </div>
+    <div class="form_item">
+        <label>备注:</label>
+        <input id="dialog_Remark" name="Remark" type="text" class="easyui-textbox" />
+    </div>
+</form>

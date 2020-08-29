@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>后台登录</title>
+
+    <link rel="stylesheet" type="text/css" href="extends/dtcms_skin/icon/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="extends/dtcms_skin/default/style.css" />
+
+    <script type="text/javascript" src="extends/jquery-v1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="extends/jquery.serializejson.2.9.0/jquery.serializejson.js"></script>
+    <script type="text/javascript" src="scripts/base.js"></script>
+    <script type="text/javascript" src="scripts/appConfig.js"></script>
+    <script type="text/javascript" src="scripts/app.js"></script>
+</head>
+
+<body>
+    <button onclick="update()">上传菜单数据</button>
+    <script type="text/javascript">
+        function update() {
+            $.ajax({
+                type: 'get',
+                url: 'menu.json',
+                success: function(datas) {
+                    Api.CallPost({
+                        'url': Api.UrlFormat('/api/Menus/UploadMenus'),
+                        'data': {
+                            'NameSpaces': 'YTS.AdminWeb',
+                            'models': datas,
+                        },
+                        success: function(result) {
+                            document.write('成功结果:' + JSON.stringify(result));
+                        },
+                    });
+                },
+            });
+        }
+    </script>
+</body>
+</html>

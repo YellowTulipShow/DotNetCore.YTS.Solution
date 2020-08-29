@@ -1,0 +1,133 @@
+﻿<form id="dialog_form" class="easyui-form form_label_120" data-options="novalidate:true">
+    <input type="hidden" name="ID" value="0" />
+    <input type="hidden" name="AddTime" value="" />
+    <input type="hidden" name="AddManagerID" value="" />
+
+    <div class="form_item">
+        <label for="dialog_UserID">用户选择:</label>
+        <input id="dialog_UserID" name="UserID" type="text" class="easyui-combogrid"
+               toolbar="#toolbar_dialog_UserID"
+               data-options="
+                required:true,
+                panelWidth:800,
+                panelHeight:500,
+                url:Api.UrlFormat('/api/Users/GetUsersList'),
+                delay: 100,
+                editable:false,
+                mode:'remote',
+                pageSize:10,
+                pageList:[10,20,30,40,50],
+                pagination:true,
+                sortName:'ID',
+                sortOrder:'desc',
+                method:'get',
+                queryParams:{
+                    Phone: $('#toolbar_dialog_UserID_Phone').val(),
+                },
+                idField:'ID',
+                textField:'Phone',
+                columns:[[
+                    {field:'ID',title:'ID',hidden:true,width:50,sortable:true},
+                    {field:'Account',title:'账号',width:150},
+                    {field:'Name',title:'真实姓名',width:150},
+                    {field:'NickName',title:'昵称',width:100},
+                    {field:'Money',title:'账户余额',width:100},
+                    {field:'Phone',title:'电话',width:100},
+                    {field:'WeChatNumber',title:'微信',width:100},
+                    {field:'QQ',title:'QQ号',width:100},
+                    {field:'Address',title:'联系地址',width:100},
+                ]],
+                onClickRow:function(index,row){
+                    if (row) {
+                        var UserName = row.Name ? row.Name : row.NickName;
+                        $('#dialog_UserName').textbox('setValue', UserName);
+                    }
+                }" />
+        <div id="toolbar_dialog_UserID">
+            <label>用户电话：</label>
+            <input id="toolbar_dialog_UserID_Phone" class="easyui-textbox" style="width: 150px;" type="text">
+            <button type="button" class="easyui-linkbutton" style="height: 28px;" iconcls="icon-zoom"
+                    onclick="$('#dialog_UserID').combogrid('grid').datagrid('load',{
+                        Phone: $('#toolbar_dialog_UserID_Phone').val(),
+                    })">
+                搜索
+            </button>
+            <button type="button" class="easyui-linkbutton" style="height: 28px; float: right;" iconcls="icon-remove"
+                    onclick="$('#dialog_UserID').combogrid('setValue', '');$('#dialog_UserID').combogrid('hidePanel')">
+                清除
+            </button>
+        </div>
+    </div>
+    <div class="form_item">
+        <label>用户名称:</label>
+        <input id="dialog_UserName" name="UserName" type="text" class="easyui-textbox" />
+    </div>
+    <div class="form_item">
+        <label for="dialog_UserRechargeSetID">充值选择:</label>
+        <input id="dialog_UserRechargeSetID" name="UserRechargeSetID" type="text" class="easyui-combogrid"
+               toolbar="#toolbar_dialog_UserRechargeSetID"
+               data-options="
+                required:true,
+                panelWidth:600,
+                panelHeight:500,
+                url:Api.UrlFormat('/api/UserRechargeSet/GetUserRechargeSetList'),
+                delay: 100,
+                editable:false,
+                mode:'remote',
+                pageSize:10,
+                pageList:[10,20,30,40,50],
+                pagination:true,
+                sortName:'ID',
+                sortOrder:'desc',
+                method:'get',
+                queryParams:{
+                    ProjectName: $('#toolbar_dialog_UserRechargeSetID_ProjectName').val(),
+                },
+                idField:'ID',
+                textField:'ProjectName',
+                columns:[[
+                    {field:'ID',title:'ID',hidden:true,width:50,sortable:true},
+                    {field:'ProjectName',title:'项目名称',width:150},
+                    {field:'RechargeMoney',title:'充值金额',width:150},
+                    {field:'GiveAwayMoney',title:'赠送金额',width:100},
+                    {field:'Remark',title:'备注',width:100},
+                ]],
+                onClickRow:function(index,row){
+                    if (row) {
+                        $('#dialog_ProjectName').textbox('setValue', row.ProjectName);
+                        $('#dialog_RechargeMoney').numberbox('setValue', row.RechargeMoney);
+                        $('#dialog_GiveAwayMoney').numberbox('setValue', row.GiveAwayMoney);
+                    }
+                }" />
+        <div id="toolbar_dialog_UserRechargeSetID">
+            <label>项目名称:</label>
+            <input id="toolbar_dialog_UserRechargeSetID_ProjectName" class="easyui-textbox" style="width: 150px;" type="text">
+            <button type="button" class="easyui-linkbutton" style="height: 28px;" iconcls="icon-zoom"
+                    onclick="$('#dialog_UserRechargeSetID').combogrid('grid').datagrid('load',{
+                        ProjectName: $('#toolbar_dialog_UserRechargeSetID_ProjectName').val(),
+                    })">
+                搜索
+            </button>
+            <button type="button" class="easyui-linkbutton" style="height: 28px; float: right;" iconcls="icon-remove"
+                    onclick="$('#dialog_UserRechargeSetID').combogrid('setValue', '');$('#dialog_UserRechargeSetID').combogrid('hidePanel')">
+                清除
+            </button>
+        </div>
+    </div>
+    <div class="form_item">
+        <label>项目名称:</label>
+        <input id="dialog_ProjectName" name="ProjectName" type="text" class="easyui-textbox" />
+    </div>
+    <div class="form_item">
+        <label>充值金额：</label>
+        <input id="dialog_RechargeMoney" type="text" name="RechargeMoney" class="easyui-numberbox" data-options="min:0,precision:0" value="0" />
+    </div>
+    <div class="form_item">
+        <label>赠送金额：</label>
+        <input id="dialog_GiveAwayMoney" type="text" name="GiveAwayMoney" class="easyui-numberbox" data-options="min:0,precision:0" value="0" />
+    </div>
+    <div class="form_item">
+        <label>备注:</label>
+        <input id="dialog_Remark" name="Remark" type="text" class="easyui-textbox" />
+    </div>
+</form>

@@ -1,0 +1,118 @@
+﻿html, body {
+ font-family: "Microsoft YaHei";
+ background: #fff;
+ padding: 0;
+ margin: 0;
+ overflow: hidden
+}
+
+ul, li {
+ padding: 0;
+ margin: 0;
+ list-style: none
+}
+
+.login_top {
+ overflow: hidden;
+ width: 1000px;
+ margin: 0 auto;
+ padding: 30px 0;
+}
+
+.login_top .logo {
+ float: left
+}
+
+.login_top .title {
+ float: right
+}
+
+.login_bottom {
+ text-align: center;
+ padding: 20px 0;
+ font-size: 14px;
+}
+ .alpha{background: rgba(0,0,0,0.1) none repeat scroll !important; /*实现FF背景透明，文字不透明*/filter: Alpha(opacity=20);}
+.login_box {
+ background: url(../image/02/pic_02.jpg) no-repeat top center;
+ background-size: cover;
+ overflow: hidden
+}
+
+.login_box .frame {
+ width: 1000px;
+ margin: 100px auto 0 auto;
+ overflow: hidden
+}
+
+.login_box .frame .box {
+ width: 500px;
+ float: right;
+ text-align: center;
+ margin-right: 10px;
+}
+
+
+.login_box ul {
+ width: 330px;
+ margin: 50px auto;
+ background: #fff;
+ padding: 15px 15px 20px 15px;
+ border-radius: 10px;
+ margin-bottom: 25px;
+
+}
+
+.box ul li {
+ padding: 10px 0
+}
+.box img{ opacity:.9;  max-width:80%;}
+.box .text {
+ font-family: 'Helvetica Neue',Helvetica,sans-serif;
+ font-size: 17px;
+ -webkit-tap-highlight-color: transparent;
+ line-height: 21px;
+ width: 80%;
+ height: 40px;
+ padding: 7px 15px;
+ -webkit-user-select: text;
+ border: 1px solid #ddd;
+ border-radius: 5px;
+ outline: 0;
+ background: #eee;
+ -webkit-appearance: none;
+ opacity:.5
+}
+
+.box .button {
+ font-weight: 400;
+ line-height: 1.42;
+ cursor: pointer;
+ -webkit-transition: all;
+ transition: all;
+ -webkit-transition-timing-function: linear;
+ transition-timing-function: linear;
+ -webkit-transition-duration: .2s;
+ transition-duration: .2s;
+ text-align: center;
+ vertical-align: top;
+ white-space: nowrap;
+ border-radius: 5px;
+ background-clip: padding-box;
+ font-size: 18px;
+ display: inline-block;
+ width: 90%;
+ padding: 15px;
+ color: #fff;
+ border: 1px solid #ffdf00;
+ background-color: #ffdf00;
+ outline: 0;
+ opacity:.8
+}
+
+.box label {
+ color: #5FC5D2;
+ font-size: 22px;
+ display: inline-block;
+ padding: 10px 0
+}

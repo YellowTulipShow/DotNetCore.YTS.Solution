@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>后台管理中心</title>
+
+    <link rel="stylesheet" type="text/css" href="extends/jquery-easyui-1.8.6/themes/insdep/easyui.css">
+    <link rel="stylesheet" type="text/css" href="extends/jquery-easyui-1.8.6/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="extends/dtcms_skin/icon/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="extends/dtcms_skin/default/style.css" />
+    <link rel="stylesheet" type="text/css" href="style/base.css" />
+    <link rel="stylesheet" type="text/css" href="style/index.css" />
+
+    <script type="text/javascript" charset="utf-8" src="extends/jquery-v1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="extends/jquery.serializejson.2.9.0/jquery.serializejson.js"></script>
+    <script type="text/javascript" charset="utf-8" src="extends/jquery-easyui-1.8.6/jquery.easyui.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="extends/jquery-easyui-1.8.6/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" charset="utf-8" src="extends/dtcms_skin/script/jquery/jquery.nicescroll.js"></script>
+    <script type="text/javascript" charset="utf-8" src="extends/dtcms_skin/script/artdialog/dialog-plus-min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="scripts/base.js"></script>
+    <script type="text/javascript" charset="utf-8" src="scripts/appConfig.js"></script>
+    <script type="text/javascript" charset="utf-8" src="scripts/app.js"></script>
+    <script type="text/javascript" charset="utf-8" src="scripts/easyui_expand.js"></script>
+</head>
+
+<body>
+    <div class="easyui-panel winHtml" data-options="border: false, fit:true,">
+        <div class="easyui-panel winBody" data-options="border: false, fit:true,">
+            <div class="easyui-layout winBody" data-options="border: false, fit:true,">
+                <!-- 左边导航栏 -->
+                <div data-options="region:'west', border: false," class="layoutBoxLeft">
+                    <div class="easyui-layout winBody" data-options="border: false, fit:true,">
+                        <div data-options="region:'north', border: false," style="height: 42px; overflow: hidden;">
+                            <!-- 顶部LOGO -->
+                            <h1 class="logo"></h1>
+                        </div>
+                        <div class="winBody IndexPageMenu" data-options="region:'center', border: false,">
+                            <!-- 导航栏内容 -->
+                            <div class="easyui-panel winBody">
+                                <ul id="IDTreeMenu" class="easyui-tree" data-options="
+                                    url:Api.UrlFormat('/api/Menus/GetMenusList'),
+                                    method:'get',
+                                    queryParams:{
+                                        NameSpaces:'YTS.AdminWeb',
+                                    },
+                                    animate:true,
+                                    onBeforeLoad:function(node,param) {
+                                        if (node) {
+                                            var childrenCount = parseInt(node['childrenCount']);
+                                            childrenCount = isNaN(childrenCount) ? 0 : childrenCount;
+                                            return childrenCount > 0;
+                                        }
+                                        return true;
+                                    },
+                                    onClick:function(node) {
+                                        if (node.state == 'closed') {
+                                            $(this).tree('expand', node.target);
+                                        } else {
+                                            $(this).tree('collapse', node.target);
+                                        }
+                                        AddTabs(node);
+                                    },"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右边Body内容 -->
+                <div data-options="region:'center', border: false,">
+                    <div class="easyui-layout winBody" data-options="border: false, fit:true,">
+                        <!-- 顶部标题部分 -->
+                        <div data-options="region:'north', border: false,">
+                            <div class="main-top" style="position: relative; height: 42px;">
+                                <div class="nav-right">
+                                    <div class="info">
+                                        <h4><i class="iconfont icon-user"></i></h4>
+                                        <span>您好, <i>管理员</i><br /><i>组名</i></span>
+                                    </div>
+                                    <div class="option">
+                                        <i class="iconfont icon-arrow-down"></i>
+                                        <div class="drop-wrap">
+                                            <ul class="item">
+                                                <li>
+                                                    <a href="javascript:void();" onclick="linkMenuTree(false, '');">修改密码</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void();" onclick="window.JWTManager.SignOut()">注销登录</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 正文标签内容 -->
+                        <div data-options="region:'center', border: false,">
+                            <div class="easyui-panel winBody" data-options="border: false, fit:true,">
+                                <div id="IDTabs" class="easyui-tabs"
+                                     style="width: 100%; height: 100%;"
+                                     data-options="
+                                        tools:'#IDTabsTools',
+                                        toolPosition:'right',
+                                        tabPosition:'top',
+                                        ">
+                                    <div title="首页"
+                                         style="width: 100%; height: 100%; overflow:hidden;">
+                                        <iframe frameborder="0" src="/welcome.html"
+                                                style="width: 100%; height: 100%;"></iframe>
+                                    </div>
+                                </div>
+                                <script id="IDTabTemplate" type="text/html">
+                                    <div title="[title]" data-options="closable:true"
+                                         style="width: 100%; height: 100%; overflow:hidden;">
+                                        <iframe class="J_iframe" frameborder="0" src="[url]"
+                                                style="width: 100%; height: 100%;"></iframe>
+                                    </div>
+                                </script>
+                            </div>
+                            <div id="IDTabsTools">
+                                <a href="#" class="easyui-menubutton" data-options="menu:'#IDTabsToolsMenu'">操作</a>
+                                <div id="IDTabsToolsMenu" class="IndexPageTabsTools" style="width:150px;">
+                                    <div onclick="$('.J_iframe:visible').get(0).contentWindow.location.reload()">刷新当前选项卡</div>
+                                    <div onclick="$('#IDTabs').tabs('closeLeft');">关闭左侧选项卡</div>
+                                    <div onclick="$('#IDTabs').tabs('closeRight');">关闭右侧选项卡</div>
+                                    <div onclick="$('#IDTabs').tabs('closeOther');">关闭其他选项卡</div>
+                                    <div onclick="$('#IDTabs').tabs('closeAll');">关闭全部选项卡</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script type="text/javascript">
+                    function AddTabs(model) {
+                        var IDTabTemplate = $("#IDTabTemplate");
+                        var url = Object.get(model, 'url', '');
+                        var title = Object.get(model, 'text', '空标题');
+                        if (!url) {
+                            return;
+                        }
+                        $('#IDTabs').tabs('add',{
+                            title: title,
+                            content:window.PageInfo.RenderingHTML(IDTabTemplate, {
+                                'title': title,
+                                'url': url,
+                            }),
+                            closable:true,
+                        });
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
