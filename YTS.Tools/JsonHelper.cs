@@ -21,12 +21,22 @@ namespace YTS.Tools
         }
 
         /// <summary>
+        /// 序列化: 对象 转为 JSON格式
+        /// </summary>
+        /// <param name="obj">对象</param>
+        /// <returns>json字符串</returns>
+        public static String ToJSONString(this Object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
+
+        /// <summary>
         /// 反序列化: JSON字符串生成对象实体
         /// </summary>
         /// <typeparam name="T">对象类型 可以是数据</typeparam>
         /// <param name="json">json字符串(eg.{"ID":"112","Name":"石子儿"})</param>
         /// <returns>对象实体</returns>
-        public static T ToObject<T>(String json) where T : class
+        public static T ToObject<T>(this String json) where T : class
         {
             JsonSerializer serializer = new JsonSerializer();
             StringReader sr = new StringReader(json);

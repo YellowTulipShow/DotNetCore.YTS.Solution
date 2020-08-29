@@ -908,9 +908,27 @@ namespace YTS.Tools
         /// <param name="d">要截断的小数</param>
         /// <param name="s">小数位数，s大于等于0，小于等于28</param>
         /// <returns></returns>
-        public static decimal ToFixed(decimal d, int s)
+        public static decimal ToFixed(this decimal d, int s)
         {
             decimal sp = Convert.ToDecimal(Math.Pow(10, s));
+            if (d < 0)
+            {
+                return Math.Truncate(d) + Math.Ceiling((d - Math.Truncate(d)) * sp) / sp;
+            }
+            else
+            {
+                return Math.Truncate(d) + Math.Floor((d - Math.Truncate(d)) * sp) / sp;
+            }
+        }
+        /// <summary>
+        /// 将小数值按指定的小数位数截断
+        /// </summary>
+        /// <param name="d">要截断的小数</param>
+        /// <param name="s">小数位数，s大于等于0，小于等于28</param>
+        /// <returns></returns>
+        public static double ToFixed(this double d, int s)
+        {
+            double sp = Convert.ToDouble(Math.Pow(10, s));
             if (d < 0)
             {
                 return Math.Truncate(d) + Math.Ceiling((d - Math.Truncate(d)) * sp) / sp;
@@ -1079,6 +1097,27 @@ namespace YTS.Tools
             else if (SqlDateTime.MaxValue.Value < resuTime)
                 return SqlDateTime.MaxValue;
             return new SqlDateTime(resuTime);
+        }
+
+        /// <summary>
+        /// 查找序列索引的值
+        /// </summary>
+        /// <typeparam name="T">泛型序列的数据类型</typeparam>
+        /// <param name="list">泛型序列对象</param>
+        /// <param name="index">索引标识</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns>如果序列为空或索引超出范围返回默认值</returns>
+        public static T FindIndex<T>(this IList<T> list, int index, T defaultValue)
+        {
+            if (list == null)
+            {
+                return defaultValue;
+            }
+            if (index >= list.Count)
+            {
+                return defaultValue;
+            }
+            return list[index];
         }
     }
 }

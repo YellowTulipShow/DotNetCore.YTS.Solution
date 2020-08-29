@@ -89,7 +89,7 @@ namespace YTS.Tools
         /// <summary>
         /// 克隆 对象 公共属性属性值 (但克隆DataGridView 需调用CloneDataGridView()方法)
         /// </summary>
-        public static T CloneAllAttribute<T>(T obj) where T : class
+        public static T CloneAllAttribute<T>(this T obj) where T : class
         {
             Type type = obj.GetType();
             PropertyInfo[] properties = type.GetProperties();

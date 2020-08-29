@@ -4,48 +4,9 @@ using YTS.Tools;
 
 namespace Test.ConsoleProgram.Base
 {
-    public class Test_FilePath : CaseModel
+    [TestDescription("基础: 解析文件路径")]
+    public class Test_FilePath : AbsBaseTestItem
     {
-        public Test_FilePath()
-        {
-            this.NameSign = "测试日志";
-            this.ExeEvent = Method;
-        }
-
-        public void IsError(bool isSuccess)
-        {
-            if (!isSuccess)
-                throw new Exception("两个路径不想等!");
-        }
-        public bool Method()
-        {
-            const string ThumbnailImgKey = "_thumbnailImg";
-            const string sourceImgUrl = "http://localhost:60793/upload/zhaoruiqing/image/20200403/6372150821320114829587451.jpg";
-            Uri sourceImgUri = new Uri(sourceImgUrl);
-            string sourceImgLocalPath = sourceImgUri.LocalPath;
-
-            Assert.IsEqual(
-                PathHelp.ToAbsolute("/upload/zhaoruiqing/image/20200403/6372150821320114829587451_thumbnailImg.jpg"),
-                CreateThumImgPath(sourceImgLocalPath, ThumbnailImgKey)
-            );
-
-            const string ThumImgSaveDirectory = @"D:\wwwroot\ErTuiShengShi.ShopWebApi";
-            Assert.IsEqual(
-                @"D:\wwwroot\ErTuiShengShi.ShopWebApi\upload\zhaoruiqing\image\20200403\6372150821320114829587451_thumbnailImg.jpg",
-                CreateThumImgPath(sourceImgLocalPath, ThumbnailImgKey, ThumImgSaveDirectory)
-            );
-
-            const string thumbnailImgUrl = "http://localhost:60793/upload/zhaoruiqing/image/20200403/6372150821320114829587451_thumbnailImg.jpg";
-            string thumbnailImgLocalPath = new Uri(thumbnailImgUrl).LocalPath;
-            Assert.IsEqual(IsSourceImgThumbnail(
-                sourceImgLocalPath,
-                thumbnailImgLocalPath,
-                ThumbnailImgKey
-            ), true);
-
-            return true;
-        }
-
         public bool IsSourceImgThumbnail(string sourceImgPath, string thumbnailImgPath, string ThumbnailImgKey)
         {
             string source_new_name = Path.GetFileNameWithoutExtension(sourceImgPath) + ThumbnailImgKey;
@@ -66,6 +27,29 @@ namespace Test.ConsoleProgram.Base
                 return PathHelp.ToAbsolute(thumbnailPath);
             }
             return directory + "\\" + thumbnailPath;
+        }
+
+        public override void OnTest()
+        {
+            const string ThumbnailImgKey = "_thumbnailImg";
+            const string sourceImgUrl = "http://localhost:60793/upload/zhaoruiqing/image/20200403/6372150821320114829587451.jpg";
+            Uri sourceImgUri = new Uri(sourceImgUrl);
+            string sourceImgLocalPath = sourceImgUri.LocalPath;
+
+            string abs_path = PathHelp.ToAbsolute("/upload/zhaoruiqing/image/20200403/6372150821320114829587451_thumbnailImg.jpg");
+            Assert.TestExe(CreateThumImgPath, sourceImgLocalPath, ThumbnailImgKey, (string)null, abs_path);
+
+            const string ThumImgSaveDirectory = @"D:\wwwroot\ErTuiShengShi.ShopWebApi";
+            Assert.TestExe(CreateThumImgPath, sourceImgLocalPath, ThumbnailImgKey, ThumImgSaveDirectory,
+                @"D:\wwwroot\ErTuiShengShi.ShopWebApi\upload\zhaoruiqing\image\20200403\6372150821320114829587451_thumbnailImg.jpg");
+
+            const string thumbnailImgUrl = "http://localhost:60793/upload/zhaoruiqing/image/20200403/6372150821320114829587451_thumbnailImg.jpg";
+            string thumbnailImgLocalPath = new Uri(thumbnailImgUrl).LocalPath;
+            Assert.TestExe(IsSourceImgThumbnail,
+                sourceImgLocalPath,
+                thumbnailImgLocalPath,
+                ThumbnailImgKey,
+                true);
         }
     }
 }

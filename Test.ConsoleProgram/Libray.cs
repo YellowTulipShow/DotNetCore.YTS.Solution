@@ -1,50 +1,37 @@
-﻿using System;
 using System.Collections.Generic;
-using YTS.Tools;
+using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
+using YTS.Test;
 
 namespace Test.ConsoleProgram
 {
-    public class Libray
+    public class Libray : ITestFactory
     {
-        public Libray() { }
-
-        /// <summary>
-        /// 在这里面手动设置要测试的实例
-        /// </summary>
-        public List<CaseModel> GetALLCases()
+        private ITestOutput output;
+        private IServiceCollection services;
+        public Libray(ITestOutput output)
         {
-            List<CaseModel> list = new List<CaseModel>();
-            list.AddRange(GetBases());
-            list.AddRange(TestTools());
-            list.AddRange(TestDB());
-            return list;
+            this.output = output;
+            this.services = new ServiceCollection();
+            this.services.AddSingleton<ITestOutput>(s => output);
+            Registered_IServiceLibray();
         }
 
-        /* ================================== ~华丽的间隔线~ ================================== */
+        private void Registered_IServiceLibray()
+        {
+            services.AddScoped<IServiceLibray, Base.Libray>();
+        }
 
-        public List<CaseModel> GetBases()
+        public IList<ITestItem> GetItems()
         {
-            return new List<CaseModel>()
+            var provider = services.BuildServiceProvider();
+            var libs = provider.GetServices<IServiceLibray>();
+            foreach (var lib in libs)
             {
-                new Base.HelloWorld(),
-                new Base.Test_FilePath(),
-                // new Base.BaseProgram(),
-            };
-        }
-        public List<CaseModel> TestTools()
-        {
-            return new List<CaseModel>()
-            {
-                new TestTools.TestConvertTool(),
-                new TestTools.TestJsonHelper(),
-            };
-        }
-        public List<CaseModel> TestDB()
-        {
-            return new List<CaseModel>()
-            {
-                new DB.YTS.Shop.Test_SystemSetType(),
-            };
+                lib.Registered(services);
+            }
+            provider = services.BuildServiceProvider();
+            return provider.GetServices<ITestItem>().ToList();
         }
     }
 }
