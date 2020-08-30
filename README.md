@@ -46,6 +46,14 @@ dotnet ef database update --startup-project ../YTS.AdminWebApi
 dotnet ef migrations remove --startup-project ../YTS.AdminWebApi
 ```
 
+## 发布包到NuGet
+
+```shell
+dotnet pack // 打包
+
+dotnet nuget push <PackagesPath> --api-key <ApiKey> --source https://api.nuget.org/v3/index.json
+```
+
 ## 学习链接
 
 * [微软官网 - .NET Core 指南](https://docs.microsoft.com/zh-cn/dotnet/core/)
