@@ -8,7 +8,7 @@ namespace Test.ConsoleProgram
     {
         public static void Main(string[] args)
         {
-            ITestOutput output = new ConsoleOutput();
+            ITestOutput output = new DefaultConsoleOutput();
             output.OnInit();
             ExeTestMain(output);
             output.OnEnd();

@@ -1,9 +1,8 @@
 using System;
-using YTS.Test;
 
-namespace Test.ConsoleProgram
+namespace YTS.Test
 {
-    public class ConsoleOutput : ITestOutput
+    public class DefaultConsoleOutput : ITestOutput
     {
         private const ConsoleColor DefaultConsoleColor = ConsoleColor.Gray;
 
