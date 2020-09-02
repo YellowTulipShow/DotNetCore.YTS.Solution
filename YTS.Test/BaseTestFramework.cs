@@ -4,11 +4,16 @@ using YTS.Tools;
 
 namespace YTS.Test
 {
+    /// <summary>
+    /// 基础测试框架
+    /// </summary>
     public class BaseTestFramework : AbsTestFramework<ITestItem>
     {
-        public BaseTestFramework(ITestOutput output) : base(output)
-        {
-        }
+        /// <summary>
+        /// 初始化基础测试框架
+        /// </summary>
+        /// <param name="output">接口: 测试输出接口</param>
+        public BaseTestFramework(ITestOutput output) : base(output) { }
 
         /// <summary>
         /// 是否重复执行

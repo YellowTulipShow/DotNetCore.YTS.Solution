@@ -46,8 +46,18 @@ namespace YTS.Test
     /// <typeparam name="TItem">测试实例的类型</typeparam>
     public interface ITestFramework<TItem> : ITestFramework where TItem : ITestItem
     {
+        /// <summary>
+        /// 根据测试模板处理测试实例工厂提供的测试实例
+        /// </summary>
+        /// <param name="temp">测试模板</param>
+        /// <param name="factory">测试实例供应工厂</param>
         void OnExecute(ITestTemplate<TItem> temp, ITestFactory<TItem> factory);
 
+        /// <summary>
+        /// 根据测试模板处理测试实例
+        /// </summary>
+        /// <param name="temp">测试模板</param>
+        /// <param name="item">测试实例</param>
         void OnExecute(ITestTemplate<TItem> temp, TItem item);
     }
 }

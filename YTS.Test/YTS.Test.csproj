@@ -5,14 +5,16 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TargetFramework>netstandard2.0</TargetFramework>
 
     <Title>YellowTulipShow 自定义单元测试工具</Title>
     <PackageId>YTS.Test</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>YellowTulipShow</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../Packages/YTS.Solution/</PackageOutputPath>
+    <xmlDoc>true</xmlDoc>
   </PropertyGroup>
 
 </Project>

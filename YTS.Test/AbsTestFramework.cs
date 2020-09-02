@@ -5,19 +5,30 @@ using YTS.Tools;
 
 namespace YTS.Test
 {
+    /// <summary>
+    /// 抽象类: 泛型测试框架, 为多种测试实例预留的接口
+    /// </summary>
+    /// <typeparam name="TItem">接口: 测试实例</typeparam>
     public abstract class AbsTestFramework<TItem> : ITestFramework<TItem> where TItem : ITestItem
     {
         private ITestOutput output;
 
-        public long testItemCount = 0;
-        public long testItemSuccessCount = 0;
-        public long testItemErrorCount = 0;
+        private long testItemCount = 0;
+        private long testItemSuccessCount = 0;
+        private long testItemErrorCount = 0;
 
+        /// <summary>
+        /// 初始化抽象类: 泛型测试框架
+        /// </summary>
+        /// <param name="output">实例化测试输出接口</param>
         public AbsTestFramework(ITestOutput output)
         {
             this.output = output;
         }
 
+        /// <summary>
+        /// 初始化事件方法
+        /// </summary>
         public virtual void OnInit()
         {
             testItemCount = 0;
@@ -25,16 +36,31 @@ namespace YTS.Test
             testItemErrorCount = 0;
         }
 
+        /// <summary>
+        /// 根据测试模板处理相应的测试工厂
+        /// </summary>
+        /// <param name="temp">测试模板</param>
+        /// <param name="factory">测试工厂</param>
         public virtual void OnExecute(ITestTemplate<TItem> temp, ITestFactory<TItem> factory)
         {
             OnExecute((ITestTemplate)temp, (ITestItem)factory);
         }
 
+        /// <summary>
+        /// 根据测试模板处理相应的测试实例
+        /// </summary>
+        /// <param name="temp">测试模板</param>
+        /// <param name="item">测试实例</param>
         public virtual void OnExecute(ITestTemplate<TItem> temp, TItem item)
         {
             OnExecute((ITestTemplate)temp, (TItem)item);
         }
 
+        /// <summary>
+        /// 根据测试模板处理测试实例工厂提供的测试实例
+        /// </summary>
+        /// <param name="temp">测试模板</param>
+        /// <param name="factory">测试实例供应工厂</param>
         public virtual void OnExecute(ITestTemplate temp, ITestFactory factory)
         {
             var items = factory.GetItems();
@@ -49,6 +75,11 @@ namespace YTS.Test
             }
         }
 
+        /// <summary>
+        /// 根据测试模板处理测试实例
+        /// </summary>
+        /// <param name="temp">测试模板</param>
+        /// <param name="item">测试实例</param>
         public virtual void OnExecute(ITestTemplate temp, ITestItem item)
         {
             Type item_type = item.GetType();
@@ -61,6 +92,12 @@ namespace YTS.Test
             OnExecute(temp, item, description);
         }
 
+        /// <summary>
+        /// 根据测试模板处理相应的测试实例, 额外的测试描述
+        /// </summary>
+        /// <param name="temp">测试模板</param>
+        /// <param name="item">测试实例</param>
+        /// <param name="description">测试描述</param>
         public virtual void OnExecute(ITestTemplate temp, ITestItem item, string description)
         {
             testItemCount += 1;
@@ -117,6 +154,9 @@ namespace YTS.Test
             temp.ExecuteEnd(item);
         }
 
+        /// <summary>
+        /// 输出测试结果
+        /// </summary>
         public virtual void OutputEndResult()
         {
             output.WriteLine(string.Empty);
