@@ -110,6 +110,7 @@ dotnet nuget push <PackagesPath> --api-key <ApiKey> --source https://api.nuget.o
 * [配置 DbContext](https://docs.microsoft.com/zh-cn/ef/core/miscellaneous/configuring-dbcontext)
 * [.NET Core 跨平台执行命令、脚本](https://www.cnblogs.com/stulzq/p/9074965.html)
 * [dotnet core（C#）下读取ANSI（GB2312）编码的文本](https://blog.csdn.net/sunnyzls/article/details/104751426)
+* [.NET Core 轻量级模板引擎 Mustachio](https://cloud.tencent.com/developer/article/1547299)
 
 ### FreeSql 学习
 
