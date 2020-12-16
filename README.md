@@ -111,6 +111,8 @@ dotnet nuget push <PackagesPath> --api-key <ApiKey> --source https://api.nuget.o
 * [.NET Core 跨平台执行命令、脚本](https://www.cnblogs.com/stulzq/p/9074965.html)
 * [dotnet core（C#）下读取ANSI（GB2312）编码的文本](https://blog.csdn.net/sunnyzls/article/details/104751426)
 * [.NET Core 轻量级模板引擎 Mustachio](https://cloud.tencent.com/developer/article/1547299)
+* [C#控制台程序入口函数 Main(string[] args) 参数详解](https://www.cnblogs.com/SavionZhang/p/6526637.html)
+* [.net core/.net 使用 CommandLineParser 来标准化地解析命令行](https://blog.csdn.net/weixin_30950607/article/details/98694618)
 
 ### FreeSql 学习
 
