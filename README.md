@@ -115,6 +115,8 @@ dotnet nuget push <PackagesPath> --api-key <ApiKey> --source https://api.nuget.o
 * [.net core/.net 使用 CommandLineParser 来标准化地解析命令行](https://blog.csdn.net/weixin_30950607/article/details/98694618)
 * [使用Visual Studio Code开发.NET Core看这篇就够了](https://www.cnblogs.com/yilezhu/p/9926078.html)
 * [使用 System.CommandLine 分析命令行](https://docs.microsoft.com/zh-cn/archive/msdn-magazine/2019/march/net-parse-the-command-line-with-system-commandline)
+* [基于C#的控制台的进度提示实现](https://www.cnblogs.com/chenyangsocool/p/7444940.html)
+* [c# 控制台console进度条](https://www.cnblogs.com/hsxian/p/10975784.html)
 
 ### FreeSql 学习
 
