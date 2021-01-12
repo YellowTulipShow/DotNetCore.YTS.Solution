@@ -46,12 +46,66 @@ namespace YTS.TextGame
         private static void Run(Options option)
         {
             Console.WriteLine("Hello World!");
+            var ccm = new ConsoleCleanManage();
+            ccm.RecordPoint();
             Console.WriteLine(string.Format("Path: asdfasdfsdfsdfsdfsdfsdffsdfsdf", new string[] { option.Path }));
+            ccm.CleanALL();
+            Console.WriteLine(string.Format("Path: asdfasdfsdfsdfsdfsdfsdffsdfsdf", new string[] { option.Path }));
+            Console.WriteLine(string.Format("Path: asdfasdfsdfsdfsdfsdfsdffsdfsdf", new string[] { option.Path }));
+            Console.WriteLine(string.Format("Path: asdfasdfsdfsdfsdfsdfsdffsdfsdf", new string[] { option.Path }));
+            ccm.CleanALL();
             // ConsoleExpand.ClearLineContents(1);
-            Consoler.OverWrite("dfsdfsdfsdf");
-            Consoler.ClearConsoleLine();
-            StartGame();
+            // Consoler.OverWrite("dfsdfsdfsdf");
+            // Consoler.ClearConsoleLine();
+            // StartGame();
         }
+
+        public class ConsoleCleanManage
+        {
+            private int SelfCursorTop { get; set; }
+            public ConsoleCleanManage()
+            {
+                RecordPoint();
+            }
+
+            public void RecordPoint()
+            {
+                SelfCursorTop = Console.CursorTop;
+            }
+
+            public void CleanALL()
+            {
+                while (Console.CursorTop >= SelfCursorTop)
+                {
+                    CleanSingleLine();
+                    Console.SetCursorPosition(0, Console.CursorTop - 1);
+                }
+                Console.WriteLine(string.Empty);
+            }
+
+            public void CleanSingleLine()
+            {
+                Console.SetCursorPosition(0, Console.CursorTop);
+                Console.Write(new string('#', Console.BufferWidth - 1));
+                Console.SetCursorPosition(0, Console.CursorTop);
+                Console.Write(new string(' ', Console.BufferWidth - 1));
+                Console.SetCursorPosition(0, Console.CursorTop);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private static void RepeatWrite()
         {
