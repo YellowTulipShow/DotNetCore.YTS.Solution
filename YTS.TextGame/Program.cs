@@ -20,15 +20,7 @@ namespace YTS.TextGame
             do
             {
                 var list = fileContentManage.GetRandomMatchesContents();
-                foreach (var item in list)
-                {
-                    Console.WriteLine($"item.Input: {item.Input}");
-                    Console.WriteLine($"item.Print: {item.Print}");
-                    Console.WriteLine($"item.Answer: {item.Answer}");
-                    Console.WriteLine();
-                }
-                // game.StartRoundGame(list);
-                // break;
+                game.StartRoundGame(list);
             } while (game.IsRepeatExecute());
             Console.WriteLine("游戏已结束!");
         }
