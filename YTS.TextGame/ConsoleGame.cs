@@ -29,6 +29,9 @@ namespace YTS.TextGame
         /// <param name="matchesContents">多个匹配项内容</param>
         public void StartRoundGame(IList<MatchesContent> matchesContents)
         {
+            if (matchesContents == null)
+                return;
+            ccm.RecordPoint();
             foreach (var item in matchesContents)
             {
                 ExecuteSingleMatchesContent(item);

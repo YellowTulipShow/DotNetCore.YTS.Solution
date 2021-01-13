@@ -10,7 +10,8 @@ namespace YTS.TextGame
         /// <summary>
         /// 文件/夹路径地址
         /// </summary>
-        [Option('p', "path", Required = true,
+        [Option('p', "path", Required = false,
+            Default = @"D:\Work\YTS.ZRQ\UndergraduateStudy\EnglishLevel4Words\Kingsoft",
             HelpText = "文件/夹路径地址")]
         public string Path { get; set; }
 
@@ -24,14 +25,14 @@ namespace YTS.TextGame
         /// <summary>
         /// 提取文件内容的正则表达式
         /// </summary>
-        [Option("re-input", Default = @"([a-zA-Z]+) \| \[([^\[\]]+)\] \| ([^\n]+)",
+        [Option("re-input", Default = @"([a-zA-Z]+) \| \[([^\[\]]+)\] \| ([^\r\n]+)",
             HelpText = "提取文件内容的正则表达式")]
         public string Re_Input { get; set; }
 
         /// <summary>
         /// 打印在屏幕上的正则表达式
         /// </summary>
-        [Option("re-print", Default = @"$1 - $2 - $3",
+        [Option("re-print", Default = @"$1 - $3",
             HelpText = "打印在屏幕上的正则表达式")]
         public string Re_Print { get; set; }
 
@@ -48,12 +49,5 @@ namespace YTS.TextGame
         [Option("count-work-repeat", Default = 5,
             HelpText = "单个匹配项重复次数")]
         public int CountWorkRepeat { get; set; }
-
-        /// <summary>
-        /// 一回合几个匹配项
-        /// </summary>
-        [Option("count-round-work", Default = 3,
-            HelpText = "一回合几个匹配项")]
-        public int CountRoundWork { get; set; }
     }
 }

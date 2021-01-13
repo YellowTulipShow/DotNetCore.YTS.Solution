@@ -7,7 +7,6 @@ namespace YTS.Tools
         private int SelfCursorTop { get; set; }
         public ConsoleCleanManage()
         {
-            RecordPoint();
         }
 
         public void RecordPoint()
