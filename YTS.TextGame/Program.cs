@@ -13,16 +13,23 @@ namespace YTS.TextGame
 
         private static void Run(ApplicationOptions option)
         {
-            Console.WriteLine("开始游戏了:");
-            var fileContentManage = new FileContentManage(option);
-            var ccm = new ConsoleCleanManage();
-            var game = new ConsoleGame(option, ccm);
-            do
+            try
             {
-                var list = fileContentManage.GetRandomMatchesContents();
-                game.StartRoundGame(list);
-            } while (game.IsRepeatExecute());
-            Console.WriteLine("游戏已结束!");
+                Console.WriteLine("开始游戏了:");
+                var fileContentManage = new FileContentManage(option);
+                var ccm = new ConsoleCleanManage();
+                var game = new ConsoleGame(option, ccm);
+                do
+                {
+                    var list = fileContentManage.GetRandomMatchesContents();
+                    game.StartRoundGame(list);
+                } while (game.IsRepeatExecute());
+                Console.WriteLine("游戏已结束!");
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine($"错误: {ex.Message}");
+            }
         }
     }
 }

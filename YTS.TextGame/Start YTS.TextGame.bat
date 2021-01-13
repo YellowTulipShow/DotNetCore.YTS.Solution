@@ -1,0 +1,1 @@
+powershell -NoExit -Command "./YTS.TextGame.exe -p 'D:\Work\YTS.ZRQ\UndergraduateStudy\EnglishLevel4Words\Kingsoft' --extname '.md' --count-work-repeat 5 --re-input '([a-zA-Z]+) \| \[([^\[\]]+)\] \| ([^\r\n]+)' --re-print '[ $1 ] : $2 $3' --re-answer '$1'"
