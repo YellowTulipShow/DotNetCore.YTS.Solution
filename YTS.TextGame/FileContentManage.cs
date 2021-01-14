@@ -75,8 +75,10 @@ namespace YTS.TextGame
             string text = File.ReadAllText(fileInfo.FullName);
             Regex re = new Regex(appArgs.Re_Input);
             MatchCollection colls = re.Matches(text);
-            foreach (Match coll in colls)
+            int random_count = RandomData.GetInt(5, 8);
+            for (int i = 0; i < random_count; i++)
             {
+                Match coll = RandomData.GetItem(colls);
                 string value = coll.Value;
                 var Input = value;
                 var Print = re.Replace(value, appArgs.Re_Print);

@@ -25,7 +25,7 @@ namespace YTS.TextGame
         /// <summary>
         /// 提取文件内容的正则表达式
         /// </summary>
-        [Option("re-input", Default = @"([a-zA-Z]+) \| \[([^\[\]]+)\] \| ([^\s]+)",
+        [Option("re-input", Default = @"([a-zA-Z]+) \| \[([^\[\]]+)\] \| ([^\r\n]+)",
             HelpText = "提取文件内容的正则表达式")]
         public string Re_Input { get; set; }
 
