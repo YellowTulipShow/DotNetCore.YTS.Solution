@@ -25,14 +25,14 @@ namespace YTS.TextGame
         /// <summary>
         /// 提取文件内容的正则表达式
         /// </summary>
-        [Option("re-input", Default = @"([a-zA-Z]+) \| \[([^\[\]]+)\] \| ([^\r\n]+)",
+        [Option("re-input", Default = @"([a-zA-Z]+) \| \[([^\[\]]+)\] \| ([^\s]+)",
             HelpText = "提取文件内容的正则表达式")]
         public string Re_Input { get; set; }
 
         /// <summary>
         /// 打印在屏幕上的正则表达式
         /// </summary>
-        [Option("re-print", Default = @"$1 - $3",
+        [Option("re-print", Default = @"[ $1 ] : $3",
             HelpText = "打印在屏幕上的正则表达式")]
         public string Re_Print { get; set; }
 
@@ -46,7 +46,7 @@ namespace YTS.TextGame
         /// <summary>
         /// 单个匹配项重复次数
         /// </summary>
-        [Option("count-work-repeat", Default = 5,
+        [Option("count-work-repeat", Default = 8,
             HelpText = "单个匹配项重复次数")]
         public int CountWorkRepeat { get; set; }
     }
