@@ -117,6 +117,8 @@ dotnet nuget push <PackagesPath> --api-key <ApiKey> --source https://api.nuget.o
 * [使用 System.CommandLine 分析命令行](https://docs.microsoft.com/zh-cn/archive/msdn-magazine/2019/march/net-parse-the-command-line-with-system-commandline)
 * [基于C#的控制台的进度提示实现](https://www.cnblogs.com/chenyangsocool/p/7444940.html)
 * [c# 控制台console进度条](https://www.cnblogs.com/hsxian/p/10975784.html)
+* [代码生成和 T4 文本模板](https://docs.microsoft.com/zh-cn/visualstudio/modeling/code-generation-and-t4-text-templates?view=vs-2019)
+* [dotnet build](https://docs.microsoft.com/zh-cn/dotnet/core/tools/dotnet-build)
 
 ### FreeSql 学习
 

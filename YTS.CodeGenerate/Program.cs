@@ -6,11 +6,7 @@ namespace YTS.CodeGenerate
     {
         public static void Main(string[] args)
         {
-            for (int i = 0; i < args.Length; i++)
-            {
-                Console.WriteLine($"args[{i}]: {args[i]}");
-            }
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(page.TransformText());
         }
     }
 }
