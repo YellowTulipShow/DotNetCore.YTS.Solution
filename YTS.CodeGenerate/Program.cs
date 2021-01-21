@@ -6,7 +6,6 @@ namespace YTS.CodeGenerate
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine(page.TransformText());
         }
     }
 }
