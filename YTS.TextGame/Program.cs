@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using CommandLine;
 using YTS.Tools;
 
@@ -8,6 +9,14 @@ namespace YTS.TextGame
     {
         static void Main(string[] args)
         {
+            const string config_path = "_config.json";
+            if (File.Exists(config_path))
+            {
+                string text = File.ReadAllText(config_path);
+                var option = JsonHelper.ToObject<ApplicationOptions>(text);
+                Run(option);
+                return;
+            }
             Parser.Default.ParseArguments<ApplicationOptions>(args).WithParsed(Run);
         }
 

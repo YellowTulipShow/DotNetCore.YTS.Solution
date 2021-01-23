@@ -13,4 +13,8 @@
     <ProjectReference Include="..\YTS.Tools\YTS.Tools.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="./_config.json" />
+  </ItemGroup>
+
 </Project>
