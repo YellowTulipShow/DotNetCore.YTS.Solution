@@ -119,6 +119,9 @@ dotnet nuget push <PackagesPath> --api-key <ApiKey> --source https://api.nuget.o
 * [c# 控制台console进度条](https://www.cnblogs.com/hsxian/p/10975784.html)
 * [代码生成和 T4 文本模板](https://docs.microsoft.com/zh-cn/visualstudio/modeling/code-generation-and-t4-text-templates?view=vs-2019)
 * [dotnet build](https://docs.microsoft.com/zh-cn/dotnet/core/tools/dotnet-build)
+* [并发减库存,怎么保证不超卖?](https://www.jianshu.com/p/166280f3cb28)
+* [高并发下库存扣减解决方案--分布式锁](https://www.jianshu.com/p/9a04aaaf6e87)
+* [【Vscode】调试DotNet Core代码](https://mp.weixin.qq.com/s/7lAeb0FUZqRNAf4uC-rJ7Q)
 
 ### FreeSql 学习
 
