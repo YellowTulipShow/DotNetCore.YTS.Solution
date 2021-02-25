@@ -12,6 +12,7 @@ namespace Test.ConsoleProgram.Base
             Assert.TestExe(ConvertTool.ToDecimal, "eee", 99M, 99M);
             Assert.TestExe(ConvertTool.ToDecimal, (object)DateTime.Now, 99.2M, 99.2M);
             Assert.TestExe(ConvertTool.ToDecimal, (object)45.2M, 99.2M, 45.2M);
+            Assert.TestExe(ConvertTool.ToDecimal, (object)(2222M / 12), 0M, (2222M / 12));
         }
     }
 }

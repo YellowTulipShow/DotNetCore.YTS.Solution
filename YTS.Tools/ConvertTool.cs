@@ -889,17 +889,11 @@ namespace YTS.Tools
         /// <returns>转换后的decimal类型结果</returns>
         public static decimal ToDecimal(string expression, decimal defValue)
         {
-            if ((expression == null) || (expression.Length > 10))
-                return defValue;
-
-            decimal intValue = defValue;
-            if (expression != null)
+            if (decimal.TryParse(expression, out decimal value))
             {
-                bool IsDecimal = Regex.IsMatch(expression, @"^([-]|[0-9])[0-9]*(\.\w*)?$");
-                if (IsDecimal)
-                    decimal.TryParse(expression, out intValue);
+                return value;
             }
-            return intValue;
+            return defValue;
         }
 
         /// <summary>
