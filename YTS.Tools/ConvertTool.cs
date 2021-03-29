@@ -1116,6 +1116,7 @@ namespace YTS.Tools
 
         /// <summary>
         /// 将字符串转成二进制
+        /// 来源: https://blog.csdn.net/weixin_30678821/article/details/96254930?utm_medium=distribute.pc_relevant_download.none-task-blog-baidujs-1.nonecase
         /// </summary>
         public static string ToBinarytring(string s)
         {
@@ -1130,6 +1131,7 @@ namespace YTS.Tools
 
         /// <summary>
         /// 将二进制转成字符串
+        /// 来源: https://blog.csdn.net/weixin_30678821/article/details/96254930?utm_medium=distribute.pc_relevant_download.none-task-blog-baidujs-1.nonecase
         /// </summary>
         public static string BinarytringSolve(string s)
         {
