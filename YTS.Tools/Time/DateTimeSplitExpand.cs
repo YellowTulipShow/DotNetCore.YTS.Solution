@@ -17,7 +17,7 @@ namespace YTS.Tools
         /// <returns>结果</returns>
         public static DateTime GoBackTime(this DateTime time, ESection section, int stepLength)
         {
-            return GoSetTime(time, section, stepLength);
+            return GoSetTime(time, section, -stepLength);
         }
         private static DateTime GoSetTime(DateTime time, ESection section, int stepLength)
         {
@@ -47,7 +47,7 @@ namespace YTS.Tools
         /// <returns>结果</returns>
         public static DateTime GoAhead(this DateTime time, ESection section, int stepLength)
         {
-            return GoSetTime(time, section, -stepLength);
+            return GoSetTime(time, section, stepLength);
         }
 
         /// <summary>
@@ -76,6 +76,33 @@ namespace YTS.Tools
             {
                 Start = time.End,
                 End = time.End.Add(span),
+            };
+        }
+
+        /// <summary>
+        /// 回退时间区间
+        /// </summary>
+        /// <param name="time">时间</param>
+        /// <returns>结果</returns>
+        public static MTime GoBackTime(this MTime time, DateTimeSplit.ESection section, int stepLength)
+        {
+            return new MTime()
+            {
+                Start = time.Start.GoBackTime(section, stepLength),
+                End = time.End.GoBackTime(section, stepLength),
+            };
+        }
+        /// <summary>
+        /// 前进时间区间
+        /// </summary>
+        /// <param name="time">时间</param>
+        /// <returns>结果</returns>
+        public static MTime GoAhead(this MTime time, DateTimeSplit.ESection section, int stepLength)
+        {
+            return new MTime()
+            {
+                Start = time.Start.GoAhead(section, stepLength),
+                End = time.End.GoAhead(section, stepLength),
             };
         }
     }
