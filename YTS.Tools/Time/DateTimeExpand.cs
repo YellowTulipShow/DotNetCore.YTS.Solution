@@ -130,5 +130,47 @@ namespace YTS.Tools
             week = week == 0 ? 7 : week;
             return time.AddDays(7 - week);
         }
+
+        /// <summary>
+        /// 回退时间
+        /// </summary>
+        /// <param name="time">时间</param>
+        /// <param name="section">回退的部分</param>
+        /// <param name="stepLength">操作的步长</param>
+        /// <returns>结果</returns>
+        public static DateTime GoBackTime(DateTime time, DateTimeSplit.ESection section, int stepLength)
+        {
+            return GoSetTime(time, section, stepLength);
+        }
+        private static DateTime GoSetTime(DateTime time, DateTimeSplit.ESection section, int stepLength)
+        {
+            switch (section)
+            {
+                case DateTimeSplit.ESection.Year:
+                    return time.AddYears(stepLength);
+                case DateTimeSplit.ESection.Month:
+                    return time.AddMonths(stepLength);
+                case DateTimeSplit.ESection.Day:
+                    return time.AddDays(stepLength);
+                case DateTimeSplit.ESection.Hour:
+                    return time.AddHours(stepLength);
+                case DateTimeSplit.ESection.Minute:
+                    return time.AddMinutes(stepLength);
+                case DateTimeSplit.ESection.Second:
+                    return time.AddSeconds(stepLength);
+            }
+            return time.AddSeconds(0);
+        }
+        /// <summary>
+        /// 前进时间
+        /// </summary>
+        /// <param name="time">时间</param>
+        /// <param name="section">回退的部分</param>
+        /// <param name="stepLength">操作的步长</param>
+        /// <returns>结果</returns>
+        public static DateTime GoAhead(DateTime time, DateTimeSplit.ESection section, int stepLength)
+        {
+            return GoSetTime(time, section, -stepLength);
+        }
     }
 }
