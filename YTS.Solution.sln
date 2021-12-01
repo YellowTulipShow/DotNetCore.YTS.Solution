@@ -1,25 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.ConsoleProgram", "Test.ConsoleProgram\Test.ConsoleProgram.csproj", "{362A13AC-3347-4552-AF79-A86255A88BC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.ConsoleProgram", "Test.ConsoleProgram\Test.ConsoleProgram.csproj", "{362A13AC-3347-4552-AF79-A86255A88BC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.AdminWebApi", "YTS.AdminWebApi\YTS.AdminWebApi.csproj", "{B3F0BE98-6C8B-488A-9C9B-CB37224F0FBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.AdminWebApi", "YTS.AdminWebApi\YTS.AdminWebApi.csproj", "{B3F0BE98-6C8B-488A-9C9B-CB37224F0FBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.Tools", "YTS.Tools\YTS.Tools.csproj", "{6E37999A-8018-4FEC-8FBB-B237CBD54377}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Tools", "YTS.Tools\YTS.Tools.csproj", "{6E37999A-8018-4FEC-8FBB-B237CBD54377}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.AdminWeb", "YTS.AdminWeb\YTS.AdminWeb.csproj", "{D8EEEF37-B6C1-4475-982A-5BC92F13AD2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.AdminWeb", "YTS.AdminWeb\YTS.AdminWeb.csproj", "{D8EEEF37-B6C1-4475-982A-5BC92F13AD2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.CodeGenerate", "YTS.CodeGenerate\YTS.CodeGenerate.csproj", "{4D6EAC24-98AA-4F29-A092-E5ECB6F52073}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.CodeGenerate", "YTS.CodeGenerate\YTS.CodeGenerate.csproj", "{4D6EAC24-98AA-4F29-A092-E5ECB6F52073}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.TextGame", "YTS.TextGame\YTS.TextGame.csproj", "{9C855AFF-97FD-4A33-A5DE-6FC4B33B3392}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.TextGame", "YTS.TextGame\YTS.TextGame.csproj", "{9C855AFF-97FD-4A33-A5DE-6FC4B33B3392}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.Shop", "YTS.Shop\YTS.Shop.csproj", "{86B109ED-97B3-4742-9CE1-AF218300A415}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Shop", "YTS.Shop\YTS.Shop.csproj", "{86B109ED-97B3-4742-9CE1-AF218300A415}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.Test", "YTS.Test\YTS.Test.csproj", "{53A10959-F8DA-4C01-AE86-A62C5BBA16CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Test", "YTS.Test\YTS.Test.csproj", "{53A10959-F8DA-4C01-AE86-A62C5BBA16CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.Tools.Test", "YTS.Tools.Test\YTS.Tools.Test.csproj", "{9597B7B0-FFB4-468D-BE4E-33BBE405EA46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Tools.Test", "YTS.Tools.Test\YTS.Tools.Test.csproj", "{9597B7B0-FFB4-468D-BE4E-33BBE405EA46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpLearn.Test", "CSharpLearn.Test\CSharpLearn.Test.csproj", "{9C360464-6573-43D2-B5BE-90744311BB34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,9 +31,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{362A13AC-3347-4552-AF79-A86255A88BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -58,30 +57,6 @@ Global
 		{B3F0BE98-6C8B-488A-9C9B-CB37224F0FBB}.Release|x64.Build.0 = Release|Any CPU
 		{B3F0BE98-6C8B-488A-9C9B-CB37224F0FBB}.Release|x86.ActiveCfg = Release|Any CPU
 		{B3F0BE98-6C8B-488A-9C9B-CB37224F0FBB}.Release|x86.Build.0 = Release|Any CPU
-		{7DC48F11-B409-4FF5-A10E-4B8F7634B9ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DC48F11-B409-4FF5-A10E-4B8F7634B9ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DC48F11-B409-4FF5-A10E-4B8F7634B9ED}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{7DC48F11-B409-4FF5-A10E-4B8F7634B9ED}.Debug|x64.Build.0 = Debug|Any CPU
-		{7DC48F11-B409-4FF5-A10E-4B8F7634B9ED}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7DC48F11-B409-4FF5-A10E-4B8F7634B9ED}.Debug|x86.Build.0 = Debug|Any CPU
-		{7DC48F11-B409-4FF5-A10E-4B8F7634B9ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DC48F11-B409-4FF5-A10E-4B8F7634B9ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7DC48F11-B409-4FF5-A10E-4B8F7634B9ED}.Release|x64.ActiveCfg = Release|Any CPU
-		{7DC48F11-B409-4FF5-A10E-4B8F7634B9ED}.Release|x64.Build.0 = Release|Any CPU
-		{7DC48F11-B409-4FF5-A10E-4B8F7634B9ED}.Release|x86.ActiveCfg = Release|Any CPU
-		{7DC48F11-B409-4FF5-A10E-4B8F7634B9ED}.Release|x86.Build.0 = Release|Any CPU
-		{D6E550C4-DC28-4E79-AE04-4610825A8399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6E550C4-DC28-4E79-AE04-4610825A8399}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6E550C4-DC28-4E79-AE04-4610825A8399}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{D6E550C4-DC28-4E79-AE04-4610825A8399}.Debug|x64.Build.0 = Debug|Any CPU
-		{D6E550C4-DC28-4E79-AE04-4610825A8399}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D6E550C4-DC28-4E79-AE04-4610825A8399}.Debug|x86.Build.0 = Debug|Any CPU
-		{D6E550C4-DC28-4E79-AE04-4610825A8399}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6E550C4-DC28-4E79-AE04-4610825A8399}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6E550C4-DC28-4E79-AE04-4610825A8399}.Release|x64.ActiveCfg = Release|Any CPU
-		{D6E550C4-DC28-4E79-AE04-4610825A8399}.Release|x64.Build.0 = Release|Any CPU
-		{D6E550C4-DC28-4E79-AE04-4610825A8399}.Release|x86.ActiveCfg = Release|Any CPU
-		{D6E550C4-DC28-4E79-AE04-4610825A8399}.Release|x86.Build.0 = Release|Any CPU
 		{6E37999A-8018-4FEC-8FBB-B237CBD54377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E37999A-8018-4FEC-8FBB-B237CBD54377}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E37999A-8018-4FEC-8FBB-B237CBD54377}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -166,5 +141,23 @@ Global
 		{9597B7B0-FFB4-468D-BE4E-33BBE405EA46}.Release|x64.Build.0 = Release|Any CPU
 		{9597B7B0-FFB4-468D-BE4E-33BBE405EA46}.Release|x86.ActiveCfg = Release|Any CPU
 		{9597B7B0-FFB4-468D-BE4E-33BBE405EA46}.Release|x86.Build.0 = Release|Any CPU
+		{9C360464-6573-43D2-B5BE-90744311BB34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C360464-6573-43D2-B5BE-90744311BB34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C360464-6573-43D2-B5BE-90744311BB34}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9C360464-6573-43D2-B5BE-90744311BB34}.Debug|x64.Build.0 = Debug|Any CPU
+		{9C360464-6573-43D2-B5BE-90744311BB34}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9C360464-6573-43D2-B5BE-90744311BB34}.Debug|x86.Build.0 = Debug|Any CPU
+		{9C360464-6573-43D2-B5BE-90744311BB34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C360464-6573-43D2-B5BE-90744311BB34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C360464-6573-43D2-B5BE-90744311BB34}.Release|x64.ActiveCfg = Release|Any CPU
+		{9C360464-6573-43D2-B5BE-90744311BB34}.Release|x64.Build.0 = Release|Any CPU
+		{9C360464-6573-43D2-B5BE-90744311BB34}.Release|x86.ActiveCfg = Release|Any CPU
+		{9C360464-6573-43D2-B5BE-90744311BB34}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F2AA031E-A3BA-4BCE-AD15-D7140E006004}
 	EndGlobalSection
 EndGlobal
