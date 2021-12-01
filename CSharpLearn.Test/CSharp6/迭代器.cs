@@ -3,12 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 using Xunit;
 
-namespace CSharpLearn.Test.Version_Two
+namespace CSharpLearn.Test.CSharp6
 {
-    /// <summary>
-    /// µü´úÆ÷
-    /// </summary>
-    public class Iterator
+    public class µü´úÆ÷
     {
         [Fact]
         public void ToList()
