@@ -1,6 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\YTS.Logic\YTS.Logic.csproj" />
     <ProjectReference Include="..\YTS.Tools\YTS.Tools.csproj" />
     <ProjectReference Include="..\YTS.Test\YTS.Test.csproj" />
   </ItemGroup>

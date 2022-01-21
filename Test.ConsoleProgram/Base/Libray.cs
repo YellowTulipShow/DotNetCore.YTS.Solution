@@ -8,6 +8,7 @@ namespace Test.ConsoleProgram.Base
         {
             services.AddTest<Test_ConvertTool_ToDecimal>();
             services.AddTest<Test_FilePath>();
+            services.AddTest<Test_ILogicILog>();
         }
     }
 }
