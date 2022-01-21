@@ -21,6 +21,13 @@ namespace Test.ConsoleProgram.Base
                 { "空值", null },
                 { "空字符串", string.Empty },
                 { "单个空白字符串", " " },
+                { "匿名对象", new {
+                    Sum = 22,
+                    Language = "EN",
+                    Data = new {
+                        Email = "1142@qq.com"
+                    }
+                } },
             };
             log.Info("测试执行ILog.Info", logArgs);
             log.Error("测试执行ILog.Error", logArgs);

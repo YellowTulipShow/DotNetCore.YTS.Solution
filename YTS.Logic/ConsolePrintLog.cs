@@ -45,9 +45,9 @@ namespace YTS.Logic
             var msglist = new List<string>();
             const string sign = "└──";
             const string null_value = "<null>";
+            const string null_string = "<string.Empty>";
             string leftSpace = string.Empty.PadLeft(leftSpaceWidth, ' ');
             int lowerLevel_leftSpaceWidth = leftSpaceWidth + 1 + sign.Length;
-
             if (value == null)
             {
                 msglist.Add($"{leftSpace} {sign} {name} {null_value}");
@@ -58,13 +58,12 @@ namespace YTS.Logic
                 if (str == null)
                     str = null_value;
                 else if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str))
-                    str = "<string.Empty>";
+                    str = null_string;
                 msglist.Add($"{leftSpace} {sign} {name}: {str}");
                 return msglist;
             }
-
             Type type = value.GetType();
-            if (type.IsSealed)
+            if (type.IsValueType)
             {
                 msglist.Add($"{leftSpace} {sign} {name}: {value?.ToString() ?? null_value}");
                 return msglist;
@@ -72,43 +71,59 @@ namespace YTS.Logic
             msglist.Add($"{leftSpace} {sign} {name}:");
             if (value is IDictionary dic)
             {
-                ICollection keys = dic.Keys;
-                foreach (var key in keys)
-                {
-                    var dic_value = dic[key];
-                    var son_msglist = ToTree(lowerLevel_leftSpaceWidth, (key ?? "<key>").ToString(), dic_value);
-                    msglist.AddRange(son_msglist);
-                }
+                IDictionaryPushMsg(msglist, lowerLevel_leftSpaceWidth, dic);
             }
-            else if(value is IEnumerable arr)
+            else if (value is IEnumerable arr)
             {
-                int index = 0;
-                foreach (var item in arr)
-                {
-                    index++;
-                    var son_msglist = ToTree(lowerLevel_leftSpaceWidth, index.ToString(), item);
-                    msglist.AddRange(son_msglist);
-                }
+                IEnumerablePushMsg(msglist, lowerLevel_leftSpaceWidth, arr);
+            }
+            else if (type.IsClass)
+            {
+                ClassPushMsg(value, msglist, lowerLevel_leftSpaceWidth, type);
             }
             else
             {
-                PropertyInfo[] propertyInfos = type.GetProperties();
-                if (propertyInfos != null && propertyInfos.Length > 0)
+                JSONValuePushMsg(value, msglist, lowerLevel_leftSpaceWidth);
+            }
+            return msglist;
+        }
+        private void JSONValuePushMsg(object value, List<string> msglist, int lowerLevel_leftSpaceWidth)
+        {
+            var son_msglist = ToTree(lowerLevel_leftSpaceWidth, "JSON-Value", JsonConvert.SerializeObject(value));
+            msglist.AddRange(son_msglist);
+        }
+        private void ClassPushMsg(object value, List<string> msglist, int lowerLevel_leftSpaceWidth, Type type)
+        {
+            PropertyInfo[] propertyInfos = type.GetProperties();
+            if (propertyInfos != null && propertyInfos.Length > 0)
+            {
+                foreach (var propertyInfo in propertyInfos)
                 {
-                    foreach (var propertyInfo in propertyInfos)
-                    {
-                        var model_value = propertyInfo.GetValue(value, null);
-                        var son_msglist = ToTree(lowerLevel_leftSpaceWidth, propertyInfo.Name, model_value);
-                        msglist.AddRange(son_msglist);
-                    }
-                }
-                else
-                {
-                    var son_msglist = ToTree(lowerLevel_leftSpaceWidth, "JSON-Value", JsonConvert.SerializeObject(value));
+                    var model_value = propertyInfo.GetValue(value, null);
+                    var son_msglist = ToTree(lowerLevel_leftSpaceWidth, propertyInfo.Name, model_value);
                     msglist.AddRange(son_msglist);
                 }
             }
-            return msglist;
+        }
+        private void IEnumerablePushMsg(List<string> msglist, int lowerLevel_leftSpaceWidth, IEnumerable arr)
+        {
+            int index = 0;
+            foreach (var item in arr)
+            {
+                index++;
+                var son_msglist = ToTree(lowerLevel_leftSpaceWidth, index.ToString(), item);
+                msglist.AddRange(son_msglist);
+            }
+        }
+        private void IDictionaryPushMsg(List<string> msglist, int lowerLevel_leftSpaceWidth, IDictionary dic)
+        {
+            ICollection keys = dic.Keys;
+            foreach (var key in keys)
+            {
+                var dic_value = dic[key];
+                var son_msglist = ToTree(lowerLevel_leftSpaceWidth, (key ?? "<key>").ToString(), dic_value);
+                msglist.AddRange(son_msglist);
+            }
         }
         private void PrintConsoleLines(IList<string> msglist)
         {
