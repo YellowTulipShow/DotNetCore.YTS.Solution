@@ -26,9 +26,6 @@ namespace YTS.Tools
             {
                 return relative;
             }
-            // if (!CheckData.IsObjectNull(HttpContext.Current)) {
-            //     return HttpContext.Current.Server.MapPath(relative);
-            // }
             relative = relative.TrimStart('/');
             relative = FilterDisablePathChar(relative);
             relative = Regex.Replace(relative, @"/{2,}", @"/");

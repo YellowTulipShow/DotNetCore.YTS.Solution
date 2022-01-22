@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace YTS.Logic
+namespace YTS.Logic.Cache
 {
     /// <summary>
     /// 接口扩展: 缓存

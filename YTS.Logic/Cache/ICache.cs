@@ -1,5 +1,5 @@
 ﻿
-namespace YTS.Logic
+namespace YTS.Logic.Cache
 {
     /// <summary>
     /// 接口: 缓存

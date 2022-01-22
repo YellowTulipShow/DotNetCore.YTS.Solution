@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace YTS.Logic
+namespace YTS.Logic.Log
 {
     /// <summary>
     /// 接口: 日志
@@ -31,7 +31,7 @@ namespace YTS.Logic
         void Error(string message, params T[] args);
 
         /// <summary>
-        /// 错误信息日志写入
+        /// 错误信息和异常日志写入
         /// </summary>
         /// <param name="message">消息内容</param>
         /// <param name="ex">异常</param>

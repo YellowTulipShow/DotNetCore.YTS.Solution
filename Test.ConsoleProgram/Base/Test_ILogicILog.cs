@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using YTS.Logic;
+using System.Runtime.InteropServices.ComTypes;
+using System.Text;
+
+using YTS.Logic.IO;
+using YTS.Logic.Log;
 using YTS.Tools;
 
 namespace Test.ConsoleProgram.Base
@@ -13,6 +17,9 @@ namespace Test.ConsoleProgram.Base
         {
             Console.WriteLine(string.Empty);
             ILog log = new ConsolePrintLog();
+            log = new FilePrintLog(FilePathExtend.ToAbsolutePath($"_log/test.txt"), Encoding.UTF8).Connect(log);
+            log = new FilePrintLog(FilePathExtend.ToAbsolutePath($"_log/text_Connect.txt"), Encoding.UTF8).Connect(log);
+
             IDictionary<string, object> logArgs = new Dictionary<string, object>()
             {
                 { "Name", "张三" },
@@ -28,11 +35,21 @@ namespace Test.ConsoleProgram.Base
                         Email = "1142@qq.com"
                     }
                 } },
+                { "数组", new string[] {
+                    "Value一", "Value二", "Value三"
+                } },
             };
             log.Info("测试执行ILog.Info", logArgs);
             log.Error("测试执行ILog.Error", logArgs);
-            Exception exception = new Exception("测试触发的异常");
-            log.Error("测试执行ILog.Error<Exception>", exception, logArgs);
+            try
+            {
+                var ex = new ArgumentNullException("<NullArgumentName>", "测试触发的异常<参数空值错误>");
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                log.Error("测试执行ILog.Error<Exception>", ex, logArgs);
+            }
         }
     }
 }

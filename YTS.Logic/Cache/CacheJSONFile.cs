@@ -4,10 +4,13 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace YTS.Logic
+using YTS.Logic.IO;
+using YTS.Logic.Log;
+
+namespace YTS.Logic.Cache
 {
     /// <summary>
-    /// JSON 格式缓存文件
+    /// 实现类: JSON 格式缓存文件
     /// </summary>
     public class CacheJSONFile : ICache
     {
@@ -60,24 +63,7 @@ namespace YTS.Logic
         private string GetCacheFilePath(string key)
         {
             string path = $"cache/{fileName}_{key}.json";
-            path = ToAbsolutePath(path);
-            FileInfo fi = new FileInfo(path);
-            var di = fi.Directory;
-            if (!di.Exists)
-                di.Create();
-            return path;
-        }
-        private static string ToAbsolutePath(string relative)
-        {
-            relative ??= string.Empty;
-            if (Regex.IsMatch(relative, @"^([a-zA-Z]:\\){1}[^\/\:\*\?\""\<\>\|\,]*$"))
-                return relative;
-            relative = relative.Trim('/');
-            if (string.IsNullOrEmpty(relative))
-                return relative;
-            relative = Regex.Replace(relative, @"/{2,}", @"/");
-            relative = relative.Replace(@"/", @"\");
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relative);
+            return FilePathExtend.ToAbsolutePath(path);
         }
     }
 }

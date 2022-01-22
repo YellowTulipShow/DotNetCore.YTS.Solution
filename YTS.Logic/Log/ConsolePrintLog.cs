@@ -1,44 +1,69 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace YTS.Logic
+namespace YTS.Logic.Log
 {
     /// <summary>
-    /// 控制台打印日志输出实现
+    /// 实现类: 控制台打印日志输出实现
     /// </summary>
-    public class ConsolePrintLog : ILog
+    public class ConsolePrintLog : BasicJSONConsolePrintLog, ILog
     {
-        public void Info(string message, params IDictionary<string, object>[] args)
+        public new void Info(string message, params IDictionary<string, object>[] args)
         {
             Print("[Info]", message, null, args);
         }
-        public void Error(string message, params IDictionary<string, object>[] args)
+        public new void Error(string message, params IDictionary<string, object>[] args)
         {
             Print("[Error]", message, null, args);
         }
-        public void Error(string message, Exception ex, params IDictionary<string, object>[] args)
+        public new void Error(string message, Exception ex, params IDictionary<string, object>[] args)
         {
             Print("[ErrorException]", message, ex, args);
         }
 
         private void Print(string sign, string message, Exception ex, params IDictionary<string, object>[] args)
         {
-            var msglist = new List<string>
+            try
             {
-                $"{sign} {message}"
+                var msglist = new List<string>
+                {
+                    $"{sign} {message}"
+                };
+                for (int i = 0; i < args.Length; i++)
+                {
+                    msglist.AddRange(ToTree(sign.Length, $"args[{i}]", args[i]));
+                }
+                if (ex != null)
+                {
+                    var exArgs = ToDynamic(ex);
+                    msglist.AddRange(ToTree(sign.Length, $"Exception", exArgs));
+                }
+                PrintLines(msglist.ToArray());
+            }
+            catch (Exception re_ex)
+            {
+                base.Error("打印日志时发生错误! 内部错误!", re_ex, new Dictionary<string, object>()
+                {
+                    { "message", message },
+                    { "ex", ex },
+                    { "args", args },
+                });
+            }
+        }
+        private dynamic ToDynamic(Exception ex)
+        {
+            return ex == null ? null : new
+            {
+                ex.Message,
+                ex.Data,
+                StackTrace = (ex.StackTrace ?? string.Empty).Split('\n'),
+                InnerException = ToDynamic(ex.InnerException),
+                ex.Source,
             };
-            for (int i = 0; i < args.Length; i++)
-            {
-                msglist.AddRange(ToTree(sign.Length, $"args[{i}]", args[i]));
-            }
-            if (ex != null)
-            {
-                msglist.AddRange(ToTree(sign.Length, $"Exception", ex));
-            }
-            PrintConsoleLines(msglist);
         }
         private IList<string> ToTree(int leftSpaceWidth, string name, object value)
         {
@@ -99,6 +124,8 @@ namespace YTS.Logic
             {
                 foreach (var propertyInfo in propertyInfos)
                 {
+                    if (!propertyInfo.CanRead)
+                        continue;
                     var model_value = propertyInfo.GetValue(value, null);
                     var son_msglist = ToTree(lowerLevel_leftSpaceWidth, propertyInfo.Name, model_value);
                     msglist.AddRange(son_msglist);
@@ -123,13 +150,6 @@ namespace YTS.Logic
                 var dic_value = dic[key];
                 var son_msglist = ToTree(lowerLevel_leftSpaceWidth, (key ?? "<key>").ToString(), dic_value);
                 msglist.AddRange(son_msglist);
-            }
-        }
-        private void PrintConsoleLines(IList<string> msglist)
-        {
-            foreach (string str in msglist)
-            {
-                Console.WriteLine(str);
             }
         }
     }
