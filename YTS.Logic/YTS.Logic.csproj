@@ -2,13 +2,31 @@
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
-		<Title>YellowTulipShow 基础逻辑类库</Title>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<xmlDoc>true</xmlDoc>
+		<Title>基础逻辑类库</Title>
 		<PackageId>YTS.Logic</PackageId>
-		<Version>0.1.0</Version>
+		<Version>0.1.1</Version>
 		<Authors>YellowTulipShow</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>../Packages/YTS.Solution/</PackageOutputPath>
+		<PackageOutputPath>../packages/YTS.Solution/</PackageOutputPath>
+		<RepositoryType>git</RepositoryType>
+		<NeutralLanguage>zh</NeutralLanguage>
+		<RepositoryUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution/tree/master/YTS.Logic</RepositoryUrl>
+		<PackageIcon>favicon.png</PackageIcon>
+		<PackageIconUrl />
+		<PackageProjectUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution</PackageProjectUrl>
+		<Company />
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<Description>基础逻辑类库</Description>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\favicon.png">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
