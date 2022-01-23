@@ -6,7 +6,7 @@
 		<xmlDoc>true</xmlDoc>
 		<Title>基础逻辑类库</Title>
 		<PackageId>YTS.Logic</PackageId>
-		<Version>0.1.1</Version>
+		<Version>0.2.0</Version>
 		<Authors>YellowTulipShow</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath>../packages/YTS.Solution/</PackageOutputPath>
