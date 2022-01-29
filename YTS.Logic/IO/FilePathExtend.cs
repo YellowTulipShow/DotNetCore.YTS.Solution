@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace YTS.Logic.IO
 {
+    /// <summary>
+    /// 静态扩展: 文件路径相关
+    /// </summary>
     public static class FilePathExtend
     {
         /// <summary>
