@@ -70,7 +70,12 @@ namespace YTS.Logic.Cache
             File.WriteAllText(cacheFilePath, value, encoding);
         }
 
-        private string GetCacheFilePath(string key)
+        /// <summary>
+        /// 获取计算缓存文件路径
+        /// </summary>
+        /// <param name="key">键名</param>
+        /// <returns>文件路径</returns>
+        protected virtual string GetCacheFilePath(string key)
         {
             string path = $"cache/{fileName}_{key}.json";
             return FilePathExtend.ToAbsolutePath(path);
