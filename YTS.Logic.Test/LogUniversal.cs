@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
 using Newtonsoft.Json;
 
-namespace YTS.Logic.Log
+using YTS.Logic.Log;
+
+namespace YTS.Logic.Test
 {
-    /// <summary>
-    /// 实现类: 执行最基础最简单的JSON序列化打印日志方法
-    /// </summary>
-    public class BasicJSONConsolePrintLog : ILog
+    public class LogUniversal : ILog
     {
         private const string null_message = "<null_message>";
 
@@ -19,7 +19,7 @@ namespace YTS.Logic.Log
         /// <param name="args">参数队列</param>
         public void Info(string message, params IDictionary<string, object>[] args)
         {
-            PrintLines($"[Info] {message ?? null_message}, arg: {JsonConvert.SerializeObject(args)}");
+            Console.WriteLine($"[Info] {message ?? null_message}, arg: {JsonConvert.SerializeObject(args)}");
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace YTS.Logic.Log
         /// <param name="args">参数队列</param>
         public void Error(string message, params IDictionary<string, object>[] args)
         {
-            PrintLines($"[Error] {message ?? null_message}, arg: {JsonConvert.SerializeObject(args)}");
+            Console.WriteLine($"[Error] {message ?? null_message}, arg: {JsonConvert.SerializeObject(args)}");
         }
 
         /// <summary>
@@ -40,19 +40,7 @@ namespace YTS.Logic.Log
         /// <param name="args">参数队列</param>
         public void Error(string message, Exception ex, params IDictionary<string, object>[] args)
         {
-            PrintLines($"[ErrorException] {message ?? null_message}, Exception: {ex.Message + ex.StackTrace} arg: {JsonConvert.SerializeObject(args)}");
-        }
-
-        /// <summary>
-        /// 打印输出多行内容
-        /// </summary>
-        /// <param name="msglist">需要打印的多行消息列表</param>
-        protected virtual void PrintLines(params string[] msglist)
-        {
-            foreach (string str in msglist)
-            {
-                Console.WriteLine(str);
-            }
+            Console.WriteLine($"[ErrorException] {message ?? null_message}, Exception: {ex.Message + ex.StackTrace} arg: {JsonConvert.SerializeObject(args)}");
         }
     }
 }

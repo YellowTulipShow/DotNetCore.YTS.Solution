@@ -33,5 +33,17 @@ namespace YTS.Logic.Log
             }
             return connectLog;
         }
+
+        /// <summary>
+        /// 创建默认的参数字典
+        /// </summary>
+        /// <typeparam name="TKey">字典键类型</typeparam>
+        /// <typeparam name="TValue">字典值类型</typeparam>
+        /// <param name="log">键值类型日志对象</param>
+        /// <returns>空字典</returns>
+        public static IDictionary<TKey, TValue> CreateArgDictionary<TKey, TValue>(this ILog<IDictionary<TKey, TValue>> log)
+        {
+            return new Dictionary<TKey, TValue>();
+        }
     }
 }

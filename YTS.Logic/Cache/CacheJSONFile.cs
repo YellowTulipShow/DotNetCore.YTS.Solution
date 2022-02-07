@@ -33,6 +33,11 @@ namespace YTS.Logic.Cache
             this.log = log;
         }
 
+        /// <summary>
+        /// 获取数据
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <returns>值</returns>
         public string GetData(string key)
         {
             string cacheFilePath = GetCacheFilePath(key);
@@ -50,6 +55,11 @@ namespace YTS.Logic.Cache
             return reader.ReadToEnd();
         }
 
+        /// <summary>
+        /// 设置数据
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
         public void SetData(string key, string value)
         {
             log.Info("设置文件缓存", new Dictionary<string, object>()
@@ -60,7 +70,12 @@ namespace YTS.Logic.Cache
             File.WriteAllText(cacheFilePath, value, encoding);
         }
 
-        private string GetCacheFilePath(string key)
+        /// <summary>
+        /// 获取计算缓存文件路径
+        /// </summary>
+        /// <param name="key">键名</param>
+        /// <returns>文件路径</returns>
+        protected virtual string GetCacheFilePath(string key)
         {
             string path = $"cache/{fileName}_{key}.json";
             return FilePathExtend.ToAbsolutePath(path);

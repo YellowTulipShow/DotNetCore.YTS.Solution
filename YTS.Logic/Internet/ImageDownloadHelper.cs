@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -106,6 +107,8 @@ namespace YTS.Logic.Internet
                     if (resp?.StatusCode == HttpStatusCode.NotFound)
                     {
                         log.Error("下载图片404不存在!", logArgs);
+                        if (File.Exists(imageSavePath))
+                            File.Delete(imageSavePath);
                         return ExecuteResultStatue.NotFound404;
                     }
                 }
@@ -113,6 +116,8 @@ namespace YTS.Logic.Internet
                 if (reSize >= maxReSize)
                 {
                     log.Error($"下载图片文件重复{reSize}次下载失败!", ex, logArgs);
+                    if (File.Exists(imageSavePath))
+                        File.Delete(imageSavePath);
                     return ExecuteResultStatue.ReSizeError;
                 }
                 log.Error($"文件重复{reSize}次下载失败!", ex, logArgs);

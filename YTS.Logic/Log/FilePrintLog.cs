@@ -16,12 +16,22 @@ namespace YTS.Logic.Log
     {
         private readonly string abs_file_path;
         private readonly Encoding encoding;
+
+        /// <summary>
+        /// 初始化实现类: 文件打印日志输出实现
+        /// </summary>
+        /// <param name="abs_file_path">绝对路径文件地址</param>
+        /// <param name="encoding">文件编码内容</param>
         public FilePrintLog(string abs_file_path, Encoding encoding)
         {
             this.abs_file_path = abs_file_path;
             this.encoding = encoding;
         }
 
+        /// <summary>
+        /// 打印输出多行内容
+        /// </summary>
+        /// <param name="msglist">需要打印的多行消息列表</param>
         protected override void PrintLines(params string[] msglist)
         {
             string time_format = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
