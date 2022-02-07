@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.IO;
+using System.Text;
 
 /// <summary>
 /// 配置扩展静态类
@@ -35,5 +36,25 @@ public static class IConfigurationExtend
             path = configuration[appConfigFileKey];
         }
         return path;
+    }
+
+    /// <summary>
+    /// 解析配置文件编码
+    /// </summary>
+    /// <param name="configuration">配置接口</param>
+    /// <returns>文件编码</returns>
+    public static Encoding ExplainConfigurationEncoding(this IConfiguration configuration)
+    {
+        string encode = configuration.GetConfigKey("file-encode", "File:Encoding");
+        return encode switch
+        {
+            "UTF7" => Encoding.UTF7,
+            "UTF32" => Encoding.UTF32,
+            "Unicode" => Encoding.Unicode,
+            "BigEndianUnicode" => Encoding.BigEndianUnicode,
+            "ASCII" => Encoding.ASCII,
+            "Default" => Encoding.Default,
+            _ => Encoding.UTF8,
+        };
     }
 }
