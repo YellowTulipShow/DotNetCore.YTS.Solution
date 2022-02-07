@@ -107,8 +107,7 @@ namespace YTS.Logic.Internet
                     if (resp?.StatusCode == HttpStatusCode.NotFound)
                     {
                         log.Error("下载图片404不存在!", logArgs);
-                        if (File.Exists(imageSavePath))
-                            File.Delete(imageSavePath);
+                        FileExistHandle(imageSavePath);
                         return ExecuteResultStatue.NotFound404;
                     }
                 }
@@ -116,12 +115,35 @@ namespace YTS.Logic.Internet
                 if (reSize >= maxReSize)
                 {
                     log.Error($"下载图片文件重复{reSize}次下载失败!", ex, logArgs);
-                    if (File.Exists(imageSavePath))
-                        File.Delete(imageSavePath);
+                    FileExistHandle(imageSavePath);
                     return ExecuteResultStatue.ReSizeError;
                 }
                 log.Error($"文件重复{reSize}次下载失败!", ex, logArgs);
                 return await DownloadAsync(imageUrl, imageSavePath, reSize);
+            }
+        }
+
+        private void FileExistHandle(string imageSavePath)
+        {
+            if (!File.Exists(imageSavePath))
+                return;
+            var logArgs = new Dictionary<string, object>()
+            {
+                { "imageSavePath", imageSavePath }
+            };
+            try
+            {
+                var fileInfo = new FileInfo(imageSavePath);
+
+                // 删除为空的文件
+                if (fileInfo.Length != 0)
+                    return;
+                fileInfo.Delete();
+                log.Error($"图片文件内容为0字节, 执行删除!", logArgs);
+            }
+            catch (Exception ex)
+            {
+                log.Error($"操作文件详情(FileInfo)出错!", ex, logArgs);
             }
         }
     }

@@ -1,31 +1,15 @@
 # YTS.Logic 基础逻辑类库
 
-## 版本更新日志
+## 缓存库
 
-### v0.2.2
+## 网络库
 
-* 更新: 修改图片下载帮助类错误:
-	404或异常时图片下载再本地是0字节文件
-	(原因是使用异步下载导致, 手动增加删除文件操作解决问题)
-* 添加: ILog 日志接口增加扩展: 快速创建字典参数模型
+## IO 文件操作库
 
-### v0.2.1
+## 日志操作库
 
-* 更新: 写入部分类的描述xml文件缺失问题
-* 添加: 自述文件设置
-* 添加: 设置包许可证
+## 更新日志
 
-### v0.2.0
+[点击查看 - 日志文件](ChangeLog.md)
 
-* 添加: YTS.Logic.Internet.ImageDownloadHelper 图片下载帮助类
-
-### v0.1.1
-
-* 添加: 各类的描述xml文件
-
-### v0.1.0
-
-* 添加: 基础的各个逻辑工作类代码归纳创建
-
-	* `ILog`	日志工具接口及其相关实现类
-	* `ICache`	缓存工具接口及其相关实现类
+[GitHub - 日志文件](https://github.com/YellowTulipShow/DotNetCore.YTS.Solution/tree/master/YTS.Logic/ChangeLog.md)
