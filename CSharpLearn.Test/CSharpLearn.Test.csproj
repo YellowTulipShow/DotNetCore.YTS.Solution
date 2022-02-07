@@ -19,9 +19,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CSharp9\" />
-    <Folder Include="CSharp10\" />
-  </ItemGroup>
-
 </Project>
