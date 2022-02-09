@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.32014.148
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.ConsoleProgram", "Test.ConsoleProgram\Test.ConsoleProgram.csproj", "{362A13AC-3347-4552-AF79-A86255A88BC4}"
 EndProject
@@ -27,7 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Logic", "YTS.Logic\YTS.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Logic.Test", "YTS.Logic.Test\YTS.Logic.Test.csproj", "{AB72E932-2D80-4F75-9DEB-E4E399D3D801}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.ImageDownload", "YTS.ImageDownload\YTS.ImageDownload.csproj", "{ED4D2F55-98F9-4AAA-9F91-2F0A44362521}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.ImageDownload", "YTS.ImageDownload\YTS.ImageDownload.csproj", "{ED4D2F55-98F9-4AAA-9F91-2F0A44362521}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.PlanNotes.API", "YTS.PlanNotes.API\YTS.PlanNotes.API.csproj", "{1BB75F47-C83B-45EF-91CD-DD7965EE5671}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.PlanNotes.Web", "YTS.PlanNotes.Web\YTS.PlanNotes.Web.csproj", "{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -195,6 +199,30 @@ Global
 		{ED4D2F55-98F9-4AAA-9F91-2F0A44362521}.Release|x64.Build.0 = Release|Any CPU
 		{ED4D2F55-98F9-4AAA-9F91-2F0A44362521}.Release|x86.ActiveCfg = Release|Any CPU
 		{ED4D2F55-98F9-4AAA-9F91-2F0A44362521}.Release|x86.Build.0 = Release|Any CPU
+		{1BB75F47-C83B-45EF-91CD-DD7965EE5671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BB75F47-C83B-45EF-91CD-DD7965EE5671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BB75F47-C83B-45EF-91CD-DD7965EE5671}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1BB75F47-C83B-45EF-91CD-DD7965EE5671}.Debug|x64.Build.0 = Debug|Any CPU
+		{1BB75F47-C83B-45EF-91CD-DD7965EE5671}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1BB75F47-C83B-45EF-91CD-DD7965EE5671}.Debug|x86.Build.0 = Debug|Any CPU
+		{1BB75F47-C83B-45EF-91CD-DD7965EE5671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BB75F47-C83B-45EF-91CD-DD7965EE5671}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BB75F47-C83B-45EF-91CD-DD7965EE5671}.Release|x64.ActiveCfg = Release|Any CPU
+		{1BB75F47-C83B-45EF-91CD-DD7965EE5671}.Release|x64.Build.0 = Release|Any CPU
+		{1BB75F47-C83B-45EF-91CD-DD7965EE5671}.Release|x86.ActiveCfg = Release|Any CPU
+		{1BB75F47-C83B-45EF-91CD-DD7965EE5671}.Release|x86.Build.0 = Release|Any CPU
+		{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}.Debug|x64.Build.0 = Debug|Any CPU
+		{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}.Debug|x86.Build.0 = Debug|Any CPU
+		{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}.Release|x64.ActiveCfg = Release|Any CPU
+		{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}.Release|x64.Build.0 = Release|Any CPU
+		{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}.Release|x86.ActiveCfg = Release|Any CPU
+		{CA4D1E85-7FB0-47E1-8A02-A3E6699B6316}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
