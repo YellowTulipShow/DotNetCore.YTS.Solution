@@ -51,9 +51,16 @@ namespace YTS.Logic.Log
                 {
                     $"{sign} {message}"
                 };
-                for (int i = 0; i < args.Length; i++)
+                if (args.Length == 1)
                 {
-                    msglist.AddRange(ToTree(sign.Length, $"args[{i}]", args[i]));
+                    msglist.AddRange(ToTree(sign.Length, $"arg", args[0]));
+                }
+                else
+                {
+                    for (int i = 0; i < args.Length; i++)
+                    {
+                        msglist.AddRange(ToTree(sign.Length, $"args[{i}]", args[i]));
+                    }
                 }
                 if (ex != null)
                 {

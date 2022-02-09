@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 
 using YTS.Logic.Log;
 
+using static YTS.Logic.IO.PathFileInventory;
+
 namespace YTS.Logic.IO
 {
     public static class PathFileInventoryExtend

@@ -20,6 +20,7 @@ namespace YTS.Logic.Test.Log
             };
             ILog log = new ConsolePrintLog();
             log.Info("≤‚ ‘÷¥––ILog.Info", logArgs);
+            Assert.IsTrue(true);
         }
 
         [TestMethod]
