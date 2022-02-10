@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace YTS.PlanNotes.API
+namespace YTS.IOFile.API
 {
     public class Program
     {

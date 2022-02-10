@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+
+using Newtonsoft.Json;
 
 using YTS.Logic.Log;
 
@@ -21,11 +24,24 @@ namespace YTS.Logic.IO
             this.log = log;
         }
 
+        /// <summary>
+        /// 转为描述数据
+        /// </summary>
+        /// <param name="directoryPath">目录路径</param>
+        /// <param name="IsCalcSub">是否计算子级</param>
+        /// <returns>键: 清单文件路径, 值: 清单内容</returns>
         public IDictionary<string, MInventory> ToExplainDatas(string directoryPath, bool IsCalcSub = true)
         {
             DirectoryInfo info = new DirectoryInfo(directoryPath);
             return ToMDirectory(info, IsCalcSub);
         }
+
+        /// <summary>
+        /// 转为描述数据
+        /// </summary>
+        /// <param name="directoryInfo">目录信息</param>
+        /// <param name="IsCalcSub">是否计算子级</param>
+        /// <returns>键: 清单文件路径, 值: 清单内容</returns>
         public IDictionary<string, MInventory> ToMDirectory(DirectoryInfo directoryInfo, bool IsCalcSub = true)
         {
             if (directoryInfo == null || !directoryInfo.Exists)
@@ -78,6 +94,9 @@ namespace YTS.Logic.IO
         }
         private MItem ToMItem(string name, string type) => new MItem() { Name = name, Type = type };
 
+        /// <summary>
+        /// 清单数据模型
+        /// </summary>
         public class MInventory
         {
             /// <summary>
@@ -89,6 +108,9 @@ namespace YTS.Logic.IO
             /// </summary>
             public MItem[] SubMItems { get; set; }
         }
+        /// <summary>
+        /// 清单数据模型内容项描述
+        /// </summary>
         public class MItem
         {
             /// <summary>
@@ -96,9 +118,27 @@ namespace YTS.Logic.IO
             /// </summary>
             public string Name { get; set; }
             /// <summary>
-            /// 类型
+            /// 类型: File/Dir
             /// </summary>
             public string Type { get; set; }
+        }
+
+        /// <summary>
+        /// 录入文件清单信息
+        /// </summary>
+        /// <param name="dicts">清单键值对</param>
+        /// <param name="log">执行日志</param>
+        /// <param name="encoding">清单文件写入编码</param>
+        public void WriteInventoryInfo(IDictionary<string, MInventory> dicts, ILog log, Encoding encoding)
+        {
+            foreach (var file in dicts.Keys)
+            {
+                log.Info("输出清单内容", new Dictionary<string, object>()
+                {
+                    { "file", file },
+                });
+                File.WriteAllText(file, JsonConvert.SerializeObject(dicts[file]), encoding);
+            }
         }
     }
 }
