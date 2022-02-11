@@ -6,7 +6,7 @@
 		<xmlDoc>true</xmlDoc>
 		<Title>基础逻辑类库</Title>
 		<PackageId>YTS.Logic</PackageId>
-		<Version>0.2.2</Version>
+		<Version>0.2.3</Version>
 		<Authors>YellowTulipShow</Authors>
 		<Description>基础逻辑类库</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
