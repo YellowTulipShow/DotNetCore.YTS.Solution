@@ -15,6 +15,8 @@ namespace YTS.IOFile.API.Controllers
     /// </summary>
     public class FileController : BaseApiController
     {
+        public const string CONFIG_KEY_NAME_DIRECTORYHASH = "DirectoryHash";
+
         private readonly ILogger<FileController> _logger;
         private readonly ILog log;
         private readonly IConfiguration configuration;
@@ -25,12 +27,27 @@ namespace YTS.IOFile.API.Controllers
             this.configuration = configuration;
         }
 
+        public class DirectoryHashItem
+        {
+            public string Path { get; set; }
+        }
+
+        private IDictionary<string, DirectoryHashItem> GetDirectoryHashPairs()
+        {
+            var dict = configuration.GetSection(CONFIG_KEY_NAME_DIRECTORYHASH);
+            var hash = dict.Get<Dictionary<string, DirectoryHashItem>>();
+            return hash;
+        }
+
         [HttpGet]
         public IEnumerable<string> GetOperableRootDirectories()
         {
+            var parirs = GetDirectoryHashPairs();
             IList<string> list = new List<string>();
-            var dict = configuration.GetSection("DirectoryHash");
-            list.Add(dict.Value);
+            foreach (string key in parirs.Keys)
+            {
+                list.Add(key);
+            }
             if (_logger != null)
             {
                 _logger.LogInformation("File.GetOperableRootDirectories execute!", list);
