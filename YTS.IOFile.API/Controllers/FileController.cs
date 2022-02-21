@@ -15,12 +15,20 @@ namespace YTS.IOFile.API.Controllers
     /// </summary>
     public class FileController : BaseApiController
     {
+        /// <summary>
+        /// 配置键名称_目录哈希队列
+        /// </summary>
         public const string CONFIG_KEY_NAME_DIRECTORYHASH = "DirectoryHash";
 
         private readonly ILogger<FileController> _logger;
-        private readonly ILog log;
         private readonly IConfiguration configuration;
+        private readonly ILog log;
 
+        /// <summary>
+        /// 初始化文件IO API接口
+        /// </summary>
+        /// <param name="_logger"></param>
+        /// <param name="configuration"></param>
         public FileController(ILogger<FileController> _logger, IConfiguration configuration)
         {
             this._logger = _logger;
