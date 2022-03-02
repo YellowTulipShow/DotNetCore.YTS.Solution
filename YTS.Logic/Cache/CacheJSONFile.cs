@@ -33,11 +33,7 @@ namespace YTS.Logic.Cache
             this.log = log;
         }
 
-        /// <summary>
-        /// 获取数据
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <returns>值</returns>
+        /// <inheritdoc />
         public string GetData(string key)
         {
             string cacheFilePath = GetCacheFilePath(key);
@@ -55,11 +51,7 @@ namespace YTS.Logic.Cache
             return reader.ReadToEnd();
         }
 
-        /// <summary>
-        /// 设置数据
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="value">值</param>
+        /// <inheritdoc />
         public void SetData(string key, string value)
         {
             log.Info("设置文件缓存", new Dictionary<string, object>()

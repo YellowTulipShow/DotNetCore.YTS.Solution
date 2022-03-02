@@ -10,11 +10,19 @@ namespace YTS.Logic.Log
     internal sealed class ConnectLog : ILog
     {
         private readonly IDictionary<int, ILog> logDict;
+
+        /// <summary>
+        /// 初始化实现
+        /// </summary>
         public ConnectLog()
         {
             logDict = new Dictionary<int, ILog>();
         }
 
+        /// <summary>
+        /// 增加日志需要连接的日志目标
+        /// </summary>
+        /// <param name="log">日志目标</param>
         public void Add(ILog log)
         {
             int code = log.GetHashCode();
@@ -24,11 +32,7 @@ namespace YTS.Logic.Log
             }
         }
 
-        /// <summary>
-        /// 常规信息日志写入
-        /// </summary>
-        /// <param name="message">消息内容</param>
-        /// <param name="args">参数队列</param>
+        /// <inheritdoc />
         public void Info(string message, params IDictionary<string, object>[] args)
         {
             foreach (var item in logDict.Values)
@@ -37,11 +41,7 @@ namespace YTS.Logic.Log
             }
         }
 
-        /// <summary>
-        /// 错误信息日志写入
-        /// </summary>
-        /// <param name="message">消息内容</param>
-        /// <param name="args">参数队列</param>
+        /// <inheritdoc />
         public void Error(string message, params IDictionary<string, object>[] args)
         {
             foreach (var item in logDict.Values)
@@ -50,12 +50,7 @@ namespace YTS.Logic.Log
             }
         }
 
-        /// <summary>
-        /// 错误信息和异常日志写入
-        /// </summary>
-        /// <param name="message">消息内容</param>
-        /// <param name="ex">异常</param>
-        /// <param name="args">参数队列</param>
+        /// <inheritdoc />
         public void Error(string message, Exception ex, params IDictionary<string, object>[] args)
         {
             foreach (var item in logDict.Values)
