@@ -25,6 +25,8 @@ namespace YTS.IOFile.API.Controllers
         /// </summary>
         public const string CONFIG_KEY_NAME_DIRECTORYHASH = "DirectoryHash";
 
+        private static readonly Encoding FILE_ENCODING = Encoding.UTF8;
+
         private readonly ILog log;
         private readonly IDictionary<string, DirectoryHashItem> rootDirectories;
         private readonly PathRuleParsing pathRuleParsing;
@@ -50,7 +52,7 @@ namespace YTS.IOFile.API.Controllers
         /// <summary>
         /// 可操作目录项配置
         /// </summary>
-        public class DirectoryHashItem
+        private class DirectoryHashItem
         {
             /// <summary>
             /// 磁盘地址
@@ -71,11 +73,11 @@ namespace YTS.IOFile.API.Controllers
         }
 
         /// <summary>
-        /// 判断
+        /// 写入键值对数据
         /// </summary>
-        /// <param name="root"></param>
-        /// <param name="kvPairs"></param>
-        /// <returns></returns>
+        /// <param name="root">数据区域</param>
+        /// <param name="kvPairs">存储键值对</param>
+        /// <returns>执行结果, 受影响的条数</returns>
         [HttpPost]
         public Result<int> Write(string root, IDictionary<string, object> kvPairs)
         {
@@ -112,7 +114,7 @@ namespace YTS.IOFile.API.Controllers
                     string absIOFilePath = pathRuleParsing.ToWriteIOPath(root_path, key);
                     logArgs["absIOFilePath"] = absIOFilePath;
                     string json = JsonConvert.SerializeObject(value, serializerSettings);
-                    System.IO.File.WriteAllText(absIOFilePath, json, Encoding.UTF8);
+                    System.IO.File.WriteAllText(absIOFilePath, json, FILE_ENCODING);
                     success_count++;
                 }
                 catch (Exception ex)
@@ -127,6 +129,12 @@ namespace YTS.IOFile.API.Controllers
             return ResultStatueCode.OK.To("执行完成!", success_count);
         }
 
+        /// <summary>
+        /// 读取键值对数据
+        /// </summary>
+        /// <param name="root">数据区域</param>
+        /// <param name="keyExpression">键读取表达式</param>
+        /// <returns>匹配键读取表达式的键值对数据</returns>
         [HttpGet]
         public Result<IDictionary<string, object>> Read(string root, string keyExpression)
         {
@@ -149,14 +157,29 @@ namespace YTS.IOFile.API.Controllers
                 return ResultStatueCode.LogicError
                     .To("无法理解传入的键读取表达式内容", errNull);
             }
+            var logArgs = new Dictionary<string, object>()
+            {
+                { "root", root },
+                { "keyExpression", keyExpression },
+            };
             IDictionary<string, object> result = new Dictionary<string, object>();
             foreach (string key in keyAbsIOFilePath.Keys)
             {
-                string absIOFilePath = keyAbsIOFilePath[key];
-                string json = System.IO.File.ReadAllText(absIOFilePath, )
-                result[key] = ;
+                try
+                {
+                    logArgs["key"] = key;
+                    string absIOFilePath = keyAbsIOFilePath[key];
+                    logArgs["absIOFilePath"] = absIOFilePath;
+                    string json = System.IO.File.ReadAllText(absIOFilePath, FILE_ENCODING);
+                    logArgs["json"] = json;
+                    result[key] = JsonConvert.DeserializeObject(json, serializerSettings);
+                }
+                catch (Exception ex)
+                {
+                    log.Error("读取某项异常", ex, logArgs);
+                }
             }
-            return ResultStatueCode.OK.To("执行完成!", success_count);
+            return ResultStatueCode.OK.To("执行完成!", result);
         }
     }
 }

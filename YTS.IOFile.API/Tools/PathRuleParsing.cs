@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace YTS.IOFile.API.Tools
@@ -18,6 +19,8 @@ namespace YTS.IOFile.API.Tools
         /// <returns>绝对地址路径</returns>
         public string ToWriteIOPath(string root, string key)
         {
+            root = FilterHazardousContent(root);
+            key = FilterHazardousContent(key);
             return null;
         }
 
@@ -29,7 +32,22 @@ namespace YTS.IOFile.API.Tools
         /// <returns>绝对地址路径队列(键,地址)</returns>
         public IDictionary<string, string> ToReadIOPath(string root, string keyExpression)
         {
+            root = FilterHazardousContent(root);
+            keyExpression = FilterHazardousContent(keyExpression);
             return null;
+        }
+
+        /// <summary>
+        /// 过滤危险内容
+        /// </summary>
+        private string FilterHazardousContent(string content) {
+            content = content?.Trim();
+            if (string.IsNullOrEmpty(content))
+                return content;
+            content = Regex.Replace(content, @"\.+", "");
+            content = Regex.Replace(content, @"\/+", "");
+            content = Regex.Replace(content, @"\\+", "");
+            return content;
         }
     }
 }
