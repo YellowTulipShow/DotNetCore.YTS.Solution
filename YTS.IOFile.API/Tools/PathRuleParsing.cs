@@ -74,22 +74,76 @@ namespace YTS.IOFile.API.Tools
             IDictionary<string, string> result = new Dictionary<string, string>();
             // 每一层进行检查
             var catalogues = keyExpression.Split(':', StringSplitOptions.RemoveEmptyEntries);
-            int catalogueIndex = 0;
-            Regex isReExpression = new Regex(@"^/(\.+)/(i?)$", RegexOptions.Singleline);
-            while (catalogueIndex < catalogues.Length)
+            Regex IsHaveExpressionRegex = new Regex(@"^/(\.+)/(i?)$", RegexOptions.ECMAScript);
+
+            SubDiresQuery(rootDire, 0);
+            void SubDiresQuery(DirectoryInfo dire, int catalogueIndex)
             {
+                if (catalogueIndex >= catalogues.Length)
+                {
+                    return;
+                }
                 var catalogue = catalogues[catalogueIndex];
-                //var  isReExpression.IsMatch(catalogue);
+                Regex catalogueRegex = null;
+                if (IsHaveExpressionRegex.IsMatch(catalogue))
+                {
+                    Match expressionMatch = IsHaveExpressionRegex.Match(catalogue);
+                    string pattern = expressionMatch.Groups[1].Value;
+                    RegexOptions regexOptions = RegexOptions.ECMAScript;
+                    if (expressionMatch.Groups[2].Value == "i")
+                    {
+                        regexOptions |= RegexOptions.IgnoreCase;
+                    }
+                    catalogueRegex = new Regex(pattern, regexOptions);
+                }
+
                 var subDires = rootDire.GetDirectories();
                 for (int i = 0; i < subDires.Length; i++)
                 {
                     var subDire = subDires[i];
+                    bool IsEqual;
+                    if (catalogueRegex != null)
+                    {
+                        // 使用正则判断是否符合条件
+                        IsEqual = catalogueRegex.Match(subDire.Name).Success;
+                    }
+                    else
+                    {
+                        // 正常使用字符串判断
+                        IsEqual = subDire.Name.Equals(catalogue);
+                    }
+                    if (IsEqual)
+                    {
+                        catalogues[catalogueIndex] = subDire.Name;
+                        SubDiresQuery(subDire, catalogueIndex + 1);
+                    }
                 }
-                catalogueIndex++;
-            }
 
+                var subFiles = rootDire.GetFiles();
+                for (int i = 0; i < subFiles.Length; i++)
+                {
+                    var subFile = subFiles[i];
+                    bool IsEqual;
+                    if (catalogueRegex != null)
+                    {
+                        // 使用正则判断是否符合条件
+                        IsEqual = catalogueRegex.Match(subFile.Name).Success;
+                    }
+                    else
+                    {
+                        // 正常使用字符串判断
+                        IsEqual = subFile.Name.Equals(catalogue);
+                    }
+                    if (IsEqual && catalogueIndex == catalogues.Length - 1)
+                    {
+                        catalogues[catalogueIndex] = subFile.Name;
+                        // 增加一条记录
+                        result.Add(string.Join(":", catalogues), subFile.FullName);
+                    }
+                }
+            };
+            return result;
         }
-
 
         /// <summary>
         /// 过滤危险内容

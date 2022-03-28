@@ -22,7 +22,7 @@ namespace YTS.IOFile.API.Test
         }
 
         [TestMethod]
-        public void TestToWriteIOPath()
+        public void TestWriteAndRead()
         {
             ILog log = new FilePrintLog($"./logs/TestPathRuleParsing/{DateTime.Now:yyyy_MM_dd}.log", Encoding.UTF8);
             var dataSupport = DataSupportIOFactory.Default();
