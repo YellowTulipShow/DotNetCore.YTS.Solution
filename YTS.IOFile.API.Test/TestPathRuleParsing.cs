@@ -22,6 +22,12 @@ namespace YTS.IOFile.API.Test
         }
 
         [TestMethod]
+        public void TestPath()
+        {
+
+        }
+
+        [TestMethod]
         public void TestWriteAndRead()
         {
             ILog log = new FilePrintLog($"./logs/TestPathRuleParsing/{DateTime.Now:yyyy_MM_dd}.log", Encoding.UTF8);

@@ -17,6 +17,9 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace YTS.IOFile.API
 {
+    /// <summary>
+    /// 各服务调用扩展静态帮助类
+    /// </summary>
     public static class ServiceExtensions
     {
         /// <summary>

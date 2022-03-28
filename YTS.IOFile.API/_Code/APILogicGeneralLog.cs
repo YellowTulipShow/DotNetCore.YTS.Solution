@@ -31,21 +31,21 @@ namespace YTS.IOFile.API
         /// <inheritdoc />
         public void Error(string message, params IDictionary<string, object>[] args)
         {
-            _logger?.LogError(message, args);
+            _logger?.LogError(message, new object[] { args });
             _fileLog?.Error(message, args);
         }
 
         /// <inheritdoc />
         public void Error(string message, Exception ex, params IDictionary<string, object>[] args)
         {
-            _logger?.LogError(ex, message, args);
+            _logger?.LogError(ex, message, new object[] { args });
             _fileLog?.Error(message, ex, args);
         }
 
         /// <inheritdoc />
         public void Info(string message, params IDictionary<string, object>[] args)
         {
-            _logger?.LogInformation(message, args);
+            _logger?.LogInformation(message, new object[] { args });
             _fileLog?.Info(message, args);
         }
     }

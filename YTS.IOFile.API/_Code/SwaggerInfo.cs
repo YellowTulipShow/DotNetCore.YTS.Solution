@@ -37,6 +37,9 @@ namespace YTS.IOFile.API
         [JsonProperty("License")]
         public MLicense License { get; set; }
 
+        /// <summary>
+        /// 联系方式
+        /// </summary>
         public class MContact : MLicense
         {
             /// <summary>
@@ -46,6 +49,9 @@ namespace YTS.IOFile.API
             public string Email { get; set; }
         }
 
+        /// <summary>
+        /// 开源许可证
+        /// </summary>
         public class MLicense
         {
             /// <summary>

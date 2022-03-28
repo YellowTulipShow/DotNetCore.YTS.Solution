@@ -14,14 +14,21 @@ using Microsoft.Extensions.Logging;
 
 namespace YTS.IOFile.API
 {
+    /// <summary>
+    /// 开始程序
+    /// </summary>
     public class Startup
     {
+        private readonly IConfiguration configuration;
+
+        /// <summary>
+        /// 实例化开始程序
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -34,7 +41,7 @@ namespace YTS.IOFile.API
             services.EnterServiceControllers();
             services.EnterServiceJson();
             services.EnterServiceCors();
-            services.EnterServiceSwagger(Configuration);
+            services.EnterServiceSwagger(configuration);
         }
 
         /// <summary>
