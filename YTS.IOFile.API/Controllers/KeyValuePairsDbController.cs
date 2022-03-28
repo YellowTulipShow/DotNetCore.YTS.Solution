@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using YTS.Logic.Log;
 using YTS.IOFile.API.Tools;
 using System.Text;
+using YTS.IOFile.API.Tools.DataSupportIO;
 
 namespace YTS.IOFile.API.Controllers
 {
@@ -42,7 +43,8 @@ namespace YTS.IOFile.API.Controllers
             log = new APILogicGeneralLog<KeyValuePairsDbController>(_logger);
             var rootDirectoriesSection = configuration.GetSection(CONFIG_KEY_NAME_DIRECTORYHASH);
             rootDirectories = rootDirectoriesSection.Get<Dictionary<string, DirectoryHashItem>>();
-            pathRuleParsing = new PathRuleParsing();
+            var dataSupport = DataSupportIOFactory.Default();
+            pathRuleParsing = new PathRuleParsing(dataSupport, log);
             serializerSettings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,

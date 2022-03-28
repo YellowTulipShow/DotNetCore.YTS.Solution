@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace YTS.IOFile.API
 {
+    /// <summary>
+    /// »ù´¡API
+    /// </summary>
     [ApiController]
     [Route(ApiConfig.APIRoute)]
     [EnableCors(ApiConfig.CorsName)]
