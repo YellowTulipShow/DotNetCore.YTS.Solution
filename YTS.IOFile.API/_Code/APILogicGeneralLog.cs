@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,7 @@ namespace YTS.IOFile.API
         {
             this._logger = _logger;
             var path = $"./_logs/{typeof(TCategoryName).FullName}/{DateTime.Now:yyyy/MM-dd/HH}.log";
+            path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
             _fileLog = new FilePrintLog(path, Encoding.UTF8);
         }
 

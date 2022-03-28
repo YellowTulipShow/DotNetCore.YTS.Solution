@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace YTS.IOFile.API.Tools.DataSupportIO
 {
@@ -10,7 +11,7 @@ namespace YTS.IOFile.API.Tools.DataSupportIO
         /// <inheritdoc />
         public string ToAbsPath(string root)
         {
-            string path = Directory.GetCurrentDirectory();
+            string path = AppDomain.CurrentDomain.BaseDirectory;
             return Path.Combine(path, root);
         }
     }
