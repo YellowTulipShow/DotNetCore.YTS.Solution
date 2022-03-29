@@ -41,5 +41,14 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.2" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="appsettings.Development.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="appsettings.json">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
 
 </Project>

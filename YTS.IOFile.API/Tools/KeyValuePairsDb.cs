@@ -33,8 +33,7 @@ namespace YTS.IOFile.API.Tools
             this.storeConfigs = storeConfigs;
             this.log = log;
 
-            var dataSupport = DataSupportIOFactory.Default();
-            pathRuleParsing = new PathRuleParsing(dataSupport, log);
+            pathRuleParsing = new PathRuleParsing(log);
             serializerSettings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
@@ -102,6 +101,18 @@ namespace YTS.IOFile.API.Tools
         /// <returns>执行结果, 处理成功的记录条数</returns>
         public int Write(string root, IDictionary<string, object> kvPairs)
         {
+            return Write<object>(root, kvPairs);
+        }
+
+        /// <summary>
+        /// 写入键值对数据
+        /// </summary>
+        /// <typeparam name="T">写入的数据类型</typeparam>
+        /// <param name="root">数据区域</param>
+        /// <param name="kvPairs">存储键值对</param>
+        /// <returns>执行结果, 处理成功的记录条数</returns>
+        public int Write<T>(string root, IDictionary<string, T> kvPairs)
+        {
             if (kvPairs == null || kvPairs.Count <= 0)
             {
                 throw new ArgumentNullException("键值对数据为空");
@@ -118,7 +129,7 @@ namespace YTS.IOFile.API.Tools
                 try
                 {
                     logArgs["key"] = key;
-                    object value = kvPairs[key];
+                    T value = kvPairs[key];
                     logArgs["value"] = value;
                     string absIOFilePath = pathRuleParsing.ToWriteIOPath(config.SystemAbsolutePath, key);
                     logArgs["absIOFilePath"] = absIOFilePath;
@@ -143,6 +154,18 @@ namespace YTS.IOFile.API.Tools
         /// <returns>匹配键读取表达式的键值对数据</returns>
         public IDictionary<string, object> Read(string root, string keyExpression)
         {
+            return Read<object>(root, keyExpression);
+        }
+
+        /// <summary>
+        /// 读取键值对数据
+        /// </summary>
+        /// <typeparam name="T">读取的数据类型</typeparam>
+        /// <param name="root">数据区域</param>
+        /// <param name="keyExpression">键读取表达式</param>
+        /// <returns>匹配键读取表达式的键值对数据</returns>
+        public IDictionary<string, T> Read<T>(string root, string keyExpression)
+        {
             root = root?.Trim();
             keyExpression = keyExpression?.Trim();
             var logArgs = new Dictionary<string, object>()
@@ -161,7 +184,7 @@ namespace YTS.IOFile.API.Tools
             {
                 throw new ApplicationException("无法理解传入的键读取表达式内容");
             }
-            IDictionary<string, object> result = new Dictionary<string, object>();
+            IDictionary<string, T> result = new Dictionary<string, T>();
             foreach (string key in keyAbsIOFilePaths.Keys)
             {
                 try
@@ -171,7 +194,7 @@ namespace YTS.IOFile.API.Tools
                     logArgs["absIOFilePath"] = absIOFilePath;
                     string json = File.ReadAllText(absIOFilePath, FILE_ENCODING);
                     logArgs["json"] = json;
-                    result[key] = JsonConvert.DeserializeObject(json, serializerSettings);
+                    result[key] = JsonConvert.DeserializeObject<T>(json, serializerSettings);
                     log.Info("读出", logArgs);
                 }
                 catch (Exception ex)

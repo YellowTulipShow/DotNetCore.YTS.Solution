@@ -23,7 +23,7 @@ namespace YTS.IOFile.API.Test
             {
                 ["PlanNotes.YTSZRQ"] = new StoreConfiguration()
                 {
-                    SystemAbsolutePath = "D:\\Work\\YTS.IMG\\Bing",
+                    SystemAbsolutePath = @"D:\Work\YTS.ZRQ\PlanNotes.YTSZRQ.StorageArea",
                     DescriptionRemarks = "计划笔记",
                     Git = new StoreConfigurationGit()
                     {
@@ -48,7 +48,7 @@ namespace YTS.IOFile.API.Test
         public void TestWrite()
         {
             string root = "PlanNotes.YTSZRQ";
-            int successCount = db.Write(root, new Dictionary<string, object>()
+            int successCount = db.Write(root, new Dictionary<string, Model>()
             {
                 ["person:中国:张三"] = new Model { Name = "张三" },
                 ["person:美国:李四"] = new Model { Name = "李四" },
@@ -62,31 +62,32 @@ namespace YTS.IOFile.API.Test
         public void TestRead()
         {
             string root = "PlanNotes.YTSZRQ";
-            IDictionary<string, object> rdict;
+            IDictionary<string, Model> rdict;
+            string name;
 
-            rdict = db.Read(root, "person:中国:张三");
+            rdict = db.Read<Model>(root, "person:中国:张三");
             Assert.AreEqual(1, rdict.Count);
-            string name = (rdict["person:中国:张三"] as Model).Name;
+            name = (rdict["person:中国:张三"]).Name;
             Assert.AreEqual("张三", name);
 
-            rdict = db.Read(root, "person:美国:田七");
+            rdict = db.Read<Model>(root, "person:美国:田七");
             Assert.AreEqual(1, rdict.Count);
-            name = (rdict["person:美国:田七"] as Model).Name;
+            name = (rdict["person:美国:田七"]).Name;
             Assert.AreEqual("田七", name);
 
-            rdict = db.Read(root, "person:美国:/[^\\n]+/i");
+            rdict = db.Read<Model>(root, "person:美国:/[^\\n]+/i");
             Assert.AreEqual(2, rdict.Count);
-            name = (rdict["person:美国:田七"] as Model).Name;
+            name = (rdict["person:美国:田七"]).Name;
             Assert.AreEqual("田七", name);
 
-            rdict = db.Read(root, "person:/[中|美]国/i:/[^\\n]+/i");
+            rdict = db.Read<Model>(root, "person:/[中|美]国/i:/[^\\n]+/i");
             Assert.AreEqual(4, rdict.Count);
-            name = (rdict["person:美国:田七"] as Model).Name;
+            name = (rdict["person:美国:田七"]).Name;
             Assert.AreEqual("田七", name);
 
-            rdict = db.Read(root, "person:/[德|美]国/i:/[^\\n]+[六七]/i");
+            rdict = db.Read<Model>(root, "person:/[德|美]国/i:/[^\\n]+[六七]/i");
             Assert.AreEqual(2, rdict.Count);
-            name = (rdict["person:美国:田七"] as Model).Name;
+            name = (rdict["person:美国:田七"]).Name;
             Assert.AreEqual("田七", name);
         }
     }

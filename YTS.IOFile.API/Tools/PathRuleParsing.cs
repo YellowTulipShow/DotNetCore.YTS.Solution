@@ -20,7 +20,6 @@ namespace YTS.IOFile.API.Tools
         /// </summary>
         private const string INTERVAL_PATH = @"_data";
 
-        private readonly IDataSupportIO dataSupport;
         private readonly ILog log;
 
         /// <summary>
@@ -28,9 +27,8 @@ namespace YTS.IOFile.API.Tools
         /// </summary>
         /// <param name="dataSupport">数据支持</param>
         /// <param name="log">执行日志</param>
-        public PathRuleParsing(IDataSupportIO dataSupport, ILog log)
+        public PathRuleParsing(ILog log)
         {
-            this.dataSupport = dataSupport;
             this.log = log;
         }
 
@@ -44,7 +42,7 @@ namespace YTS.IOFile.API.Tools
         {
             root = FilterHazardousContent(root);
             key = FilterHazardousContent(key);
-            string absPath = dataSupport.ToAbsPath(root);
+            string absPath = ToAbsPath(root);
             string keyPath = key.Replace(":", "/") + ".json";
             keyPath = Path.Combine(absPath, INTERVAL_PATH, keyPath);
             FileInfo file = new FileInfo(keyPath);
@@ -58,6 +56,11 @@ namespace YTS.IOFile.API.Tools
             }
             return file.FullName;
         }
+        private string ToAbsPath(string root)
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            return Path.Combine(path, root);
+        }
 
         /// <summary>
         /// 转为读取的路径地址队列
@@ -69,7 +72,7 @@ namespace YTS.IOFile.API.Tools
         {
             root = FilterHazardousContent(root);
             keyExpression = FilterHazardousContent(keyExpression);
-            string absPath = dataSupport.ToAbsPath(root);
+            string absPath = ToAbsPath(root);
             absPath = Path.Combine(absPath, INTERVAL_PATH);
             DirectoryInfo rootDire = new DirectoryInfo(absPath);
             IDictionary<string, string> result = new Dictionary<string, string>();
@@ -77,77 +80,88 @@ namespace YTS.IOFile.API.Tools
             var catalogues = keyExpression.Split(':', StringSplitOptions.RemoveEmptyEntries);
             Regex IsHaveExpressionRegex = new Regex(@"^/(\.+)/(i?)$", RegexOptions.ECMAScript);
 
-            SubDiresQuery(rootDire, 0);
-            void SubDiresQuery(DirectoryInfo dire, int catalogueIndex)
+            SubDiresQuery(rootDire, catalogues, 0, new string[catalogues.Length], (key, path) =>
             {
-                if (catalogueIndex >= catalogues.Length)
-                {
-                    return;
-                }
-                var catalogue = catalogues[catalogueIndex];
-                Regex catalogueRegex = null;
-                if (IsHaveExpressionRegex.IsMatch(catalogue))
-                {
-                    Match expressionMatch = IsHaveExpressionRegex.Match(catalogue);
-                    string pattern = expressionMatch.Groups[1].Value;
-                    RegexOptions regexOptions = RegexOptions.ECMAScript;
-                    if (expressionMatch.Groups[2].Value == "i")
-                    {
-                        regexOptions |= RegexOptions.IgnoreCase;
-                    }
-                    catalogueRegex = new Regex(pattern, regexOptions);
-                }
-
-                var subDires = dire.GetDirectories();
-                for (int i = 0; i < subDires.Length; i++)
-                {
-                    var subDire = subDires[i];
-                    bool IsEqual;
-                    if (catalogueRegex != null)
-                    {
-                        // 使用正则判断是否符合条件
-                        IsEqual = catalogueRegex.Match(subDire.Name).Success;
-                    }
-                    else
-                    {
-                        // 正常使用字符串判断
-                        IsEqual = subDire.Name.Equals(catalogue);
-                    }
-                    if (IsEqual)
-                    {
-                        catalogues[catalogueIndex] = subDire.Name;
-                        SubDiresQuery(subDire, catalogueIndex + 1);
-                    }
-                }
-
-                var subFiles = dire.GetFiles();
-                for (int i = 0; i < subFiles.Length; i++)
-                {
-                    var subFile = subFiles[i];
-                    var subFileName = subFile.Name;
-                    subFileName = Regex.Replace(subFileName, @"(\.[a-zA-Z])$", "",
-                        RegexOptions.ECMAScript | RegexOptions.IgnoreCase);
-                    bool IsEqual;
-                    if (catalogueRegex != null)
-                    {
-                        // 使用正则判断是否符合条件
-                        IsEqual = catalogueRegex.Match(subFileName).Success;
-                    }
-                    else
-                    {
-                        // 正常使用字符串判断
-                        IsEqual = subFileName.Equals(catalogue);
-                    }
-                    if (IsEqual && catalogueIndex == catalogues.Length - 1)
-                    {
-                        catalogues[catalogueIndex] = subFileName;
-                        // 增加一条记录
-                        result.Add(string.Join(":", catalogues), subFile.FullName);
-                    }
-                }
-            };
+                result[key] = path;
+            });
             return result;
         }
+        private void SubDiresQuery(DirectoryInfo dire, string[] catalogues, int catalogueIndex, string[] keys, Action<string, string> saveKeyPathFunc)
+        {
+            if (catalogueIndex >= catalogues.Length)
+            {
+                return;
+            }
+            var catalogue = catalogues[catalogueIndex];
+            keys[catalogueIndex] = catalogue;
+
+            Regex catalogueRegex = ToCatalogueRegex(catalogue);
+
+            var subDires = dire.GetDirectories();
+            for (int i = 0; i < subDires.Length; i++)
+            {
+                var subDire = subDires[i];
+                var subDireName = subDire.Name;
+                bool IsEqual;
+                if (catalogueRegex != null)
+                {
+                    // 使用正则判断是否符合条件
+                    IsEqual = catalogueRegex.Match(subDireName).Success;
+                }
+                else
+                {
+                    // 正常使用字符串判断
+                    IsEqual = subDireName.Equals(catalogue);
+                }
+                if (IsEqual)
+                {
+                    keys[catalogueIndex] = subDireName;
+                    SubDiresQuery(subDire, catalogues, catalogueIndex + 1, keys, saveKeyPathFunc);
+                }
+            }
+
+            var subFiles = dire.GetFiles();
+            for (int i = 0; i < subFiles.Length; i++)
+            {
+                var subFile = subFiles[i];
+                var subFileName = subFile.Name;
+                subFileName = Regex.Replace(subFileName, @"(\.[a-zA-Z]+)$", "",
+                    RegexOptions.ECMAScript | RegexOptions.IgnoreCase);
+                bool IsEqual;
+                if (catalogueRegex != null)
+                {
+                    // 使用正则判断是否符合条件
+                    IsEqual = catalogueRegex.Match(subFileName).Success;
+                }
+                else
+                {
+                    // 正常使用字符串判断
+                    IsEqual = subFileName.Equals(catalogue);
+                }
+                if (IsEqual && catalogueIndex == catalogues.Length - 1)
+                {
+                    keys[catalogueIndex] = subFileName;
+                    // 增加一条记录
+                    saveKeyPathFunc(string.Join(":", keys), subFile.FullName);
+                }
+            }
+        }
+
+        private Regex ToCatalogueRegex(string catalogue)
+        {
+            RegexOptions regexOptions = RegexOptions.ECMAScript;
+            if (catalogue[^1] == 'i')
+            {
+                regexOptions |= RegexOptions.IgnoreCase;
+                catalogue = catalogue[0..^1];
+            }
+            if (catalogue[0] == '/' && catalogue[^1] == '/')
+            {
+                return new Regex(catalogue[1..^1]);
+            }
+            return null;
+        }
+
 
         /// <summary>
         /// 过滤危险内容
