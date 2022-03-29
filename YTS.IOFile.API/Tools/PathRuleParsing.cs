@@ -25,7 +25,6 @@ namespace YTS.IOFile.API.Tools
         /// <summary>
         /// 实例化 - 路径解析
         /// </summary>
-        /// <param name="dataSupport">数据支持</param>
         /// <param name="log">执行日志</param>
         public PathRuleParsing(ILog log)
         {

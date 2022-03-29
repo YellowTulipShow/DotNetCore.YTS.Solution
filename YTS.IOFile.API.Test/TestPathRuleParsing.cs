@@ -26,20 +26,5 @@ namespace YTS.IOFile.API.Test
         {
 
         }
-
-        [TestMethod]
-        public void TestWriteAndRead()
-        {
-            ILog log = new FilePrintLog($"./logs/TestPathRuleParsing/{DateTime.Now:yyyy_MM_dd}.log", Encoding.UTF8);
-            var dataSupport = DataSupportIOFactory.Default();
-            PathRuleParsing parsing = new PathRuleParsing(dataSupport, log);
-
-            var root = "DbSaveRegion";
-            var key = $"notes:programming:dotnet:IOFile:write";
-            var path = parsing.ToWriteIOPath(root, key);
-            Assert.IsTrue(!string.IsNullOrEmpty(path));
-            //var answer = $"";
-            //Assert.AreEqual(answer, path);
-        }
     }
 }

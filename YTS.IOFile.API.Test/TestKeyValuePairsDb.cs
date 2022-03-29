@@ -90,5 +90,32 @@ namespace YTS.IOFile.API.Test
             name = (rdict["person:√¿π˙:ÃÔ∆ﬂ"]).Name;
             Assert.AreEqual("ÃÔ∆ﬂ", name);
         }
+
+        [TestMethod]
+        public void TestNumberTypeWriteRead()
+        {
+            string root = "PlanNotes.YTSZRQ";
+            var writeDict = new Dictionary<string, object>()
+            {
+                ["notes:number:firstNum1"] = 11,
+                ["notes:number:firstNum2"] = 11.23,
+                ["notes:number:firstNum3"] = 11.232D,
+                ["notes:number:firstNum4"] = 11.232M,
+                ["notes:number:firstNum5"] = -252.51,
+                ["notes:number:firstNum6"] = -252.51M,
+            };
+            int successCount = db.Write(root, writeDict);
+            Assert.AreEqual(writeDict.Count, successCount);
+
+            var readDict = db.Read(root, "notes:number:/firstNum\\d/i");
+            Assert.AreEqual(writeDict.Count, readDict.Count);
+            foreach (string key in writeDict.Keys)
+            {
+                Assert.IsTrue(readDict.ContainsKey(key));
+                object writeValue = writeDict[key];
+                object readValue = readDict[key];
+                Assert.AreEqual(writeValue, readValue);
+            }
+        }
     }
 }
