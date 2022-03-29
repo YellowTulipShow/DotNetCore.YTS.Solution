@@ -15,8 +15,9 @@ namespace YTS.IOFile.API.Tools
     /// </summary>
     public class PathRuleParsing
     {
-        //private const string Interval path
-        // 间隔内容
+        /// <summary>
+        /// 间隔内容
+        /// </summary>
         private const string INTERVAL_PATH = @"_data";
 
         private readonly IDataSupportIO dataSupport;
