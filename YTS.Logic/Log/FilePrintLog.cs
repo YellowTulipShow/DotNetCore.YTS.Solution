@@ -9,17 +9,27 @@ namespace YTS.Logic.Log
     /// </summary>
     public class FilePrintLog : ConsolePrintLog
     {
-        private readonly string abs_file_path;
+        private readonly string logFilePath;
         private readonly Encoding encoding;
 
         /// <summary>
         /// 初始化实现类: 文件打印日志输出实现
         /// </summary>
-        /// <param name="abs_file_path">绝对路径文件地址</param>
+        /// <param name="absFilePath">绝对路径文件地址</param>
         /// <param name="encoding">文件编码内容</param>
-        public FilePrintLog(string abs_file_path, Encoding encoding)
+        public FilePrintLog(string absFilePath, Encoding encoding)
         {
-            this.abs_file_path = abs_file_path;
+            FileInfo logFile = new FileInfo(absFilePath);
+            var dire = logFile.Directory;
+            if (!dire.Exists)
+            {
+                dire.Create();
+            }
+            if (!logFile.Exists)
+            {
+                logFile.Create().Close();
+            }
+            logFilePath = logFile.FullName;
             this.encoding = encoding;
         }
 
@@ -31,12 +41,8 @@ namespace YTS.Logic.Log
         {
             string time_format = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             string[] log_head = new string[] { $"[{time_format}] Insert Log:" };
-            if (!File.Exists(abs_file_path))
-            {
-                using var stream = File.Create(abs_file_path);
-            }
-            File.AppendAllLines(abs_file_path, log_head, encoding);
-            File.AppendAllLines(abs_file_path, msglist, encoding);
+            File.AppendAllLines(logFilePath, log_head, encoding);
+            File.AppendAllLines(logFilePath, msglist, encoding);
         }
     }
 }

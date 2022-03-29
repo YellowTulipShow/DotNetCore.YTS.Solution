@@ -25,7 +25,7 @@ namespace YTS.IOFile.API
         public APILogicGeneralLog(ILogger<TCategoryName> _logger)
         {
             this._logger = _logger;
-            var path = $"./_logs/{typeof(TCategoryName).FullName}/{DateTime.Now:yyyy/MM-dd/HH}.log";
+            var path = $"./_logs/{typeof(TCategoryName).Name}/{DateTime.Now:yyyy/MM-dd/HH}.log";
             path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
             _fileLog = new FilePrintLog(path, Encoding.UTF8);
         }

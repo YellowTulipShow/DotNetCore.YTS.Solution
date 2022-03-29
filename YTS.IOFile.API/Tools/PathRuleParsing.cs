@@ -97,7 +97,7 @@ namespace YTS.IOFile.API.Tools
                     catalogueRegex = new Regex(pattern, regexOptions);
                 }
 
-                var subDires = rootDire.GetDirectories();
+                var subDires = dire.GetDirectories();
                 for (int i = 0; i < subDires.Length; i++)
                 {
                     var subDire = subDires[i];
@@ -119,24 +119,27 @@ namespace YTS.IOFile.API.Tools
                     }
                 }
 
-                var subFiles = rootDire.GetFiles();
+                var subFiles = dire.GetFiles();
                 for (int i = 0; i < subFiles.Length; i++)
                 {
                     var subFile = subFiles[i];
+                    var subFileName = subFile.Name;
+                    subFileName = Regex.Replace(subFileName, @"(\.[a-zA-Z])$", "",
+                        RegexOptions.ECMAScript | RegexOptions.IgnoreCase);
                     bool IsEqual;
                     if (catalogueRegex != null)
                     {
                         // 使用正则判断是否符合条件
-                        IsEqual = catalogueRegex.Match(subFile.Name).Success;
+                        IsEqual = catalogueRegex.Match(subFileName).Success;
                     }
                     else
                     {
                         // 正常使用字符串判断
-                        IsEqual = subFile.Name.Equals(catalogue);
+                        IsEqual = subFileName.Equals(catalogue);
                     }
                     if (IsEqual && catalogueIndex == catalogues.Length - 1)
                     {
-                        catalogues[catalogueIndex] = subFile.Name;
+                        catalogues[catalogueIndex] = subFileName;
                         // 增加一条记录
                         result.Add(string.Join(":", catalogues), subFile.FullName);
                     }
@@ -152,9 +155,9 @@ namespace YTS.IOFile.API.Tools
             content = content?.Trim();
             if (string.IsNullOrEmpty(content))
                 return content;
-            content = Regex.Replace(content, @"\.+", "");
-            content = Regex.Replace(content, @"\/+", "");
-            content = Regex.Replace(content, @"\\+", "");
+            content = Regex.Replace(content, @"\.{2,}", "");
+            content = Regex.Replace(content, @"\/{2,}", "");
+            content = Regex.Replace(content, @"\\{2,}", "");
             return content;
         }
     }

@@ -118,6 +118,7 @@ namespace YTS.IOFile.API.Controllers
                     string json = JsonConvert.SerializeObject(value, serializerSettings);
                     System.IO.File.WriteAllText(absIOFilePath, json, FILE_ENCODING);
                     success_count++;
+                    log.Info("写入", logArgs);
                 }
                 catch (Exception ex)
                 {
@@ -153,7 +154,19 @@ namespace YTS.IOFile.API.Controllers
                 return ResultStatueCode.ParameterError
                     .To("键读取表达式为空", errNull);
             }
-            IDictionary<string, string> keyAbsIOFilePath = pathRuleParsing.ToReadIOPath(root, keyExpression);
+            root = root?.Trim();
+            if (!rootDirectories.ContainsKey(root))
+            {
+                return ResultStatueCode.ParameterError
+                    .To("未知的数据存储区", errNull);
+            }
+            string root_path = rootDirectories[root]?.Path?.Trim();
+            if (string.IsNullOrEmpty(root_path))
+            {
+                return ResultStatueCode.ParameterError
+                    .To("存储区地址配置为空, 请联系管理员", errNull);
+            }
+            IDictionary<string, string> keyAbsIOFilePath = pathRuleParsing.ToReadIOPath(root_path, keyExpression);
             if (keyAbsIOFilePath == null || keyAbsIOFilePath.Count <= 0)
             {
                 return ResultStatueCode.LogicError
@@ -175,6 +188,7 @@ namespace YTS.IOFile.API.Controllers
                     string json = System.IO.File.ReadAllText(absIOFilePath, FILE_ENCODING);
                     logArgs["json"] = json;
                     result[key] = JsonConvert.DeserializeObject(json, serializerSettings);
+                    log.Info("读出", logArgs);
                 }
                 catch (Exception ex)
                 {
