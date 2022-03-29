@@ -45,7 +45,7 @@ namespace YTS.IOFile.API.Controllers
         /// 获取可操作数据区域根名单
         /// </summary>
         [HttpGet]
-        public IEnumerable<dynamic> GetOperableRootDirectories() => db.GetOperablestoreConfigs();
+        public IEnumerable<dynamic> GetOperableStores() => db.GetOperableStores();
 
         /// <summary>
         /// 写入键值对数据

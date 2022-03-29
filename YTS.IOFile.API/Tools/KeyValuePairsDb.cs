@@ -43,7 +43,7 @@ namespace YTS.IOFile.API.Tools
         /// <summary>
         /// 获取可操作存储区名单
         /// </summary>
-        public IEnumerable<dynamic> GetOperablestoreConfigs()
+        public IEnumerable<dynamic> GetOperableStores()
         {
             IList<dynamic> result = new List<dynamic>();
             foreach (string rootName in storeConfigs.Keys)
