@@ -102,7 +102,6 @@ namespace YTS.IOFile.API.Tools
         /// <returns>执行结果, 处理成功的记录条数</returns>
         public int Write(string root, IDictionary<string, object> kvPairs)
         {
-            StoreConfiguration config = ToStoreConfig(root);
             if (kvPairs == null || kvPairs.Count <= 0)
             {
                 throw new ArgumentNullException("键值对数据为空");
@@ -112,6 +111,7 @@ namespace YTS.IOFile.API.Tools
                 { "root", root },
                 { "kvPairs.Count", kvPairs.Count },
             };
+            StoreConfiguration config = ToStoreConfig(root);
             int success_count = 0;
             foreach (var key in kvPairs.Keys)
             {
@@ -143,24 +143,24 @@ namespace YTS.IOFile.API.Tools
         /// <returns>匹配键读取表达式的键值对数据</returns>
         public IDictionary<string, object> Read(string root, string keyExpression)
         {
-            StoreConfiguration config = ToStoreConfig(root);
+            root = root?.Trim();
             keyExpression = keyExpression?.Trim();
+            var logArgs = new Dictionary<string, object>()
+            {
+                { "root", root },
+                { "keyExpression", keyExpression },
+            };
             if (string.IsNullOrEmpty(keyExpression))
             {
                 throw new ArgumentNullException("键读取表达式为空");
             }
-            root = root?.Trim();
+            StoreConfiguration config = ToStoreConfig(root);
             string root_path = config.SystemAbsolutePath;
             var keyAbsIOFilePaths = pathRuleParsing.ToReadIOPath(root_path, keyExpression);
             if (keyAbsIOFilePaths == null || keyAbsIOFilePaths.Count <= 0)
             {
                 throw new ApplicationException("无法理解传入的键读取表达式内容");
             }
-            var logArgs = new Dictionary<string, object>()
-            {
-                { "root", root },
-                { "keyExpression", keyExpression },
-            };
             IDictionary<string, object> result = new Dictionary<string, object>();
             foreach (string key in keyAbsIOFilePaths.Keys)
             {

@@ -62,11 +62,19 @@ namespace YTS.IOFile.API.Controllers
             try
             {
                 int successCount = db.Write(root, kvPairs);
+                if (successCount <= 0)
+                {
+                    string name = @"无执行成功记录!";
+                    log.Error(name, logArgs);
+                    return ResultStatueCode.LogicError.To(name, 0);
+                }
                 return ResultStatueCode.OK.To("执行完成!", successCount);
             }
             catch (Exception ex)
             {
-                log.Error("保存某项异常", ex, logArgs);
+                string name = $"保存异常: {ex.Message}";
+                log.Error(name, ex, logArgs);
+                return ResultStatueCode.UnexpectedException.To(name, 0);
             }
         }
 
@@ -79,61 +87,26 @@ namespace YTS.IOFile.API.Controllers
         [HttpGet]
         public Result<IDictionary<string, object>> Read(string root, string keyExpression)
         {
-            var errNull = (IDictionary<string, object>)null;
-            root = root?.Trim();
-            if (!rootDirectories.ContainsKey(root))
+            var logArgs = log.CreateArgDictionary();
+            logArgs["root"] = root;
+            logArgs["kvPairs"] = keyExpression;
+            try
             {
-                return ResultStatueCode.ParameterError
-                    .To("未知的数据存储区", errNull);
-            }
-            keyExpression = keyExpression?.Trim();
-            if (string.IsNullOrEmpty(keyExpression))
-            {
-                return ResultStatueCode.ParameterError
-                    .To("键读取表达式为空", errNull);
-            }
-            root = root?.Trim();
-            if (!rootDirectories.ContainsKey(root))
-            {
-                return ResultStatueCode.ParameterError
-                    .To("未知的数据存储区", errNull);
-            }
-            string root_path = rootDirectories[root]?.Path?.Trim();
-            if (string.IsNullOrEmpty(root_path))
-            {
-                return ResultStatueCode.ParameterError
-                    .To("存储区地址配置为空, 请联系管理员", errNull);
-            }
-            IDictionary<string, string> keyAbsIOFilePath = pathRuleParsing.ToReadIOPath(root_path, keyExpression);
-            if (keyAbsIOFilePath == null || keyAbsIOFilePath.Count <= 0)
-            {
-                return ResultStatueCode.LogicError
-                    .To("无法理解传入的键读取表达式内容", errNull);
-            }
-            var logArgs = new Dictionary<string, object>()
-            {
-                { "root", root },
-                { "keyExpression", keyExpression },
-            };
-            IDictionary<string, object> result = new Dictionary<string, object>();
-            foreach (string key in keyAbsIOFilePath.Keys)
-            {
-                try
+                var result = db.Read(root, keyExpression);
+                if (result == null && result.Count <= 0)
                 {
-                    logArgs["key"] = key;
-                    string absIOFilePath = keyAbsIOFilePath[key];
-                    logArgs["absIOFilePath"] = absIOFilePath;
-                    string json = System.IO.File.ReadAllText(absIOFilePath, FILE_ENCODING);
-                    logArgs["json"] = json;
-                    result[key] = JsonConvert.DeserializeObject(json, serializerSettings);
-                    log.Info("读出", logArgs);
+                    string name = @"结果为空!";
+                    log.Error(name, logArgs);
+                    return ResultStatueCode.LogicError.To(name, result);
                 }
-                catch (Exception ex)
-                {
-                    log.Error("读取某项异常", ex, logArgs);
-                }
+                return ResultStatueCode.OK.To("执行完成!", result);
             }
-            return ResultStatueCode.OK.To("执行完成!", result);
+            catch (Exception ex)
+            {
+                string name = $"保存异常: {ex.Message}";
+                log.Error(name, ex, logArgs);
+                return ResultStatueCode.UnexpectedException.To(name, (IDictionary<string, object>)null);
+            }
         }
     }
 }
