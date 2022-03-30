@@ -23,6 +23,8 @@ namespace YTS.IOFile.API.Tools
         /// </summary>
         /// <param name="log">日志接口</param>
         /// <param name="storeConfigs">存储区配置项</param>
+        /// <param name="pathRuleParsing">接口: 路径规则解析</param>
+        /// <param name="fileIO">接口: 文件数据输入输出</param>
         public KeyValuePairsDb(IDictionary<string, StoreConfiguration> storeConfigs, ILog log, IPathRuleParsing pathRuleParsing, IDataFileIO<T> fileIO)
         {
             this.storeConfigs = storeConfigs;

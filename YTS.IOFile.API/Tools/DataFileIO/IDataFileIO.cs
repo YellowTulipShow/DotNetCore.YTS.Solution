@@ -1,7 +1,7 @@
 ﻿namespace YTS.IOFile.API.Tools.DataFileIO
 {
     /// <summary>
-    /// 接口: 数据转换
+    /// 接口: 文件数据输入输出
     /// </summary>
     /// <typeparam name="T">操作数据类型</typeparam>
     public interface IDataFileIO<T>
@@ -22,7 +22,7 @@
     }
 
     /// <summary>
-    /// 接口: Object数据转换
+    /// 接口: 文件(Object)数据输入输出
     /// </summary>
     public interface IDataFileIO : IDataFileIO<object>
     {
