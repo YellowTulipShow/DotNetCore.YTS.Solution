@@ -16,11 +16,10 @@ namespace CSharpLearn.Test.Async
             logs = new List<string>();
             Task<int> task = GetUrlContentLengthAsync();
             task.Wait();
-            int index = Task.WaitAny(task);
+            //int index = Task.WaitAny(task);
             //Task.WaitAll(task);
             int len = task.Result;
-            logs.Add(len.ToString());
-            Assert.Equal("GetStringAsync,Working...,1", string.Join(",", logs));
+            Assert.True(len > 1);
         }
 
         public async Task<int> GetUrlContentLengthAsync()

@@ -114,7 +114,7 @@ namespace YTS.IOFile.API.Test
                 Assert.IsTrue(readDict.ContainsKey(key));
                 object writeValue = writeDict[key];
                 object readValue = readDict[key];
-                Assert.AreEqual(writeValue, readValue);
+                Assert.AreEqual(writeValue.ToString(), readValue.ToString());
             }
         }
     }
