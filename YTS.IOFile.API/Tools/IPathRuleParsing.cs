@@ -5,7 +5,7 @@ namespace YTS.IOFile.API.Tools
     /// <summary>
     /// 接口: 路径规则解析
     /// </summary>
-    interface IPathRuleParsing
+    public interface IPathRuleParsing
     {
         /// <summary>
         /// 转为写入的路径地址

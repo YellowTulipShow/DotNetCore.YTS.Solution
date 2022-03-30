@@ -1,48 +1,38 @@
-﻿using System;
+﻿using System; 
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
+
+using Newtonsoft.Json;
 
 using YTS.Logic.Log;
-using Newtonsoft.Json;
-using YTS.IOFile.API.Tools.DataSupportIO;
-using System.Text;
 
 namespace YTS.IOFile.API.Tools
 {
     /// <summary>
-    /// 键值对自定义数据源
+    /// 键值对自定义数据源-泛型数据类型
     /// </summary>
-    public class KeyValuePairsDb
+    public class KeyValuePairsDb<T> : IKeyValuePairsDb<T>
     {
-        private static readonly Encoding FILE_ENCODING = Encoding.UTF8;
-
         private readonly IDictionary<string, StoreConfiguration> storeConfigs;
         private readonly ILog log;
         private readonly IPathRuleParsing pathRuleParsing;
-        private readonly JsonSerializerSettings serializerSettings;
+        private readonly IDataFileIO<T> fileIO;
 
         /// <summary>
         /// 实例化 - 键值对自定义数据源
         /// </summary>
         /// <param name="log">日志接口</param>
         /// <param name="storeConfigs">存储区配置项</param>
-        public KeyValuePairsDb(IDictionary<string, StoreConfiguration> storeConfigs, ILog log)
+        public KeyValuePairsDb(IDictionary<string, StoreConfiguration> storeConfigs, ILog log, IPathRuleParsing pathRuleParsing, IDataFileIO<T> fileIO)
         {
             this.storeConfigs = storeConfigs;
             this.log = log;
-
-            pathRuleParsing = new PathRuleParsingJSON(log);
-            serializerSettings = new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented,
-            };
+            this.pathRuleParsing = pathRuleParsing;
+            this.fileIO = fileIO;
         }
 
-        /// <summary>
-        /// 获取可操作存储区名单
-        /// </summary>
+        /// <inheritdoc />
         public IEnumerable<dynamic> GetOperableStores()
         {
             IList<dynamic> result = new List<dynamic>();
@@ -93,25 +83,8 @@ namespace YTS.IOFile.API.Tools
             return config;
         }
 
-        /// <summary>
-        /// 写入键值对数据
-        /// </summary>
-        /// <param name="root">数据区域</param>
-        /// <param name="kvPairs">存储键值对</param>
-        /// <returns>执行结果, 处理成功的记录条数</returns>
-        public int Write(string root, IDictionary<string, object> kvPairs)
-        {
-            return Write<object>(root, kvPairs);
-        }
-
-        /// <summary>
-        /// 写入键值对数据
-        /// </summary>
-        /// <typeparam name="T">写入的数据类型</typeparam>
-        /// <param name="root">数据区域</param>
-        /// <param name="kvPairs">存储键值对</param>
-        /// <returns>执行结果, 处理成功的记录条数</returns>
-        public int Write<T>(string root, IDictionary<string, T> kvPairs)
+        /// <inheritdoc />
+        public int Write(string root, IDictionary<string, T> kvPairs)
         {
             if (kvPairs == null || kvPairs.Count <= 0)
             {
@@ -133,8 +106,7 @@ namespace YTS.IOFile.API.Tools
                     logArgs["value"] = value;
                     string absIOFilePath = pathRuleParsing.ToWriteIOPath(config.SystemAbsolutePath, key);
                     logArgs["absIOFilePath"] = absIOFilePath;
-                    string json = JsonConvert.SerializeObject(value, serializerSettings);
-                    File.WriteAllText(absIOFilePath, json, FILE_ENCODING);
+                    fileIO.Write(absIOFilePath, value);
                     log.Info("写入", logArgs);
                     success_count++;
                 }
@@ -146,25 +118,8 @@ namespace YTS.IOFile.API.Tools
             return success_count;
         }
 
-        /// <summary>
-        /// 读取键值对数据
-        /// </summary>
-        /// <param name="root">数据区域</param>
-        /// <param name="keyExpression">键读取表达式</param>
-        /// <returns>匹配键读取表达式的键值对数据</returns>
-        public IDictionary<string, object> Read(string root, string keyExpression)
-        {
-            return Read<object>(root, keyExpression);
-        }
-
-        /// <summary>
-        /// 读取键值对数据
-        /// </summary>
-        /// <typeparam name="T">读取的数据类型</typeparam>
-        /// <param name="root">数据区域</param>
-        /// <param name="keyExpression">键读取表达式</param>
-        /// <returns>匹配键读取表达式的键值对数据</returns>
-        public IDictionary<string, T> Read<T>(string root, string keyExpression)
+        /// <inheritdoc />
+        public IDictionary<string, T> Read(string root, string keyExpression)
         {
             root = root?.Trim();
             keyExpression = keyExpression?.Trim();
@@ -192,9 +147,7 @@ namespace YTS.IOFile.API.Tools
                     logArgs["key"] = key;
                     string absIOFilePath = keyAbsIOFilePaths[key];
                     logArgs["absIOFilePath"] = absIOFilePath;
-                    string json = File.ReadAllText(absIOFilePath, FILE_ENCODING);
-                    logArgs["json"] = json;
-                    result[key] = JsonConvert.DeserializeObject<T>(json, serializerSettings);
+                    result[key] = fileIO.Read(absIOFilePath);
                     log.Info("读出", logArgs);
                 }
                 catch (Exception ex)
@@ -204,5 +157,15 @@ namespace YTS.IOFile.API.Tools
             }
             return result;
         }
+    }
+
+    /// <summary>
+    /// 键值对自定义数据源
+    /// </summary>
+    public class KeyValuePairsDb : KeyValuePairsDb<object>
+    {
+        /// <inheritdoc />
+        public KeyValuePairsDb(IDictionary<string, StoreConfiguration> storeConfigs, ILog log, IPathRuleParsing pathRuleParsing, IDataFileIO fileIO)
+            : base(storeConfigs, log, pathRuleParsing, fileIO) { }
     }
 }

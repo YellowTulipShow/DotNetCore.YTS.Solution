@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Text;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using Newtonsoft.Json;
-
 using YTS.Logic.Log;
 using YTS.IOFile.API.Tools;
-using YTS.IOFile.API.Tools.DataSupportIO;
 
 namespace YTS.IOFile.API.Controllers
 {
@@ -39,7 +33,9 @@ namespace YTS.IOFile.API.Controllers
             log = new APILogicGeneralLog<KeyValuePairsDbController>(_logger);
             var storeConfigs_Section = configuration.GetSection(CONFIG_KEY_NAME_STORE_CONFIGURATION);
             var storeConfigs = storeConfigs_Section.Get<Dictionary<string, StoreConfiguration>>();
-            db = new KeyValuePairsDb(storeConfigs, log);
+            IPathRuleParsing pathRuleParsing = new PathRuleParsingJSON(log);
+            IDataFileIO fileIO = new DataFileIOJSON();
+            db = new KeyValuePairsDb(storeConfigs, log, pathRuleParsing, fileIO);
         }
         /// <summary>
         /// 获取可操作数据区域根名单
