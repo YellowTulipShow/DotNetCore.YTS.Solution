@@ -20,7 +20,7 @@ namespace YTS.IOFile.API.Tools
 
         private readonly IDictionary<string, StoreConfiguration> storeConfigs;
         private readonly ILog log;
-        private readonly PathRuleParsing pathRuleParsing;
+        private readonly IPathRuleParsing pathRuleParsing;
         private readonly JsonSerializerSettings serializerSettings;
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace YTS.IOFile.API.Tools
             this.storeConfigs = storeConfigs;
             this.log = log;
 
-            pathRuleParsing = new PathRuleParsing(log);
+            pathRuleParsing = new PathRuleParsingJSON(log);
             serializerSettings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,

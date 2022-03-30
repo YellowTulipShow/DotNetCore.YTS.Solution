@@ -11,14 +11,19 @@ using YTS.Logic.Log;
 namespace YTS.IOFile.API.Tools
 {
     /// <summary>
-    /// 路径解析
+    /// 路径规则解析 - 保存为JSON文件格式
     /// </summary>
-    public class PathRuleParsing
+    public class PathRuleParsingJSON : IPathRuleParsing
     {
         /// <summary>
         /// 间隔内容
         /// </summary>
         private const string INTERVAL_PATH = @"_data";
+
+        /// <summary>
+        /// 文件扩展名称 .json
+        /// </summary>
+        private const string EXTENSION_NAME = @".json";
 
         private readonly ILog log;
 
@@ -26,23 +31,18 @@ namespace YTS.IOFile.API.Tools
         /// 实例化 - 路径解析
         /// </summary>
         /// <param name="log">执行日志</param>
-        public PathRuleParsing(ILog log)
+        public PathRuleParsingJSON(ILog log)
         {
             this.log = log;
         }
 
-        /// <summary>
-        /// 转为写入的路径地址
-        /// </summary>
-        /// <param name="root">根目录地址</param>
-        /// <param name="key">键</param>
-        /// <returns>绝对地址路径</returns>
+        /// <inheritdoc />
         public string ToWriteIOPath(string root, string key)
         {
             root = FilterHazardousContent(root);
             key = FilterHazardousContent(key);
             string absPath = ToAbsPath(root);
-            string keyPath = key.Replace(":", "/") + ".json";
+            string keyPath = key.Replace(":", "/") + EXTENSION_NAME;
             keyPath = Path.Combine(absPath, INTERVAL_PATH, keyPath);
             FileInfo file = new FileInfo(keyPath);
             if (!file.Exists)
@@ -55,18 +55,23 @@ namespace YTS.IOFile.API.Tools
             }
             return file.FullName;
         }
-        private string ToAbsPath(string root)
+        private string FilterHazardousContent(string content)
+        {
+            content = content?.Trim();
+            if (string.IsNullOrEmpty(content))
+                return content;
+            content = Regex.Replace(content, @"\.{2,}", "");
+            content = Regex.Replace(content, @"\/{2,}", "");
+            content = Regex.Replace(content, @"\\{2,}", "");
+            return content;
+        }
+        private string ToAbsPath(string rootPath)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
-            return Path.Combine(path, root);
+            return Path.Combine(path, rootPath);
         }
 
-        /// <summary>
-        /// 转为读取的路径地址队列
-        /// </summary>
-        /// <param name="root">根目录地址</param>
-        /// <param name="keyExpression">键匹配表达式</param>
-        /// <returns>绝对地址路径队列(键,地址)</returns>
+        /// <inheritdoc />
         public IDictionary<string, string> ToReadIOPath(string root, string keyExpression)
         {
             root = FilterHazardousContent(root);
@@ -96,56 +101,39 @@ namespace YTS.IOFile.API.Tools
 
             Regex catalogueRegex = ToCatalogueRegex(catalogue);
 
-            var subDires = dire.GetDirectories();
-            for (int i = 0; i < subDires.Length; i++)
+            // 最后一项才输出文件内容
+            if (catalogueIndex != catalogues.Length - 1)
             {
-                var subDire = subDires[i];
-                var subDireName = subDire.Name;
-                bool IsEqual;
-                if (catalogueRegex != null)
+                // 目录
+                var subDires = dire.GetDirectories();
+                for (int i = 0; i < subDires.Length; i++)
                 {
-                    // 使用正则判断是否符合条件
-                    IsEqual = catalogueRegex.Match(subDireName).Success;
-                }
-                else
-                {
-                    // 正常使用字符串判断
-                    IsEqual = subDireName.Equals(catalogue);
-                }
-                if (IsEqual)
-                {
-                    keys[catalogueIndex] = subDireName;
-                    SubDiresQuery(subDire, catalogues, catalogueIndex + 1, keys, saveKeyPathFunc);
+                    var subDire = subDires[i];
+                    var subDireName = subDire.Name;
+                    if (IsNameEqual(catalogue, catalogueRegex, subDireName))
+                    {
+                        keys[catalogueIndex] = subDireName;
+                        SubDiresQuery(subDire, catalogues, catalogueIndex + 1, keys, saveKeyPathFunc);
+                    }
                 }
             }
-
-            var subFiles = dire.GetFiles();
-            for (int i = 0; i < subFiles.Length; i++)
+            else
             {
-                var subFile = subFiles[i];
-                var subFileName = subFile.Name;
-                subFileName = Regex.Replace(subFileName, @"(\.[a-zA-Z]+)$", "",
-                    RegexOptions.ECMAScript | RegexOptions.IgnoreCase);
-                bool IsEqual;
-                if (catalogueRegex != null)
+                // 文件
+                var subFiles = dire.GetFiles();
+                for (int i = 0; i < subFiles.Length; i++)
                 {
-                    // 使用正则判断是否符合条件
-                    IsEqual = catalogueRegex.Match(subFileName).Success;
-                }
-                else
-                {
-                    // 正常使用字符串判断
-                    IsEqual = subFileName.Equals(catalogue);
-                }
-                if (IsEqual && catalogueIndex == catalogues.Length - 1)
-                {
-                    keys[catalogueIndex] = subFileName;
-                    // 增加一条记录
-                    saveKeyPathFunc(string.Join(":", keys), subFile.FullName);
+                    var subFile = subFiles[i];
+                    var subFileName = subFile.Name.Replace(EXTENSION_NAME, string.Empty);
+                    if (IsNameEqual(catalogue, catalogueRegex, subFileName))
+                    {
+                        keys[catalogueIndex] = subFileName;
+                        // 增加一条记录
+                        saveKeyPathFunc(string.Join(":", keys), subFile.FullName);
+                    }
                 }
             }
         }
-
         private Regex ToCatalogueRegex(string catalogue)
         {
             RegexOptions regexOptions = RegexOptions.ECMAScript;
@@ -160,19 +148,18 @@ namespace YTS.IOFile.API.Tools
             }
             return null;
         }
-
-
-        /// <summary>
-        /// 过滤危险内容
-        /// </summary>
-        private string FilterHazardousContent(string content) {
-            content = content?.Trim();
-            if (string.IsNullOrEmpty(content))
-                return content;
-            content = Regex.Replace(content, @"\.{2,}", "");
-            content = Regex.Replace(content, @"\/{2,}", "");
-            content = Regex.Replace(content, @"\\{2,}", "");
-            return content;
+        private bool IsNameEqual(string catalogue, Regex catalogueRegex, string subDireName)
+        {
+            if (catalogueRegex != null)
+            {
+                // 使用正则判断是否符合条件
+                return catalogueRegex.Match(subDireName).Success;
+            }
+            else
+            {
+                // 正常使用字符串判断
+                return subDireName.Equals(catalogue);
+            }
         }
     }
 }
