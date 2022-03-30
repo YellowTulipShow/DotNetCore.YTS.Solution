@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 using YTS.Logic.Log;
 
-namespace YTS.IOFile.API.Tools
+namespace YTS.IOFile.API.Tools.PathRuleParsing
 {
     /// <summary>
     /// 路径规则解析 - 保存为JSON文件格式
@@ -25,7 +25,7 @@ namespace YTS.IOFile.API.Tools
         private readonly ILog log;
 
         /// <summary>
-        /// 实例化 - 路径解析
+        /// 实例化 - 路径规则解析 - 保存为JSON文件格式
         /// </summary>
         /// <param name="log">执行日志</param>
         public PathRuleParsingJSON(ILog log)

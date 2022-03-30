@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 
 using Newtonsoft.Json;
 
-namespace YTS.IOFile.API.Tools
+namespace YTS.IOFile.API.Tools.DataFileIO
 {
     /// <summary>
     /// 数据文件IO - JSON类型实现 - 泛型类型

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace YTS.IOFile.API.Tools
+namespace YTS.IOFile.API.Tools.PathRuleParsing
 {
     /// <summary>
     /// 接口: 路径规则解析

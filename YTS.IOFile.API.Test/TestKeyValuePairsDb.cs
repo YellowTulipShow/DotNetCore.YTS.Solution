@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using YTS.IOFile.API.Tools;
+using YTS.IOFile.API.Tools.DataFileIO;
+using YTS.IOFile.API.Tools.PathRuleParsing;
 using YTS.Logic.Log;
 
 namespace YTS.IOFile.API.Test

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace YTS.IOFile.API.Tools
+﻿namespace YTS.IOFile.API.Tools.DataFileIO
 {
     /// <summary>
     /// 接口: 数据转换
