@@ -53,37 +53,6 @@ namespace YTS.IOFile.API.Tools
             return result;
         }
 
-        /// <summary>
-        /// 转为存储区配置
-        /// </summary>
-        /// <param name="rootName">存储区名称标识</param>
-        /// <returns>配置项 (结果为空会抛出异常)</returns>
-        /// <exception cref="ArgumentNullException">未知的存储区名称标识</exception>
-        /// <exception cref="NullReferenceException">存储区配置数据为空</exception>
-        /// <exception cref="DirectoryNotFoundException">系统绝对路径查找不到或者无权限访问</exception>
-        private StoreConfiguration ToStoreConfig(string rootName)
-        {
-            rootName = rootName?.Trim();
-            if (!storeConfigs.ContainsKey(rootName))
-            {
-                throw new ArgumentNullException("未知的存储区名称标识");
-            }
-            var config = storeConfigs[rootName];
-            if (config == null)
-            {
-                throw new NullReferenceException("存储区配置为空!");
-            }
-            if (string.IsNullOrEmpty(config.SystemAbsolutePath))
-            {
-                throw new NullReferenceException("存储区配置.系统绝对路径为空!");
-            }
-            if (!Directory.Exists(config.SystemAbsolutePath))
-            {
-                throw new DirectoryNotFoundException("存储区配置.系统绝对路径查找不到或者无权限访问!");
-            }
-            return config;
-        }
-
         /// <inheritdoc />
         public int Write(string root, IDictionary<string, T> kvPairs)
         {
@@ -96,7 +65,7 @@ namespace YTS.IOFile.API.Tools
                 { "root", root },
                 { "kvPairs.Count", kvPairs.Count },
             };
-            StoreConfiguration config = ToStoreConfig(root);
+            StoreConfiguration config = storeConfigs.ToStoreConfig(root);
             int success_count = 0;
             foreach (var key in kvPairs.Keys)
             {
@@ -133,7 +102,7 @@ namespace YTS.IOFile.API.Tools
             {
                 throw new ArgumentNullException("键读取表达式为空");
             }
-            StoreConfiguration config = ToStoreConfig(root);
+            StoreConfiguration config = storeConfigs.ToStoreConfig(root);
             string root_path = config.SystemAbsolutePath;
             var keyAbsIOFilePaths = pathRuleParsing.ToReadIOPath(root_path, keyExpression);
             if (keyAbsIOFilePaths == null || keyAbsIOFilePaths.Count <= 0)
