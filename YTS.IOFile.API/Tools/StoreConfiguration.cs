@@ -22,7 +22,7 @@
     }
 
     /// <summary>
-    /// 存储区配置数据模型 - Git类型存储库相关配置
+    /// 存储区配置数据模型 - Git
     /// </summary>
     public class StoreConfigurationGit
     {
@@ -32,8 +32,29 @@
         public bool IsEnable { get; set; }
 
         /// <summary>
+        /// 存储分支名称
+        /// </summary>
+        public string BranchName { get; set; } = "master";
+
+        /// <summary>
+        /// 远程仓库
+        /// </summary>
+        public StoreConfigurationGitRemoteWarehouse RemoteWarehouse { get; set; }
+    }
+
+    /// <summary>
+    /// 存储区配置数据模型 - Git - 远程仓库
+    /// </summary>
+    public class StoreConfigurationGitRemoteWarehouse
+    {
+        /// <summary>
+        /// 远程存储库标识名称
+        /// </summary>
+        public string OriginName { get; set; } = "origin";
+
+        /// <summary>
         /// 远程仓库地址
         /// </summary>
-        public string RemoteWarehouseAddress { get; set; }
+        public string Address { get; set; }
     }
 }
