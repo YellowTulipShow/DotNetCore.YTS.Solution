@@ -6,8 +6,10 @@ namespace InstanceApplet
     {
         static void Main(string[] args)
         {
-            //ProcessAsyncStreamSamples.OnExcute();
-            ProcessGitCommit.OnExcute();
+            // ProcessAsyncStreamSamples.OnExcute();
+            // ProcessGitCommit.OnExcute();
+            ProcessGitBashOpen.OnExcute();
+            ProcessGitBashOpen.OnExcute();
         }
     }
 }

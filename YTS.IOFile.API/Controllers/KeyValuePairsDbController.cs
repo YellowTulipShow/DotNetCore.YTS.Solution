@@ -139,8 +139,8 @@ namespace YTS.IOFile.API.Controllers
         /// <summary>
         /// 推送当前
         /// </summary>
-        /// <param name="root"></param>
-        /// <returns></returns>
+        /// <param name="root">数据区域</param>
+        /// <returns>响应输出文本内容</returns>
         [HttpGet]
         public Result<string> PushOrigin(string root)
         {
