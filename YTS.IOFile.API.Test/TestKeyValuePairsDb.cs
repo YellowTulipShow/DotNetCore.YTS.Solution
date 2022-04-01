@@ -7,6 +7,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using YTS.IOFile.API.Tools;
 using YTS.IOFile.API.Tools.DataFileIO;
 using YTS.IOFile.API.Tools.PathRuleParsing;
+
+using YTS.Git;
 using YTS.Logic.Log;
 
 namespace YTS.IOFile.API.Test
@@ -27,10 +29,9 @@ namespace YTS.IOFile.API.Test
                 {
                     SystemAbsolutePath = @"D:\Work\YTS.ZRQ\PlanNotes.YTSZRQ.StorageArea",
                     DescriptionRemarks = "¼Æ»®±Ê¼Ç",
-                    Git = new StoreConfigurationGit()
+                    Git = new Repository()
                     {
                         IsEnable = false,
-                        RemoteWarehouseAddress = "",
                     },
                 }
             };

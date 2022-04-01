@@ -34,12 +34,12 @@
         /// <summary>
         /// 远程仓库标识名称
         /// </summary>
-        public string OriginName { get; set; };
+        public string OriginName { get; set; }
 
         /// <summary>
         /// 远程分支名称
         /// </summary>
-        public string BranchName { get; set; };
+        public string BranchName { get; set; }
 
         /// <summary>
         /// 远程仓库地址
