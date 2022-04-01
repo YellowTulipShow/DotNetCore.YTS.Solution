@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Linq.Dynamic;
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +11,7 @@ using YTS.Logic.Log;
 using YTS.IOFile.API.Tools;
 using YTS.IOFile.API.Tools.PathRuleParsing;
 using YTS.IOFile.API.Tools.DataFileIO;
+using YTS.Git;
 
 namespace YTS.IOFile.API.Controllers
 {
@@ -23,7 +26,8 @@ namespace YTS.IOFile.API.Controllers
         public const string CONFIG_KEY_NAME_STORE_CONFIGURATION = "StoreConfiguration";
 
         private readonly ILog log;
-        private readonly KeyValuePairsDb db;
+        private readonly IDictionary<string, StoreConfiguration> storeConfigs;
+        private readonly IKeyValuePairsDb db;
 
         /// <summary>
         /// 初始化 - 键值对数据库存储接口
@@ -34,11 +38,12 @@ namespace YTS.IOFile.API.Controllers
         {
             log = new APILogicGeneralLog<KeyValuePairsDbController>(_logger);
             var storeConfigs_Section = configuration.GetSection(CONFIG_KEY_NAME_STORE_CONFIGURATION);
-            var storeConfigs = storeConfigs_Section.Get<IDictionary<string, StoreConfiguration>>();
+            storeConfigs = storeConfigs_Section.Get<IDictionary<string, StoreConfiguration>>();
             IPathRuleParsing pathRuleParsing = new PathRuleParsingJSON(log);
             IDataFileIO fileIO = new DataFileIOJSON();
             db = new KeyValuePairsDb(storeConfigs, log, pathRuleParsing, fileIO);
         }
+
         /// <summary>
         /// 获取可操作数据区域根名单
         /// </summary>
@@ -65,6 +70,13 @@ namespace YTS.IOFile.API.Controllers
                     string name = @"无执行成功记录!";
                     log.Error(name, logArgs);
                     return ResultStatueCode.LogicError.To(name, 0);
+                }
+                var storeConfig = storeConfigs.ToStoreConfig(root);
+                if (storeConfig.Git.IsEnable)
+                {
+                    IGit git = new GitHelper(storeConfig.Git);
+                    git.Add().OnCommand();
+                    git.Commit().OnCommand($"WebAPI保存写入数据");
                 }
                 return ResultStatueCode.OK.To("执行完成!", successCount);
             }
@@ -105,6 +117,41 @@ namespace YTS.IOFile.API.Controllers
                 log.Error(name, ex, logArgs);
                 return ResultStatueCode.UnexpectedException.To(name, (IDictionary<string, object>)null);
             }
+        }
+
+        /// <summary>
+        /// 拉取最新的线上仓库内容
+        /// </summary>
+        /// <param name="root">数据区域</param>
+        /// <returns>响应输出文本内容</returns>
+        [HttpGet]
+        public Result<string> PullLatestOrigin(string root)
+        {
+            var storeConfig = storeConfigs.ToStoreConfig(root);
+            if (storeConfig.Git.IsEnable)
+            {
+                IGit git = new GitHelper(storeConfig.Git);
+                var responseMsgs = git.Pull().OnCommand($"拉取数据合并");
+                return ResultStatueCode.OK.To("拉取数据执行完成", string.Join(Environment.NewLine, responseMsgs));
+            }
+            return ResultStatueCode.LogicError.To("存储区未开启Git仓库启用配置", string.Empty);
+        }
+        /// <summary>
+        /// 推送当前
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public Result<string> PushOrigin(string root)
+        {
+            var storeConfig = storeConfigs.ToStoreConfig(root);
+            if (storeConfig.Git.IsEnable)
+            {
+                IGit git = new GitHelper(storeConfig.Git);
+                var responseMsgs = git.Push().OnCommand();
+                return ResultStatueCode.OK.To("拉取数据执行完成", string.Join(Environment.NewLine, responseMsgs));
+            }
+            return ResultStatueCode.LogicError.To("存储区未开启Git仓库启用配置", string.Empty);
         }
     }
 }

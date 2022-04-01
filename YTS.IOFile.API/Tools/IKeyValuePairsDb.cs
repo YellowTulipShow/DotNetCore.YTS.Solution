@@ -29,4 +29,9 @@ namespace YTS.IOFile.API.Tools
         /// <returns>匹配键读取表达式的键值对数据</returns>
         IDictionary<string, T> Read(string root, string keyExpression);
     }
+
+    /// <inheritdoc />
+    public interface IKeyValuePairsDb : IKeyValuePairsDb<object>
+    {
+    }
 }

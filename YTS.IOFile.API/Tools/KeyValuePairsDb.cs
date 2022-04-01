@@ -132,7 +132,7 @@ namespace YTS.IOFile.API.Tools
     /// <summary>
     /// 键值对自定义数据源
     /// </summary>
-    public class KeyValuePairsDb : KeyValuePairsDb<object>
+    public class KeyValuePairsDb : KeyValuePairsDb<object>, IKeyValuePairsDb
     {
         /// <inheritdoc />
         public KeyValuePairsDb(IDictionary<string, StoreConfiguration> storeConfigs, ILog log, IPathRuleParsing pathRuleParsing, IDataFileIO fileIO)

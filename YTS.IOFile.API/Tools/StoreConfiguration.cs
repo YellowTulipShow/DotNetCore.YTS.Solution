@@ -1,4 +1,6 @@
-﻿namespace YTS.IOFile.API.Tools
+﻿using YTS.Git;
+
+namespace YTS.IOFile.API.Tools
 {
     /// <summary>
     /// 存储区配置数据模型
@@ -15,46 +17,24 @@
         /// </summary>
         public string DescriptionRemarks { get; set; }
 
+        private Repository _git;
         /// <summary>
         /// 是否使用Git保存数据
         /// </summary>
-        public StoreConfigurationGit Git { get; set; }
-    }
-
-    /// <summary>
-    /// 存储区配置数据模型 - Git
-    /// </summary>
-    public class StoreConfigurationGit
-    {
-        /// <summary>
-        /// 是否启用
-        /// </summary>
-        public bool IsEnable { get; set; }
-
-        /// <summary>
-        /// 存储分支名称
-        /// </summary>
-        public string BranchName { get; set; } = "master";
-
-        /// <summary>
-        /// 远程仓库
-        /// </summary>
-        public StoreConfigurationGitRemoteWarehouse RemoteWarehouse { get; set; }
-    }
-
-    /// <summary>
-    /// 存储区配置数据模型 - Git - 远程仓库
-    /// </summary>
-    public class StoreConfigurationGitRemoteWarehouse
-    {
-        /// <summary>
-        /// 远程存储库标识名称
-        /// </summary>
-        public string OriginName { get; set; } = "origin";
-
-        /// <summary>
-        /// 远程仓库地址
-        /// </summary>
-        public string Address { get; set; }
+        public Repository Git
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_git.SystemPath))
+                {
+                    _git.SystemPath = SystemAbsolutePath?.Trim();
+                }
+                return _git;
+            }
+            set
+            {
+                _git = value;
+            }
+        }
     }
 }
