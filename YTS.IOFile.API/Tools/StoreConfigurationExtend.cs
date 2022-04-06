@@ -40,5 +40,25 @@ namespace YTS.IOFile.API.Tools
             }
             return config;
         }
+
+        /// <summary>
+        /// 转为展示数据
+        /// </summary>
+        /// <param name="storeConfigs">存储区配置</param>
+        /// <returns>数据结果</returns>
+        public static IList<OperableStoreShow> ToOperableStoreShows(this IDictionary<string, StoreConfiguration> storeConfigs)
+        {
+            IList<OperableStoreShow> result = new List<OperableStoreShow>();
+            foreach (string rootName in storeConfigs.Keys)
+            {
+                var config = storeConfigs[rootName];
+                result.Add(new OperableStoreShow
+                {
+                    Name = rootName,
+                    DescriptionRemarks = config.DescriptionRemarks,
+                });
+            }
+            return result;
+        }
     }
 }

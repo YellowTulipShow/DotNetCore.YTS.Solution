@@ -11,7 +11,7 @@ namespace YTS.IOFile.API.Tools
         /// <summary>
         /// 获取可操作存储区名单
         /// </summary>
-        IEnumerable<dynamic> GetOperableStores();
+        IEnumerable<OperableStoreShow> GetOperableStores();
 
         /// <summary>
         /// 写入键值对数据

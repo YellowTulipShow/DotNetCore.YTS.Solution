@@ -34,19 +34,9 @@ namespace YTS.IOFile.API.Tools
         }
 
         /// <inheritdoc />
-        public IEnumerable<dynamic> GetOperableStores()
+        public IEnumerable<OperableStoreShow> GetOperableStores()
         {
-            IList<dynamic> result = new List<dynamic>();
-            foreach (string rootName in storeConfigs.Keys)
-            {
-                var config = storeConfigs[rootName];
-                result.Add(new
-                {
-                    Name = rootName,
-                    config.DescriptionRemarks,
-                });
-            }
-
+            var result = storeConfigs.ToOperableStoreShows();
             var logArgs = log.CreateArgDictionary();
             logArgs["list"] = result;
             log.Info("获取可操作存储区名单!", logArgs);
