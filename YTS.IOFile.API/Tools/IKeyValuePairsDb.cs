@@ -25,7 +25,7 @@ namespace YTS.IOFile.API.Tools
         /// 读取键值对数据
         /// </summary>
         /// <param name="root">数据区域</param>
-        /// <param name="keyExpression">键读取表达式</param>
+        /// <param name="keyExpression">键读取表达式 (正则表达式)</param>
         /// <returns>匹配键读取表达式的键值对数据</returns>
         IDictionary<string, T> Read(string root, string keyExpression);
     }
