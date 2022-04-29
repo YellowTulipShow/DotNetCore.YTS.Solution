@@ -89,6 +89,10 @@ namespace YTS.IOFile.API.Tools.PathRuleParsing
         }
         private void SubDiresQuery(DirectoryInfo dire, string[] catalogues, int catalogueIndex, string[] keys, Action<string, string> saveKeyPathFunc)
         {
+            if (!dire.Exists)
+            {
+                dire.Create();
+            }
             if (catalogueIndex >= catalogues.Length)
             {
                 return;

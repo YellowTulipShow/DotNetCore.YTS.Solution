@@ -16,6 +16,8 @@ namespace YTS.IOFile.API.Test
     [TestClass]
     public class TestKeyValuePairsDb
     {
+        private const string root = "PlanNotes.YTSZRQ";
+
         private IDictionary<string, StoreConfiguration> storeConfigs;
         private ILog log;
 
@@ -25,7 +27,7 @@ namespace YTS.IOFile.API.Test
             log = new FilePrintLog($"./logs/TestKeyValuePairsDb/{DateTime.Now:yyyy_MM_dd}.log", Encoding.UTF8);
             storeConfigs = new Dictionary<string, StoreConfiguration>
             {
-                ["PlanNotes.YTSZRQ"] = new StoreConfiguration()
+                [root] = new StoreConfiguration()
                 {
                     SystemAbsolutePath = @"D:\Work\YTS.ZRQ\PlanNotes.YTSZRQ.StorageArea",
                     DescriptionRemarks = "计划笔记",
@@ -49,7 +51,6 @@ namespace YTS.IOFile.API.Test
         [TestMethod]
         public void TestWrite()
         {
-            string root = "PlanNotes.YTSZRQ";
             IPathRuleParsing pathRuleParsing = new PathRuleParsingJSON(log);
             IDataFileIO<Model> fileIO = new DataFileIOJSON<Model>();
             KeyValuePairsDb<Model> db = new KeyValuePairsDb<Model>(storeConfigs, log, pathRuleParsing, fileIO);
@@ -66,7 +67,6 @@ namespace YTS.IOFile.API.Test
         [TestMethod]
         public void TestRead()
         {
-            string root = "PlanNotes.YTSZRQ";
             IDictionary<string, Model> rdict;
             string name;
             IPathRuleParsing pathRuleParsing = new PathRuleParsingJSON(log);
@@ -102,7 +102,6 @@ namespace YTS.IOFile.API.Test
         [TestMethod]
         public void TestNumberTypeWriteRead()
         {
-            string root = "PlanNotes.YTSZRQ";
             IPathRuleParsing pathRuleParsing = new PathRuleParsingJSON(log);
             IDataFileIO fileIO = new DataFileIOJSON();
             KeyValuePairsDb db = new KeyValuePairsDb(storeConfigs, log, pathRuleParsing, fileIO);
@@ -128,6 +127,34 @@ namespace YTS.IOFile.API.Test
                 object readValue = readDict[key];
                 Assert.AreEqual(writeValue.ToString(), readValue.ToString());
             }
+        }
+
+        [TestMethod]
+        public void TestWebUse()
+        {
+            IPathRuleParsing pathRuleParsing = new PathRuleParsingJSON(log);
+            IDataFileIO fileIO = new DataFileIOJSON();
+            KeyValuePairsDb db = new KeyValuePairsDb(storeConfigs, log, pathRuleParsing, fileIO);
+
+            var dict = new Dictionary<string, object>()
+            {
+                { "plan:list", new string[] { } },
+                { "plan:normal:7a9d5f99-ea9c-4afc-93a2-94f492aac49c", new
+                {
+                    AddTime = "Fri Apr 29 2022 15:56:00 GMT+0800 (中国标准时间)",
+                    DescribeRemark = "11",
+                    Id = "plan:normal:7a9d5f99-ea9c-4afc-93a2-94f492aac49c",
+                    ImportanceLevel = "10",
+                    NeedComplateCount = "1",
+                    Title = "111",
+                }},
+            };
+            var write_result = db.Write(root, dict);
+            Assert.AreEqual(2, write_result);
+
+            var read_result = db.Read(root, "plan:list");
+            Assert.IsNotNull(read_result);
+            Assert.IsTrue(read_result.Count > 0);
         }
     }
 }

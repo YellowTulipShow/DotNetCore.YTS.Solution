@@ -27,6 +27,8 @@ namespace YTS.IOFile.API.Tools.DataFileIO
         /// <inheritdoc />
         public T Read(string fileAbsPath)
         {
+            if (!File.Exists(fileAbsPath))
+                return default;
             string json = File.ReadAllText(fileAbsPath, FILE_ENCODING);
             return JsonConvert.DeserializeObject<T>(json, serializerSettings);
         }
