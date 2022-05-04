@@ -10,7 +10,7 @@ namespace YTS.IOFile.API.Tools.PathRuleParsing
     /// <summary>
     /// 路径规则解析 - 保存为JSON文件格式
     /// </summary>
-    public class PathRuleParsingJSON : IPathRuleParsing
+    public class PathRuleParsingJSON : IPathRuleParsingRootConfig
     {
         /// <summary>
         /// 间隔内容
@@ -160,6 +160,99 @@ namespace YTS.IOFile.API.Tools.PathRuleParsing
             {
                 // 正常使用字符串判断
                 return subDireName.Equals(catalogue);
+            }
+        }
+
+
+        private string Root { get; set; }
+        /// <inheritdoc />
+        public void SetRoot(string root)
+        {
+            Root = FilterHazardousContent(root);
+        }
+
+        /// <inheritdoc />
+        public PathResolutionResult ToWrite(string keyExpression)
+        {
+            keyExpression = FilterHazardousContent(keyExpression);
+            string absPath = ToAbsPath(Root);
+            string keyPath = keyExpression.Replace(":", "/") + EXTENSION_NAME;
+            keyPath = Path.Combine(absPath, INTERVAL_PATH, keyPath);
+            FileInfo file = new FileInfo(keyPath);
+            if (!file.Exists)
+            {
+                var dire = file.Directory;
+                if (!dire.Exists)
+                {
+                    dire.Create();
+                }
+            }
+            return new PathResolutionResult()
+            {
+                Key = keyExpression,
+                AbsolutePathAddress = file.FullName,
+            };
+        }
+
+        /// <inheritdoc />
+        public IEnumerable<PathResolutionResult> ToRead(string keyExpression)
+        {
+            keyExpression = FilterHazardousContent(keyExpression);
+            string absPath = ToAbsPath(Root);
+            absPath = Path.Combine(absPath, INTERVAL_PATH);
+            DirectoryInfo rootDire = new DirectoryInfo(absPath);
+            if (!rootDire.Exists)
+            {
+                rootDire.Create();
+                return null;
+            }
+            IList<PathResolutionResult> rlist = new List<PathResolutionResult>();
+            // 每一层进行检查
+            string[] regions = keyExpression.Split(':', StringSplitOptions.RemoveEmptyEntries);
+            string[] keys = new string[regions.Length];
+            Regex is_like_query = new Regex(@"^/(\.+)/(i?)$", RegexOptions.ECMAScript);
+            for (int index_regions = 0; index_regions < regions.Length; index_regions++)
+            {
+                string region = regions[index_regions];
+                Match like_query_match = is_like_query.Match(region);
+                // 判断是否是模糊查询
+                if (!like_query_match.Success)
+                {
+                    keys[index_regions] = region;
+                    // 不是模糊查询
+                    if (index_regions != regions.Length - 1)
+                    {
+                        // 不是最后一项
+                        continue;
+                    }
+                    // 是最后一项判断文件
+                    string merge_key = string.Join('/', keys);
+                    string relative_path = $"{merge_key}{EXTENSION_NAME}";
+                    string file_path = Path.Combine(rootDire.FullName, relative_path);
+                    if (File.Exists(file_path))
+                    {
+                        rlist.Add(new PathResolutionResult()
+                        {
+                            Key = keyExpression,
+                            AbsolutePathAddress = file_path,
+                        });
+                    }
+                }
+                else
+                {
+
+                    string[] ww = regions[0..^3];
+                    Regex re_name = ToCatalogueRegex(region);
+                    var subDires = rootDire.GetDirectories();
+                    for (int i = 0; i < subDires.Length; i++)
+                    {
+                        var subDire = subDires[i];
+                        var subDireName = subDire.Name;
+                        if (re_name.IsMatch(subDireName))
+                        {
+                        }
+                    }
+                }
             }
         }
     }

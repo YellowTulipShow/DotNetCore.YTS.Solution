@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Linq.Dynamic;
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +37,7 @@ namespace YTS.IOFile.API.Controllers
             log = new APILogicGeneralLog<KeyValuePairsDbController>(_logger);
             var storeConfigs_Section = configuration.GetSection(CONFIG_KEY_NAME_STORE_CONFIGURATION);
             storeConfigs = storeConfigs_Section.Get<IDictionary<string, StoreConfiguration>>();
-            IPathRuleParsing pathRuleParsing = new PathRuleParsingJSON(log);
+            IPathRuleParsingRootConfig pathRuleParsing = new PathRuleParsingJSON(log);
             IDataFileIO fileIO = new DataFileIOJSON();
             db = new KeyValuePairsDb(storeConfigs, log, pathRuleParsing, fileIO);
         }

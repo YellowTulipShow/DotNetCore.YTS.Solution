@@ -10,17 +10,43 @@ namespace YTS.IOFile.API.Tools.PathRuleParsing
         /// <summary>
         /// 转为写入的路径地址
         /// </summary>
-        /// <param name="root">根目录地址</param>
-        /// <param name="key">键</param>
+        /// <param name="keyExpression">键匹配表达式</param>
         /// <returns>绝对地址路径</returns>
-        string ToWriteIOPath(string root, string key);
+        PathResolutionResult ToWrite(string keyExpression);
 
         /// <summary>
         /// 转为读取的路径地址队列
         /// </summary>
-        /// <param name="root">根目录地址</param>
         /// <param name="keyExpression">键匹配表达式</param>
         /// <returns>绝对地址路径队列(键,地址)</returns>
-        IDictionary<string, string> ToReadIOPath(string root, string keyExpression);
+        IEnumerable<PathResolutionResult> ToRead(string keyExpression);
+    }
+
+    /// <summary>
+    /// 接口: 路径规则解析需配置根项
+    /// </summary>
+    public interface IPathRuleParsingRootConfig : IPathRuleParsing
+    {
+        /// <summary>
+        /// 需配置的根项
+        /// </summary>
+        /// <param name="root">根结点</param>
+        void SetRoot(string root);
+    }
+
+    /// <summary>
+    /// 路径解析结果
+    /// </summary>
+    public sealed class PathResolutionResult
+    {
+        /// <summary>
+        /// 键标识内容
+        /// </summary>
+        public string Key { get; set; }
+
+        /// <summary>
+        /// 绝对路径地址
+        /// </summary>
+        public string AbsolutePathAddress { get; set; }
     }
 }

@@ -51,7 +51,7 @@ namespace YTS.IOFile.API.Test
         [TestMethod]
         public void TestWrite()
         {
-            IPathRuleParsing pathRuleParsing = new PathRuleParsingJSON(log);
+            IPathRuleParsingRootConfig pathRuleParsing = new PathRuleParsingJSON(log);
             IDataFileIO<Model> fileIO = new DataFileIOJSON<Model>();
             KeyValuePairsDb<Model> db = new KeyValuePairsDb<Model>(storeConfigs, log, pathRuleParsing, fileIO);
             int successCount = db.Write(root, new Dictionary<string, Model>()
@@ -69,7 +69,7 @@ namespace YTS.IOFile.API.Test
         {
             IDictionary<string, Model> rdict;
             string name;
-            IPathRuleParsing pathRuleParsing = new PathRuleParsingJSON(log);
+            IPathRuleParsingRootConfig pathRuleParsing = new PathRuleParsingJSON(log);
             IDataFileIO<Model> fileIO = new DataFileIOJSON<Model>();
             KeyValuePairsDb<Model> db = new KeyValuePairsDb<Model>(storeConfigs, log, pathRuleParsing, fileIO);
 
@@ -102,7 +102,7 @@ namespace YTS.IOFile.API.Test
         [TestMethod]
         public void TestNumberTypeWriteRead()
         {
-            IPathRuleParsing pathRuleParsing = new PathRuleParsingJSON(log);
+            IPathRuleParsingRootConfig pathRuleParsing = new PathRuleParsingJSON(log);
             IDataFileIO fileIO = new DataFileIOJSON();
             KeyValuePairsDb db = new KeyValuePairsDb(storeConfigs, log, pathRuleParsing, fileIO);
 
@@ -132,13 +132,17 @@ namespace YTS.IOFile.API.Test
         [TestMethod]
         public void TestWebUse()
         {
-            IPathRuleParsing pathRuleParsing = new PathRuleParsingJSON(log);
+            IPathRuleParsingRootConfig pathRuleParsing = new PathRuleParsingJSON(log);
             IDataFileIO fileIO = new DataFileIOJSON();
             KeyValuePairsDb db = new KeyValuePairsDb(storeConfigs, log, pathRuleParsing, fileIO);
 
+            var plan_list = db.Read(root, "plan:list");
+            Assert.IsNotNull(plan_list);
+            Assert.IsTrue(plan_list.Count == 0);
+
             var dict = new Dictionary<string, object>()
             {
-                { "plan:list", new string[] { } },
+                { "plan:list", new string[] { "7a9d5f99-ea9c-4afc-93a2-94f492aac49c" } },
                 { "plan:normal:7a9d5f99-ea9c-4afc-93a2-94f492aac49c", new
                 {
                     AddTime = "Fri Apr 29 2022 15:56:00 GMT+0800 (中国标准时间)",

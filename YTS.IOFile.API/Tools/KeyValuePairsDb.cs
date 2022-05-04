@@ -15,7 +15,7 @@ namespace YTS.IOFile.API.Tools
     {
         private readonly IDictionary<string, StoreConfiguration> storeConfigs;
         private readonly ILog log;
-        private readonly IPathRuleParsing pathRuleParsing;
+        private readonly IPathRuleParsingRootConfig pathRuleParsing;
         private readonly IDataFileIO<T> fileIO;
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace YTS.IOFile.API.Tools
         /// <param name="storeConfigs">存储区配置项</param>
         /// <param name="pathRuleParsing">接口: 路径规则解析</param>
         /// <param name="fileIO">接口: 文件数据输入输出</param>
-        public KeyValuePairsDb(IDictionary<string, StoreConfiguration> storeConfigs, ILog log, IPathRuleParsing pathRuleParsing, IDataFileIO<T> fileIO)
+        public KeyValuePairsDb(IDictionary<string, StoreConfiguration> storeConfigs, ILog log, IPathRuleParsingRootConfig pathRuleParsing, IDataFileIO<T> fileIO)
         {
             this.storeConfigs = storeConfigs;
             this.log = log;
@@ -125,7 +125,7 @@ namespace YTS.IOFile.API.Tools
     public class KeyValuePairsDb : KeyValuePairsDb<object>, IKeyValuePairsDb
     {
         /// <inheritdoc />
-        public KeyValuePairsDb(IDictionary<string, StoreConfiguration> storeConfigs, ILog log, IPathRuleParsing pathRuleParsing, IDataFileIO fileIO)
+        public KeyValuePairsDb(IDictionary<string, StoreConfiguration> storeConfigs, ILog log, IPathRuleParsingRootConfig pathRuleParsing, IDataFileIO fileIO)
             : base(storeConfigs, log, pathRuleParsing, fileIO) { }
     }
 }
