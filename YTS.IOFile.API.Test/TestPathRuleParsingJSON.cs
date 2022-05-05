@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -34,16 +35,15 @@ namespace YTS.IOFile.API.Test
         [TestMethod]
         public void TestToWriteIOPath()
         {
-            string result;
-            result = ruleParsing.ToWriteIOPath(@"C:\Work\Dir", @"plan:list");
-            Assert.AreEqual(@"C:\Work\Dir\plan\list.json", result);
-            result = ruleParsing.ToWriteIOPath(@"C:\Work\Dir\", @"plan:list");
-            Assert.AreEqual(@"C:\Work\Dir\plan\list.json", result);
+            PathResolutionResult result;
+            ruleParsing.SetRoot(@"C:\_code_test\dire");
 
-            result = ruleParsing.ToWriteIOPath(@"/bin/Work/Dir", @"plan:list");
-            Assert.AreEqual(@"/bin/Work/Dir/plan/list.json", result);
-            result = ruleParsing.ToWriteIOPath(@"/bin/Work/Dir/", @"plan:list");
-            Assert.AreEqual(@"/bin/Work/Dir/plan/list.json", result);
+            result = ruleParsing.ToWrite(@"plan:list");
+            Assert.AreEqual(@"C:\_code_test\dire\plan\list.json", result.AbsolutePathAddress);
+
+            ruleParsing.SetRoot(@"C:\_code_test\dire\");
+            result = ruleParsing.ToWrite(@"plan:list");
+            Assert.AreEqual(@"C:\_code_test\dire\plan\list.json", result.AbsolutePathAddress);
         }
 
         [TestMethod]

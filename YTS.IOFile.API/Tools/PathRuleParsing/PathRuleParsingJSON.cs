@@ -125,42 +125,71 @@ namespace YTS.IOFile.API.Tools.PathRuleParsing
         /// <inheritdoc />
         public PathResolutionResult ToWrite(string keyExpression)
         {
-            keyExpression = FilterHazardousContent(keyExpression);
-            string absPath = ToAbsPath(Root);
-            string keyPath = keyExpression.Replace(KEY_EXPRESSION_JOIN_CHAR, '/') + EXTENSION_NAME;
-            keyPath = Path.Combine(absPath, INTERVAL_PATH, keyPath);
-            FileInfo file = new FileInfo(keyPath);
-            if (!file.Exists)
+            var logArgs = log.CreateArgDictionary();
+            logArgs[@"source.keyExpression"] = keyExpression;
+            try
             {
-                var dire = file.Directory;
-                if (!dire.Exists)
+                keyExpression = FilterHazardousContent(keyExpression);
+                logArgs[@"filter.keyExpression"] = keyExpression;
+                string absPath = ToAbsPath(Root);
+                logArgs[@"absPath"] = absPath;
+                string key_path = keyExpression.Replace(KEY_EXPRESSION_JOIN_CHAR, '/') + EXTENSION_NAME;
+                logArgs[@"key_path"] = key_path;
+                string key_file_path = Path.Combine(absPath, INTERVAL_PATH, key_path);
+                logArgs[@"key_file_path"] = key_file_path;
+                FileInfo file = new FileInfo(key_path);
+                if (!file.Exists)
                 {
-                    dire.Create();
+                    var dire = file.Directory;
+                    if (!dire.Exists)
+                    {
+                        logArgs[@"!dire.Exists"] = dire.FullName;
+                        dire.Create();
+                    }
                 }
+                return new PathResolutionResult()
+                {
+                    Key = keyExpression,
+                    AbsolutePathAddress = file.FullName,
+                };
             }
-            return new PathResolutionResult()
+            catch (Exception ex)
             {
-                Key = keyExpression,
-                AbsolutePathAddress = file.FullName,
-            };
+                log.Error(@"写入键解析操作", ex, logArgs);
+                throw ex;
+            }
         }
 
         /// <inheritdoc />
         public IEnumerable<PathResolutionResult> ToRead(string keyExpression)
         {
-            keyExpression = FilterHazardousContent(keyExpression);
-            string absPath = ToAbsPath(Root);
-            absPath = Path.Combine(absPath, INTERVAL_PATH);
-            DirectoryInfo rootDire = new DirectoryInfo(absPath);
-            if (!rootDire.Exists)
+            var logArgs = log.CreateArgDictionary();
+            logArgs[@"source.keyExpression"] = keyExpression;
+            try
             {
-                rootDire.Create();
-                return null;
+                keyExpression = FilterHazardousContent(keyExpression);
+                logArgs[@"filter.keyExpression"] = keyExpression;
+                string absPath = ToAbsPath(Root);
+                logArgs[@"absPath"] = absPath;
+                string dire_path = Path.Combine(absPath, INTERVAL_PATH);
+                logArgs[@"dire_path"] = dire_path;
+                DirectoryInfo rootDire = new DirectoryInfo(dire_path);
+                if (!rootDire.Exists)
+                {
+                    logArgs[@"dire.create"] = rootDire.FullName;
+                    rootDire.Create();
+                    return null;
+                }
+                // 每一层进行检查
+                string[] keys = SplitKeyExpression(keyExpression);
+                string[] keys_modify = keys[0..^1];
+                return ReadAnalysis(rootDire, keys, keys_modify);
             }
-            // 每一层进行检查
-            string[] keys = SplitKeyExpression(keyExpression);
-            string[] keys_modify = keys[0..^1];
-            return ReadAnalysis(rootDire, keys, keys_modify);
+            catch (Exception ex)
+            {
+                log.Error(@"读取键解析操作", ex, logArgs);
+                throw ex;
+            }
         }
         private string[] SplitKeyExpression(string keyExpression)
         {
