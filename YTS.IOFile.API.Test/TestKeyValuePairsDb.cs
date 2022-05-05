@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -29,7 +30,7 @@ namespace YTS.IOFile.API.Test
             {
                 [root] = new StoreConfiguration()
                 {
-                    SystemAbsolutePath = @"D:\Work\YTS.ZRQ\PlanNotes.YTSZRQ.StorageArea",
+                    SystemAbsolutePath = @"C:\_code_test",
                     DescriptionRemarks = "计划笔记",
                     Git = new Repository()
                     {
@@ -37,11 +38,25 @@ namespace YTS.IOFile.API.Test
                     },
                 }
             };
+            foreach (var key in storeConfigs.Keys)
+            {
+                string root_dire = storeConfigs[key].SystemAbsolutePath;
+                if (Directory.Exists(root_dire))
+                {
+                    Directory.Delete(root_dire, true);
+                }
+                Directory.CreateDirectory(root_dire);
+            }
         }
 
         [TestCleanup]
         public void Clean()
         {
+            foreach (var key in storeConfigs.Keys)
+            {
+                string root_dire = storeConfigs[key].SystemAbsolutePath;
+                Directory.Delete(root_dire, true);
+            }
         }
 
         private class Model
@@ -49,11 +64,17 @@ namespace YTS.IOFile.API.Test
             public string Name { get; set; }
         }
         [TestMethod]
-        public void TestWrite()
+        public void Test_ReadAndWrite()
         {
+            IDictionary<string, Model> rdict;
+            string name;
             IPathRuleParsingRootConfig pathRuleParsing = new PathRuleParsingJSON(log);
             IDataFileIO<Model> fileIO = new DataFileIOJSON<Model>();
-            KeyValuePairsDb<Model> db = new KeyValuePairsDb<Model>(storeConfigs, log, pathRuleParsing, fileIO);
+            IKeyValuePairsDb<Model> db = new KeyValuePairsDb<Model>(storeConfigs, log, pathRuleParsing, fileIO);
+
+            rdict = db.Read(root, "person:中国:张三");
+            Assert.AreEqual(null, rdict);
+
             int successCount = db.Write(root, new Dictionary<string, Model>()
             {
                 ["person:中国:张三"] = new Model { Name = "张三" },
@@ -63,15 +84,6 @@ namespace YTS.IOFile.API.Test
                 ["person:德国:赵六"] = new Model { Name = "赵六" },
             });
             Assert.AreEqual(5, successCount);
-        }
-        [TestMethod]
-        public void TestRead()
-        {
-            IDictionary<string, Model> rdict;
-            string name;
-            IPathRuleParsingRootConfig pathRuleParsing = new PathRuleParsingJSON(log);
-            IDataFileIO<Model> fileIO = new DataFileIOJSON<Model>();
-            KeyValuePairsDb<Model> db = new KeyValuePairsDb<Model>(storeConfigs, log, pathRuleParsing, fileIO);
 
             rdict = db.Read(root, "person:中国:张三");
             Assert.AreEqual(1, rdict.Count);
@@ -104,7 +116,7 @@ namespace YTS.IOFile.API.Test
         {
             IPathRuleParsingRootConfig pathRuleParsing = new PathRuleParsingJSON(log);
             IDataFileIO fileIO = new DataFileIOJSON();
-            KeyValuePairsDb db = new KeyValuePairsDb(storeConfigs, log, pathRuleParsing, fileIO);
+            IKeyValuePairsDb db = new KeyValuePairsDb(storeConfigs, log, pathRuleParsing, fileIO);
 
             var writeDict = new Dictionary<string, object>()
             {
@@ -127,38 +139,6 @@ namespace YTS.IOFile.API.Test
                 object readValue = readDict[key];
                 Assert.AreEqual(writeValue.ToString(), readValue.ToString());
             }
-        }
-
-        [TestMethod]
-        public void TestWebUse()
-        {
-            IPathRuleParsingRootConfig pathRuleParsing = new PathRuleParsingJSON(log);
-            IDataFileIO fileIO = new DataFileIOJSON();
-            KeyValuePairsDb db = new KeyValuePairsDb(storeConfigs, log, pathRuleParsing, fileIO);
-
-            var plan_list = db.Read(root, "plan:list");
-            Assert.IsNotNull(plan_list);
-            Assert.IsTrue(plan_list.Count == 0);
-
-            var dict = new Dictionary<string, object>()
-            {
-                { "plan:list", new string[] { "7a9d5f99-ea9c-4afc-93a2-94f492aac49c" } },
-                { "plan:normal:7a9d5f99-ea9c-4afc-93a2-94f492aac49c", new
-                {
-                    AddTime = "Fri Apr 29 2022 15:56:00 GMT+0800 (中国标准时间)",
-                    DescribeRemark = "11",
-                    Id = "plan:normal:7a9d5f99-ea9c-4afc-93a2-94f492aac49c",
-                    ImportanceLevel = "10",
-                    NeedComplateCount = "1",
-                    Title = "111",
-                }},
-            };
-            var write_result = db.Write(root, dict);
-            Assert.AreEqual(2, write_result);
-
-            var read_result = db.Read(root, "plan:list");
-            Assert.IsNotNull(read_result);
-            Assert.IsTrue(read_result.Count > 0);
         }
     }
 }

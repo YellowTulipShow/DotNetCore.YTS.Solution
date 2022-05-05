@@ -15,6 +15,8 @@ namespace YTS.IOFile.API.Test
     [TestClass]
     public class TestPathRuleParsingJSON
     {
+        public const string root_dire = @"C:\_code_test";
+
         private ILog log;
         private IPathRuleParsingRootConfig ruleParsing;
 
@@ -23,34 +25,32 @@ namespace YTS.IOFile.API.Test
         {
             log = new FilePrintLog($"./logs/TestPathRuleParsingJSON/{DateTime.Now:yyyy_MM_dd}.log", Encoding.UTF8);
             ruleParsing = new PathRuleParsingJSON(log);
-        }
 
-        [TestCleanup]
-        public void Clean()
-        {
-        }
-
-        [TestMethod]
-        public void Test_ToWrite()
-        {
-            const string root_dire = @"C:\_code_test";
             // 清理测试环境
             if (Directory.Exists(root_dire))
             {
                 Directory.Delete(root_dire, true);
             }
+        }
+
+        [TestCleanup]
+        public void Clean()
+        {
+            Directory.Delete(root_dire, true);
+        }
+
+        [TestMethod]
+        public void Test_ToWrite()
+        {
             ruleParsing.SetRoot(root_dire);
 
             PathResolutionResult result;
-
             result = ruleParsing.ToWrite(@"plan:list");
             Assert.AreEqual(@"C:\_code_test\_data\plan\list.json", result.AbsolutePathAddress);
 
             ruleParsing.SetRoot(@"C:\_code_test\");
             result = ruleParsing.ToWrite(@"plan:list");
             Assert.AreEqual(@"C:\_code_test\_data\plan\list.json", result.AbsolutePathAddress);
-
-            Directory.Delete(root_dire, true);
         }
 
         [TestMethod]
@@ -59,12 +59,6 @@ namespace YTS.IOFile.API.Test
             IList<PathResolutionResult> list;
             PathResolutionResult result;
 
-            const string root_dire = @"C:\_code_test";
-            // 清理测试环境
-            if (Directory.Exists(root_dire))
-            {
-                Directory.Delete(root_dire, true);
-            }
             ruleParsing.SetRoot(root_dire);
 
             // 开始获取
@@ -95,8 +89,6 @@ namespace YTS.IOFile.API.Test
             result = list[1];
             Assert.AreEqual(@"zwang:list", result.Key);
             Assert.AreEqual(@"C:\_code_test\_data\zwang\list.json", result.AbsolutePathAddress);
-
-            Directory.Delete(root_dire, true);
         }
     }
 }
