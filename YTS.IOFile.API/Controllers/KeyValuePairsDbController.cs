@@ -101,7 +101,7 @@ namespace YTS.IOFile.API.Controllers
             try
             {
                 var result = db.Read(root, keyExpression);
-                if (result == null && result.Count <= 0)
+                if (result == null || result.Count <= 0)
                 {
                     string name = @"结果为空!";
                     log.Error(name, logArgs);
