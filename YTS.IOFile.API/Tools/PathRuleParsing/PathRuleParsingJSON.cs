@@ -161,7 +161,7 @@ namespace YTS.IOFile.API.Tools.PathRuleParsing
         }
 
         /// <inheritdoc />
-        public IEnumerable<PathResolutionResult> ToRead(string keyExpression)
+        public IList<PathResolutionResult> ToRead(string keyExpression)
         {
             var logArgs = log.CreateArgDictionary();
             logArgs[@"source.keyExpression"] = keyExpression;

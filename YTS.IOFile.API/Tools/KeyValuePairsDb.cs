@@ -50,23 +50,23 @@ namespace YTS.IOFile.API.Tools
             {
                 throw new ArgumentNullException("键值对数据为空");
             }
-            var logArgs = new Dictionary<string, object>()
-            {
-                { "root", root },
-                { "kvPairs.Count", kvPairs.Count },
-            };
+            var logArgs = log.CreateArgDictionary();
+            logArgs[@"root"] = root;
+            logArgs[@"kvPairs.Count"] = kvPairs.Count;
             StoreConfiguration config = storeConfigs.ToStoreConfig(root);
+            logArgs[@"SystemAbsolutePath"] = config.SystemAbsolutePath;
             int success_count = 0;
             foreach (var key in kvPairs.Keys)
             {
                 try
                 {
-                    logArgs["key"] = key;
+                    logArgs[@"key"] = key;
                     T value = kvPairs[key];
-                    logArgs["value"] = value;
-                    string absIOFilePath = pathRuleParsing.ToWriteIOPath(config.SystemAbsolutePath, key);
-                    logArgs["absIOFilePath"] = absIOFilePath;
-                    fileIO.Write(absIOFilePath, value);
+                    logArgs[@"value"] = value;
+                    pathRuleParsing.SetRoot(config.SystemAbsolutePath);
+                    PathResolutionResult pathResult = pathRuleParsing.ToWrite(key);
+                    logArgs[@"AbsolutePathAddress"] = pathResult.AbsolutePathAddress;
+                    fileIO.Write(pathResult.AbsolutePathAddress, value);
                     log.Info("写入", logArgs);
                     success_count++;
                 }
@@ -79,36 +79,36 @@ namespace YTS.IOFile.API.Tools
         }
 
         /// <inheritdoc />
+        /// <exception cref="ArgumentNullException">判断传入参数为空异常</exception>
         public IDictionary<string, T> Read(string root, string keyExpression)
         {
             root = root?.Trim();
             keyExpression = keyExpression?.Trim();
-            var logArgs = new Dictionary<string, object>()
+            var logArgs = log.CreateArgDictionary();
+            logArgs[@"root"] = root;
+            logArgs[@"keyExpression"] = keyExpression;
+            if (string.IsNullOrEmpty(root) || string.IsNullOrEmpty(keyExpression))
             {
-                { "root", root },
-                { "keyExpression", keyExpression },
-            };
-            if (string.IsNullOrEmpty(keyExpression))
-            {
-                throw new ArgumentNullException("键读取表达式为空");
+                throw new ArgumentNullException(@"参数为空!");
             }
             StoreConfiguration config = storeConfigs.ToStoreConfig(root);
-            string root_path = config.SystemAbsolutePath;
-            var keyAbsIOFilePaths = pathRuleParsing.ToReadIOPath(root_path, keyExpression);
-            if (keyAbsIOFilePaths == null || keyAbsIOFilePaths.Count <= 0)
+            logArgs[@"SystemAbsolutePath"] = config.SystemAbsolutePath;
+            pathRuleParsing.SetRoot(config.SystemAbsolutePath);
+            var pathsResults = pathRuleParsing.ToRead(keyExpression);
+            if (pathsResults == null || pathsResults.Count <= 0)
             {
-                throw new ApplicationException("无法理解传入的键读取表达式内容");
+                // throw new ApplicationException(@"无法理解传入的键读取表达式内容或不存在内容");
+                return null;
             }
             IDictionary<string, T> result = new Dictionary<string, T>();
-            foreach (string key in keyAbsIOFilePaths.Keys)
+            foreach (var pathsResult in pathsResults)
             {
                 try
                 {
-                    logArgs["key"] = key;
-                    string absIOFilePath = keyAbsIOFilePaths[key];
+                    logArgs["key"] = pathsResult.Key;
+                    string absIOFilePath = pathsResult.AbsolutePathAddress;
                     logArgs["absIOFilePath"] = absIOFilePath;
-                    result[key] = fileIO.Read(absIOFilePath);
-                    log.Info("读出", logArgs);
+                    result[pathsResult.Key] = fileIO.Read(absIOFilePath);
                 }
                 catch (Exception ex)
                 {

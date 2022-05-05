@@ -19,7 +19,7 @@ namespace YTS.IOFile.API.Tools.PathRuleParsing
         /// </summary>
         /// <param name="keyExpression">键匹配表达式</param>
         /// <returns>绝对地址路径队列(键,地址)</returns>
-        IEnumerable<PathResolutionResult> ToRead(string keyExpression);
+        IList<PathResolutionResult> ToRead(string keyExpression);
     }
 
     /// <summary>
