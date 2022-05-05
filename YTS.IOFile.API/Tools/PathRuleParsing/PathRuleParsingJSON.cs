@@ -137,7 +137,7 @@ namespace YTS.IOFile.API.Tools.PathRuleParsing
                 logArgs[@"key_path"] = key_path;
                 string key_file_path = Path.Combine(absPath, INTERVAL_PATH, key_path);
                 logArgs[@"key_file_path"] = key_file_path;
-                FileInfo file = new FileInfo(key_path);
+                FileInfo file = new FileInfo(key_file_path);
                 if (!file.Exists)
                 {
                     var dire = file.Directory;
@@ -182,7 +182,7 @@ namespace YTS.IOFile.API.Tools.PathRuleParsing
                 }
                 // 每一层进行检查
                 string[] keys = SplitKeyExpression(keyExpression);
-                string[] keys_modify = keys[0..^1];
+                string[] keys_modify = new string[keys.Length];
                 return ReadAnalysis(rootDire, keys, keys_modify);
             }
             catch (Exception ex)
@@ -201,7 +201,7 @@ namespace YTS.IOFile.API.Tools.PathRuleParsing
         }
         private IList<PathResolutionResult> ReadAnalysis(DirectoryInfo rootDire, string[] keys, string[] keys_modify, int keyIndex = 0)
         {
-            if (rootDire != null)
+            if (rootDire == null)
             {
                 return null;
             }
@@ -218,56 +218,15 @@ namespace YTS.IOFile.API.Tools.PathRuleParsing
             Regex is_like_query = Regex_is_like_query();
             Match like_query_match = is_like_query.Match(region);
             // 判断是否是模糊查询
-            if (!like_query_match.Success)
-            {
-                return ReadAnalysis_DefalutNameEquals(rootDire, keys, keys_modify, keyIndex, region);
-            }
-            else
+            if (like_query_match.Success)
             {
                 return ReadAnalysis_LikeQuery(rootDire, keys, keys_modify, keyIndex, region);
             }
+            return ReadAnalysis_DefalutNameEquals(rootDire, keys, keys_modify, keyIndex, region);
         }
         private Regex Regex_is_like_query()
         {
-            return new Regex(@"^/(\.+)/(i?)$", RegexOptions.ECMAScript); ;
-        }
-        private IList<PathResolutionResult> ReadAnalysis_LikeQuery(DirectoryInfo rootDire, string[] keys, string[] keys_modify, int keyIndex, string region)
-        {
-            List<PathResolutionResult> rlist = new List<PathResolutionResult>();
-            Regex regex_catalogue_content = Regex_catalogue_content(region);
-
-            // 不是最后一项表示目录
-            if (keyIndex != keys.Length - 1)
-            {
-                var all_dires = rootDire.GetDirectories();
-                foreach (var dire in all_dires)
-                {
-                    if (regex_catalogue_content.IsMatch(dire.Name))
-                    {
-                        keys_modify[keyIndex] = region;
-                        rlist.AddRange(ReadAnalysis(dire, keys, keys_modify, keyIndex + 1));
-                    }
-                }
-            }
-            // 最后一项表示文件
-            else
-            {
-                var all_files = rootDire.GetFiles();
-                foreach (var file in all_files)
-                {
-                    string file_name = file.Name.Replace(EXTENSION_NAME, string.Empty);
-                    if (regex_catalogue_content.IsMatch(file_name))
-                    {
-                        keys_modify[keyIndex] = region;
-                        rlist.Add(new PathResolutionResult()
-                        {
-                            Key = MergeToKeyExpression(keys_modify),
-                            AbsolutePathAddress = file.FullName,
-                        });
-                    }
-                }
-            }
-            return rlist;
+            return new Regex(@"^/(.+)/(i?)$", RegexOptions.ECMAScript);
         }
         private Regex Regex_catalogue_content(string catalogue)
         {
@@ -282,6 +241,44 @@ namespace YTS.IOFile.API.Tools.PathRuleParsing
                 return new Regex(catalogue[1..^1]);
             }
             return null;
+        }
+        private IList<PathResolutionResult> ReadAnalysis_LikeQuery(DirectoryInfo rootDire, string[] keys, string[] keys_modify, int keyIndex, string region)
+        {
+            List<PathResolutionResult> rlist = new List<PathResolutionResult>();
+            Regex regex_catalogue_content = Regex_catalogue_content(region);
+
+            // 不是最后一项表示目录
+            if (keyIndex != keys.Length - 1)
+            {
+                var all_dires = rootDire.GetDirectories();
+                foreach (var dire in all_dires)
+                {
+                    if (regex_catalogue_content.IsMatch(dire.Name))
+                    {
+                        keys_modify[keyIndex] = dire.Name;
+                        rlist.AddRange(ReadAnalysis(dire, keys, keys_modify, keyIndex + 1));
+                    }
+                }
+            }
+            // 最后一项表示文件
+            else
+            {
+                var all_files = rootDire.GetFiles();
+                foreach (var file in all_files)
+                {
+                    string file_name = file.Name.Replace(EXTENSION_NAME, string.Empty);
+                    if (regex_catalogue_content.IsMatch(file_name))
+                    {
+                        keys_modify[keyIndex] = file_name;
+                        rlist.Add(new PathResolutionResult()
+                        {
+                            Key = MergeToKeyExpression(keys_modify),
+                            AbsolutePathAddress = file.FullName,
+                        });
+                    }
+                }
+            }
+            return rlist;
         }
         private IList<PathResolutionResult> ReadAnalysis_DefalutNameEquals(DirectoryInfo rootDire, string[] keys, string[] keys_modify, int keyIndex, string region)
         {
