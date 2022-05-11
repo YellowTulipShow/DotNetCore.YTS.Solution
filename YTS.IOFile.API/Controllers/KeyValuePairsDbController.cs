@@ -125,15 +125,27 @@ namespace YTS.IOFile.API.Controllers
         [HttpGet]
         public Result<string> PullLatestOrigin(string root)
         {
-            var storeConfig = storeConfigs.ToStoreConfig(root);
-            if (storeConfig.Git.IsEnable)
+            var logArgs = log.CreateArgDictionary();
+            logArgs["root"] = root;
+            try
             {
-                IGit git = new GitHelper(storeConfig.Git);
-                var responseMsgs = git.Pull().OnCommand($"拉取数据合并");
-                return ResultStatueCode.OK.To("拉取数据执行完成", string.Join(Environment.NewLine, responseMsgs));
+                var storeConfig = storeConfigs.ToStoreConfig(root);
+                if (storeConfig.Git.IsEnable)
+                {
+                    IGit git = new GitHelper(storeConfig.Git);
+                    var responseMsgs = git.Pull().OnCommand($"拉取数据合并");
+                    return ResultStatueCode.OK.To("拉取Git数据执行完成", string.Join(Environment.NewLine, responseMsgs));
+                }
+                return ResultStatueCode.LogicError.To("存储区未开启Git仓库启用配置", string.Empty);
             }
-            return ResultStatueCode.LogicError.To("存储区未开启Git仓库启用配置", string.Empty);
+            catch (Exception ex)
+            {
+                string name = $"拉取Git数据异常: {ex.Message}";
+                log.Error(name, ex, logArgs);
+                return ResultStatueCode.UnexpectedException.To(name, string.Empty);
+            }
         }
+
         /// <summary>
         /// 推送当前
         /// </summary>
@@ -142,14 +154,25 @@ namespace YTS.IOFile.API.Controllers
         [HttpGet]
         public Result<string> PushOrigin(string root)
         {
-            var storeConfig = storeConfigs.ToStoreConfig(root);
-            if (storeConfig.Git.IsEnable)
+            var logArgs = log.CreateArgDictionary();
+            logArgs["root"] = root;
+            try
             {
-                IGit git = new GitHelper(storeConfig.Git);
-                var responseMsgs = git.Push().OnCommand();
-                return ResultStatueCode.OK.To("拉取数据执行完成", string.Join(Environment.NewLine, responseMsgs));
+                var storeConfig = storeConfigs.ToStoreConfig(root);
+                if (storeConfig.Git.IsEnable)
+                {
+                    IGit git = new GitHelper(storeConfig.Git);
+                    var responseMsgs = git.Push().OnCommand();
+                    return ResultStatueCode.OK.To("推送Git数据执行完成", string.Join(Environment.NewLine, responseMsgs));
+                }
+                return ResultStatueCode.LogicError.To("存储区未开启Git仓库启用配置", string.Empty);
             }
-            return ResultStatueCode.LogicError.To("存储区未开启Git仓库启用配置", string.Empty);
+            catch (Exception ex)
+            {
+                string name = $"推送Git数据异常: {ex.Message}";
+                log.Error(name, ex, logArgs);
+                return ResultStatueCode.UnexpectedException.To(name, string.Empty);
+            }
         }
     }
 }
