@@ -6,13 +6,13 @@ program_list[2]="YTS.AdminWeb"
 program_list[3]="YTS.AdminWebApi"
 program_list[4]="YTS.IOFile.API"
 
-os_list[1]="win"
-# os_list[2]="linux"
+os_list[1]="win-x64"
+os_list[2]="linux-x64"
 
 for program in ${program_list[*]}
 do
 	for os in ${os_list[*]}
 	do
-		dotnet publish ./$program/$program.csproj -o "./_release_$os/$program" --os "$os"
+		dotnet publish ./$program/$program.csproj -o "./_release_$os/$program" --runtime "$os"
 	done
 done
