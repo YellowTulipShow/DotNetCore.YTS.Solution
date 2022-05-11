@@ -11,7 +11,7 @@ namespace YTS.Git.SubCommands
         /// 执行命令: git push
         /// </summary>
         /// <returns>响应输出文本内容</returns>
-        IEnumerable<string> OnCommand();
+        IList<string> OnCommand();
 
         /// <summary>
         /// 执行命令: git push {origin} {master}
@@ -19,6 +19,6 @@ namespace YTS.Git.SubCommands
         /// <param name="origin">远程仓库标识</param>
         /// <param name="branch">分支名称</param>
         /// <returns>响应输出文本内容</returns>
-        IEnumerable<string> OnCommand(string origin, string branch);
+        IList<string> OnCommand(string origin, string branch);
     }
 }

@@ -12,7 +12,7 @@ namespace YTS.Git
     /// <summary>
     /// Git 操作工具类
     /// </summary>
-    public class GitHelper : IGit, IGitAdd, IGitStatus, IGitCommit, IGitPull, IGitPush
+    public class GitHelper : IGit, IGitInit, IGitAdd, IGitStatus, IGitCommit, IGitPull, IGitPush
     {
         private readonly Encoding encoding;
         private readonly Repository repository;
@@ -52,6 +52,8 @@ namespace YTS.Git
 
         #region IGit
         /// <inheritdoc />
+        IGitInit IGit.Init() => this;
+        /// <inheritdoc />
         IGitAdd IGit.Add() => this;
         /// <inheritdoc />
         IGitStatus IGit.Status() => this;
@@ -61,6 +63,22 @@ namespace YTS.Git
         IGitPull IGit.Pull() => this;
         /// <inheritdoc />
         IGitPush IGit.Push() => this;
+        #endregion
+
+        #region IGitInit
+        /// <inheritdoc />
+        void IGitInit.OnCommand()
+        {
+            DirectoryInfo dire = new DirectoryInfo(repository.SystemPath);
+            if (!dire.Exists)
+            {
+                dire.Create();
+            }
+            if (!dire.GetDirectories().Any(b => b.Name.ToLower() == @".git"))
+            {
+                OnExecuteOnlyCommand($"init", null);
+            }
+        }
         #endregion
 
         #region IGitAdd
@@ -75,7 +93,7 @@ namespace YTS.Git
             OnExecuteOnlyCommand($"add {filePath}", null);
         }
         /// <inheritdoc />
-        void IGitAdd.OnCommand(IEnumerable<string> fileNames)
+        void IGitAdd.OnCommand(IList<string> fileNames)
         {
             OnExecuteOnlyCommand($"add {string.Join(' ', fileNames)}", null);
         }
@@ -83,7 +101,7 @@ namespace YTS.Git
 
         #region IGitStatus
         /// <inheritdoc />
-        IEnumerable<string> IGitStatus.OnCommand()
+        IList<string> IGitStatus.OnCommand()
         {
             IList<string> lines = new List<string>();
             OnExecuteOnlyCommand("status", line =>
@@ -104,7 +122,7 @@ namespace YTS.Git
 
         #region IGitPull
         /// <inheritdoc />
-        IEnumerable<string> IGitPull.OnCommand(string message)
+        IList<string> IGitPull.OnCommand(string message)
         {
             IList<string> lines = new List<string>();
             OnExecuteOnlyCommand($"fetch origin", line =>
@@ -118,7 +136,7 @@ namespace YTS.Git
             return lines.ToArray();
         }
         /// <inheritdoc />
-        IEnumerable<string> IGitPull.OnCommand(string origin, string branch, string message)
+        IList<string> IGitPull.OnCommand(string origin, string branch, string message)
         {
             IList<string> lines = new List<string>();
             OnExecuteOnlyCommand($"fetch {origin}", line =>
@@ -135,7 +153,7 @@ namespace YTS.Git
 
         #region IGitPush
         /// <inheritdoc />
-        IEnumerable<string> IGitPush.OnCommand()
+        IList<string> IGitPush.OnCommand()
         {
             IList<string> lines = new List<string>();
             OnExecuteOnlyCommand($"push origin master", line =>
@@ -145,7 +163,7 @@ namespace YTS.Git
             return lines.ToArray();
         }
         /// <inheritdoc />
-        IEnumerable<string> IGitPush.OnCommand(string origin, string branch)
+        IList<string> IGitPush.OnCommand(string origin, string branch)
         {
             IList<string> lines = new List<string>();
             OnExecuteOnlyCommand($"push {origin} {branch}", line =>

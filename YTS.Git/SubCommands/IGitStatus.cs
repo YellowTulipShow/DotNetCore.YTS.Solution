@@ -11,6 +11,6 @@ namespace YTS.Git.SubCommands
         /// 执行命令: git status
         /// </summary>
         /// <returns>响应输出文本多行队列</returns>
-        IEnumerable<string> OnCommand();
+        IList<string> OnCommand();
     }
 }

@@ -22,6 +22,6 @@ namespace YTS.Git.SubCommands
         /// 执行命令: git add {fileNames[0]} {fileNames[1]} {fileNames[2]} ... {fileNames[n-1]}
         /// </summary>
         /// <param name="fileNames">文件路径清单</param>
-        void OnCommand(IEnumerable<string> fileNames);
+        void OnCommand(IList<string> fileNames);
     }
 }

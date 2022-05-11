@@ -8,6 +8,12 @@ namespace YTS.Git
     public interface IGit
     {
         /// <summary>
+        /// git init : 初始化创建 Git 存储库
+        /// </summary>
+        /// <returns>执行实现对象</returns>
+        IGitInit Init();
+
+        /// <summary>
         /// git add : 添加到暂存库子命令
         /// </summary>
         /// <returns>执行实现对象</returns>

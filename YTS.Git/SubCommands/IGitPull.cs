@@ -12,7 +12,7 @@ namespace YTS.Git.SubCommands
         /// </summary>
         /// <param name="message">提交合并简称消息标题</param>
         /// <returns>响应输出文本内容</returns>
-        IEnumerable<string> OnCommand(string message);
+        IList<string> OnCommand(string message);
 
         /// <summary>
         /// 执行命令: git pull {origin} {master}
@@ -21,6 +21,6 @@ namespace YTS.Git.SubCommands
         /// <param name="branch">分支名称</param>
         /// <param name="message">提交合并简称消息标题</param>
         /// <returns>响应输出文本内容</returns>
-        IEnumerable<string> OnCommand(string origin, string branch, string message);
+        IList<string> OnCommand(string origin, string branch, string message);
     }
 }
