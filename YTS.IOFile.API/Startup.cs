@@ -19,15 +19,15 @@ namespace YTS.IOFile.API
     /// </summary>
     public class Startup
     {
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration conf;
 
         /// <summary>
         /// 实例化开始程序
         /// </summary>
-        /// <param name="configuration"></param>
-        public Startup(IConfiguration configuration)
+        /// <param name="conf"></param>
+        public Startup(IConfiguration conf)
         {
-            this.configuration = configuration;
+            this.conf = conf;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace YTS.IOFile.API
             services.EnterServiceControllers();
             services.EnterServiceJson();
             services.EnterServiceCors();
-            services.EnterServiceSwagger(configuration);
+            services.EnterServiceSwagger(conf);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace YTS.IOFile.API
             // 自定义配置启用
             app.StartEnableRoute();
             app.StartEnableCors();
-            app.StartEnableSwagger();
+            app.StartEnableSwagger(conf);
 
             app.UseEndpoints(endpoints =>
             {

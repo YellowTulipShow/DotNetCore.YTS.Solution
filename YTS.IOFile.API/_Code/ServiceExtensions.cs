@@ -35,8 +35,6 @@ namespace YTS.IOFile.API
             })
             .AddNewtonsoftJson(option =>
             {
-                // option.SerializerSettings.DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore;
-                // option.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 option.SerializerSettings.ContractResolver = new DefaultContractResolver();
 
@@ -104,11 +102,10 @@ namespace YTS.IOFile.API
         /// <summary>
         /// 注入服务 Swagger API 浏览配置
         /// </summary>
-        public static void EnterServiceSwagger(this IServiceCollection services, IConfiguration Configuration)
+        public static void EnterServiceSwagger(this IServiceCollection services, IConfiguration conf)
         {
-            var swaggerInfo = Configuration.GetSection(ApiConfig.APPSettingName_SwaggerInfo);
+            var swaggerInfo = conf.GetSection(ApiConfig.APPSettingName_SwaggerInfo);
             var model = swaggerInfo.Get<SwaggerInfo>();
-
             // Register the Swagger generator, defining 1 or more Swagger documents
             // 注册Swagger生成器，定义1个或多个Swagger文档
             services.AddSwaggerGen(c =>
@@ -132,22 +129,6 @@ namespace YTS.IOFile.API
                     }
                 });
 
-                //// 开启加权小锁
-                //c.OperationFilter<AddResponseHeadersFilter>();
-                //c.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
-
-                //// 在header中添加token，传递到后台
-                //c.OperationFilter<SecurityRequirementsOperationFilter>();
-
-                //// 必须是 oauth2
-                //c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-                //{
-                //    Description = "JWT授权 (数据将在请求头中进行传输) 直接在下框中输入 Bearer {token} (注意两者之间是一个空格)",
-                //    Name = "Authorization", // jwt默认的参数名称
-                //    In = ParameterLocation.Header, // jwt默认存放Authorization信息的位置(请求头中)
-                //    Type = SecuritySchemeType.ApiKey
-                //});
-
                 // Set the comments path for the Swagger JSON and UI.
                 // 设置Swagger JSON和UI的注释路径。读取代码XML注释文档
                 var name = Assembly.GetExecutingAssembly().GetName().Name;
@@ -160,11 +141,19 @@ namespace YTS.IOFile.API
         /// 应用程序启用 Swagger API 文档浏览
         /// </summary>
         /// <param name="app"></param>
-        public static void StartEnableSwagger(this IApplicationBuilder app)
+        public static void StartEnableSwagger(this IApplicationBuilder app, IConfiguration conf)
         {
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             // 启用中间件以将生成的Swagger用作JSON端点。
-            app.UseSwagger();
+            app.UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((open_api_doc, http_request) =>
+                {
+                });
+            });
+
+            string VirtualDirectory = conf.GetValue<string>("VirtualDirectory")
+                ?.Trim()?.TrimEnd('/') ?? string.Empty;
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
@@ -172,8 +161,16 @@ namespace YTS.IOFile.API
             // 指定Swagger JSON端点。
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint(ApiConfig.SwaggerEndpointUrl, ApiConfig.SwaggerEndpointName);
-                c.RoutePrefix = string.Empty;
+                if (string.IsNullOrEmpty(VirtualDirectory))
+                {
+                    c.SwaggerEndpoint($"{VirtualDirectory}/swagger/v1/swagger.json", $"kv.db v1");
+                    c.RoutePrefix = VirtualDirectory;
+                }
+                else
+                {
+                    c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"kv.db v1");
+                    c.RoutePrefix = string.Empty;
+                }
             });
         }
     }

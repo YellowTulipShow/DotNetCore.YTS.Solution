@@ -14,6 +14,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Content Remove="appsettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="..\favicon.png">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
@@ -21,6 +25,9 @@
 		<None Include="..\LICENSE">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
+		</None>
+		<None Include="appsettings.json">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
 		<None Update="ChangeLog.md">
 			<PackagePath>\</PackagePath>
@@ -45,9 +52,6 @@
 	<ItemGroup>
 	  <Content Update="appsettings.Development.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	  <Content Update="appsettings.json">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Content>
 	</ItemGroup>
 
