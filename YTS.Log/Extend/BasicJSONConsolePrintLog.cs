@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+
 using Newtonsoft.Json;
 
-namespace YTS.Logic.Log
+namespace YTS.Log
 {
     /// <summary>
     /// 实现类: 执行最基础最简单的JSON序列化打印日志方法

@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <xmlDoc>true</xmlDoc>
+	  <Title>日志相关类库</Title>
+	  <PackageId>YTS.Log</PackageId>
+	  <Version>0.1.0</Version>
+	  <Authors>YellowTulipShow</Authors>
+	  <Description>提供基于 ILog 基本接口的相应的日志实现帮助工具</Description>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <PackageOutputPath>../packages/YTS.Solution/</PackageOutputPath>
+	  <RepositoryType>git</RepositoryType>
+	  <NeutralLanguage>zh</NeutralLanguage>
+	  <RepositoryUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution/tree/master/YTS.Log</RepositoryUrl>
+	  <PackageProjectUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution</PackageProjectUrl>
+	  <Company />
+	  <PackageIcon>favicon.png</PackageIcon>
+	  <PackageIconUrl />
+	  <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+	  <PackageLicenseFile>LICENSE</PackageLicenseFile>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <None Include="..\favicon.png">
+		  <Pack>True</Pack>
+		  <PackagePath></PackagePath>
+	  </None>
+	  <None Include="..\LICENSE">
+		  <Pack>True</Pack>
+		  <PackagePath></PackagePath>
+	  </None>
+	  <None Update="ChangeLog.md">
+		  <PackagePath>\</PackagePath>
+		  <Pack>True</Pack>
+	  </None>
+	  <None Update="README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+	  </None>
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+</Project>

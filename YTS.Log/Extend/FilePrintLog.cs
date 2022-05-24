@@ -2,7 +2,9 @@
 using System.IO;
 using System.Text;
 
-namespace YTS.Logic.Log
+using YTS.Log;
+
+namespace YTS.Log
 {
     /// <summary>
     /// 实现类: 文件打印日志输出实现

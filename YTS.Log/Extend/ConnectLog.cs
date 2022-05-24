@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace YTS.Logic.Log
+namespace YTS.Log
 {
     /// <summary>
     /// 连接日志

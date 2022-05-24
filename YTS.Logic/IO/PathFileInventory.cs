@@ -5,7 +5,7 @@ using System.Text;
 
 using Newtonsoft.Json;
 
-using YTS.Logic.Log;
+using YTS.Log;
 
 namespace YTS.Logic.IO
 {

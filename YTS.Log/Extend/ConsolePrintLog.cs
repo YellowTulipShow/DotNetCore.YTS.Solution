@@ -3,9 +3,10 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+
 using Newtonsoft.Json;
 
-namespace YTS.Logic.Log
+namespace YTS.Log
 {
     /// <summary>
     /// 实现类: 控制台打印日志输出实现

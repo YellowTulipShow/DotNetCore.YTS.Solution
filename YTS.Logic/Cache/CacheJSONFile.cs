@@ -4,8 +4,8 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using YTS.Log;
 using YTS.Logic.IO;
-using YTS.Logic.Log;
 
 namespace YTS.Logic.Cache
 {

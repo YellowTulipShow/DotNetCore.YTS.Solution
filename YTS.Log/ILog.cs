@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace YTS.Logic.Log
+namespace YTS.Log
 {
     /// <summary>
     /// 接口: 日志

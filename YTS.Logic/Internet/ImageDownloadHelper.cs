@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-using YTS.Logic.Log;
+using YTS.Log;
 
 namespace YTS.Logic.Internet
 {

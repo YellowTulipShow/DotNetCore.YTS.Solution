@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using YTS.Logic.Log;
+using YTS.Log;
 
 namespace YTS.Logic.Test.Log
 {
