@@ -1,15 +1,13 @@
 using System;
-using System.Diagnostics;
 using System.Text;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using YTS.Logic.Log;
 using YTS.Git;
 using System.IO;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using YTS.Log;
 
 namespace YTS.IOFile.API.Test
 {

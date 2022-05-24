@@ -6,9 +6,9 @@ using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using YTS.IOFile.API.Tools.PathRuleParsing;
-using YTS.Logic.Log;
 
 using Newtonsoft.Json;
+using YTS.Log;
 
 namespace YTS.IOFile.API.Test
 {

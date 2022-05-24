@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.CommandLine;
 
 using Microsoft.Extensions.Configuration;
 
+using YTS.Log;
 using YTS.Logic.Internet;
 using YTS.Logic.IO;
-using YTS.Logic.Log;
 
 namespace YTS.ImageDownload
 {

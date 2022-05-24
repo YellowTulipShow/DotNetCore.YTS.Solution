@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
+using YTS.Log;
 using YTS.Logic.Data;
-using YTS.Logic.Log;
 
 namespace YTS.IOFile.API.Tools.PathRuleParsing
 {

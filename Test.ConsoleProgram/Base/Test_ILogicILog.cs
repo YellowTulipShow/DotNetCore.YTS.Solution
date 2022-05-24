@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
+using YTS.Log;
 using YTS.Logic.IO;
-using YTS.Logic.Log;
-using YTS.Tools;
 
 namespace Test.ConsoleProgram.Base
 {

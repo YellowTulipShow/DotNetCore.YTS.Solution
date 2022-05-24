@@ -10,7 +10,7 @@ using YTS.IOFile.API.Tools.DataFileIO;
 using YTS.IOFile.API.Tools.PathRuleParsing;
 
 using YTS.Git;
-using YTS.Logic.Log;
+using YTS.Log;
 
 namespace YTS.IOFile.API.Test
 {
