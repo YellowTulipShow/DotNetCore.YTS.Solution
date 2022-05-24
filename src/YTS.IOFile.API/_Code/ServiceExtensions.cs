@@ -140,7 +140,6 @@ namespace YTS.IOFile.API
         /// <summary>
         /// 应用程序启用 Swagger API 文档浏览
         /// </summary>
-        /// <param name="app"></param>
         public static void StartEnableSwagger(this IApplicationBuilder app, IConfiguration conf)
         {
             // Enable middleware to serve generated Swagger as a JSON endpoint.
