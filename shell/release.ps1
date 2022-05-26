@@ -41,8 +41,8 @@ if (Test-Path $config_apps) {
                 $sys = $systems[$j];
             }
             # 发布项目
-            Write-Host "dotnet publish $item -o './_release_app/$sys/$name' --runtime '$sys'"
-            dotnet publish $item -o "./_release_$sys/$name" --runtime "$sys"
+            Write-Host "dotnet publish $item -o './_release/$sys/$name' --runtime '$sys'"
+            dotnet publish $item -o "./_release/$sys/$name" --runtime "$sys"
         }
     }
 } else {
@@ -52,7 +52,7 @@ if (Test-Path $config_apps) {
 
 # 打包项目
 $config_packages = "./_configs/packages.config"
-$save_path_packages = "./_release_packages"
+$save_path_packages = "./_release/packages"
 if (Test-Path $save_path_packages) {
     Remove-Item -Recurse -Force $save_path_packages
 }

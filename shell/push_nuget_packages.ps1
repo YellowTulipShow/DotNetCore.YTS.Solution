@@ -6,7 +6,7 @@ $nuget_source_url="https://api.nuget.org/v3/index.json"
 $config_api_key = "./_configs/nuget.org-api-key.config"
 $api = Get-Content $config_api_key
 
-Set-Location ./_release_packages
+Set-Location "./_release/packages"
 $list = Get-ChildItem -Recurse -Include *.nupkg -Name
 
 if ($api) {

@@ -160,7 +160,7 @@ namespace YTS.IOFile.API
             // 指定Swagger JSON端点。
             app.UseSwaggerUI(c =>
             {
-                if (string.IsNullOrEmpty(VirtualDirectory))
+                if (!string.IsNullOrEmpty(VirtualDirectory))
                 {
                     c.SwaggerEndpoint($"{VirtualDirectory}/swagger/v1/swagger.json", $"kv.db v1");
                     c.RoutePrefix = VirtualDirectory;
