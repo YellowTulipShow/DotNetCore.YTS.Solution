@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
+
 using Newtonsoft.Json;
 
-namespace YTS.Logic.Cache
+namespace YTS.Cache
 {
     /// <summary>
     /// 接口扩展: 缓存

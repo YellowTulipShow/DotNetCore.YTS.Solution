@@ -12,7 +12,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<RepositoryType>git</RepositoryType>
 		<NeutralLanguage>zh</NeutralLanguage>
-		<RepositoryUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution/tree/master/YTS.Git</RepositoryUrl>
+		<RepositoryUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution</PackageProjectUrl>
 		<Company />
 		<PackageIcon>favicon.png</PackageIcon>

@@ -5,9 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using YTS.Log;
-using YTS.Logic.IO;
 
-namespace YTS.Logic.Cache
+namespace YTS.Cache
 {
     /// <summary>
     /// 实现类: JSON 格式缓存文件
@@ -46,9 +45,13 @@ namespace YTS.Logic.Cache
             {
                 return string.Empty;
             }
-            using FileStream stream = File.OpenRead(cacheFilePath);
-            using StreamReader reader = new StreamReader(stream, encoding);
-            return reader.ReadToEnd();
+            using (FileStream stream = File.OpenRead(cacheFilePath))
+            {
+                using (StreamReader reader = new StreamReader(stream, encoding))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
         }
 
         /// <inheritdoc />
@@ -70,7 +73,12 @@ namespace YTS.Logic.Cache
         protected virtual string GetCacheFilePath(string key)
         {
             string path = $"cache/{fileName}_{key}.json";
-            return FilePathExtend.ToAbsolutePath(path);
+            path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            FileInfo file = new FileInfo(path);
+            var dire = file.Directory;
+            if (!dire.Exists)
+                dire.Create();
+            return file.FullName;
         }
     }
 }
