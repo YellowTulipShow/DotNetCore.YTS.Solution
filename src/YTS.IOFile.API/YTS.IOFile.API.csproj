@@ -42,11 +42,11 @@
 	<ItemGroup>
 		<ProjectReference Include="..\YTS.Git\YTS.Git.csproj" />
 		<ProjectReference Include="..\YTS.Logic\YTS.Logic.csproj" />
-		<ProjectReference Include="..\YTS.Tools\YTS.Tools.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.2" />
+		<PackageReference Include="YTS.Tools" Version="1.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
