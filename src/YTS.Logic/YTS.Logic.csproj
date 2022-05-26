@@ -6,7 +6,7 @@
 		<xmlDoc>true</xmlDoc>
 		<Title>基础逻辑类库</Title>
 		<PackageId>YTS.Logic</PackageId>
-		<Version>0.2.3</Version>
+		<Version>0.2.5</Version>
 		<Authors>YellowTulipShow</Authors>
 		<Description>基础逻辑类库</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -47,10 +47,6 @@
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\YTS.Log\YTS.Log.csproj" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="Cache\" />
 	</ItemGroup>
 
 </Project>
