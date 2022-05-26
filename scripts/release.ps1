@@ -47,10 +47,15 @@ if (Test-Path $config_apps) {
     }
 } else {
     Write-Output "Publish APP Config File Not Existent: $config_apps"
+    New-Item -ItemType File -Force -Path $config_apps
 }
 
 # 打包项目
 $config_packages = "./_configs/packages.config"
+$save_path_packages = "./_release_packages"
+if (Test-Path $save_path_packages) {
+    Remove-Item -Recurse -Force $save_path_packages
+}
 if (Test-Path $config_packages) {
     $list = Get-Content $config_packages
     for ($i = 0; $i -lt $list.Count; $i++) {
@@ -63,11 +68,12 @@ if (Test-Path $config_packages) {
             continue;
         }
         # 打包项目
-        Write-Output "dotnet pack $item --output './_release_packages'"
-        dotnet pack $item --output './_release_packages'
+        Write-Output "dotnet pack $item --output '$save_path_packages'"
+        dotnet pack $item --output "$save_path_packages"
     }
 } else {
     Write-Output "Pack Package Config File Not Existent: $config_packages"
+    New-Item -ItemType File -Force -Path $config_packages
 }
 
 Set-Location $ExecutePath
