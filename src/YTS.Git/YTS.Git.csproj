@@ -10,7 +10,6 @@
 		<Authors>YellowTulipShow</Authors>
 		<Description>Git相关支持库</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>../packages/YTS.Solution/</PackageOutputPath>
 		<RepositoryType>git</RepositoryType>
 		<NeutralLanguage>zh</NeutralLanguage>
 		<RepositoryUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution/tree/master/YTS.Git</RepositoryUrl>

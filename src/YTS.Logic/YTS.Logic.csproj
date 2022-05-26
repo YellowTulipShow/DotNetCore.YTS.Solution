@@ -10,7 +10,6 @@
 		<Authors>YellowTulipShow</Authors>
 		<Description>基础逻辑类库</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>../packages/YTS.Solution/</PackageOutputPath>
 		<RepositoryType>git</RepositoryType>
 		<NeutralLanguage>zh</NeutralLanguage>
 		<RepositoryUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution/tree/master/YTS.Logic</RepositoryUrl>

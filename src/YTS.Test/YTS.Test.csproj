@@ -13,7 +13,6 @@
 		<Version>1.0.1</Version>
 		<Authors>YellowTulipShow</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>../packages/YTS.Solution/</PackageOutputPath>
 		<xmlDoc>true</xmlDoc>
 	</PropertyGroup>
 

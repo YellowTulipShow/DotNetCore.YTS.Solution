@@ -10,7 +10,6 @@
 	  <Authors>YellowTulipShow</Authors>
 	  <Description>提供基于 ILog 基本接口的相应的日志实现帮助工具</Description>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	  <PackageOutputPath>../packages/YTS.Solution/</PackageOutputPath>
 	  <RepositoryType>git</RepositoryType>
 	  <NeutralLanguage>zh</NeutralLanguage>
 	  <RepositoryUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution/tree/master/YTS.Log</RepositoryUrl>
