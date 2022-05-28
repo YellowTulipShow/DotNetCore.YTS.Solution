@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -13,7 +14,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-using Swashbuckle.AspNetCore.Filters;
+using Swashbuckle.AspNetCore;
 
 namespace YTS.IOFile.API
 {
@@ -32,17 +33,19 @@ namespace YTS.IOFile.API
             {
                 // 关闭 启用端点路由
                 option.EnableEndpointRouting = false;
-            })
-            .AddNewtonsoftJson(option =>
-            {
-                option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                option.SerializerSettings.ContractResolver = new DefaultContractResolver();
-
-                option.SerializerSettings.Converters.Add(new IsoDateTimeConverter()
-                {
-                    DateTimeFormat = "yyyy-MM-dd HH:mm:ss",
-                });
             });
+
+            //services.New
+            //.AddNewtonsoftJson(option =>
+            //{
+            //    option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            //    option.SerializerSettings.ContractResolver = new DefaultContractResolver();
+
+            //    option.SerializerSettings.Converters.Add(new IsoDateTimeConverter()
+            //    {
+            //        DateTimeFormat = "yyyy-MM-dd HH:mm:ss",
+            //    });
+            //});
         }
 
         /// <summary>
@@ -142,34 +145,24 @@ namespace YTS.IOFile.API
         /// </summary>
         public static void StartEnableSwagger(this IApplicationBuilder app, IConfiguration conf)
         {
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            // 启用中间件以将生成的Swagger用作JSON端点。
-            app.UseSwagger(c =>
-            {
-                c.PreSerializeFilters.Add((open_api_doc, http_request) =>
-                {
-                });
-            });
-
             string VirtualDirectory = conf.GetValue<string>("VirtualDirectory")
                 ?.Trim()?.TrimEnd('/') ?? string.Empty;
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            // 启用中间件以提供swagger-ui（HTML，JS，CSS等），
-            // 指定Swagger JSON端点。
-            app.UseSwaggerUI(c =>
+            if (!string.IsNullOrEmpty(VirtualDirectory))
             {
-                if (!string.IsNullOrEmpty(VirtualDirectory))
+                app.UsePathBase(new PathString(VirtualDirectory));
+                Console.WriteLine($"VirtualDirectory: [{VirtualDirectory}]");
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint($"{VirtualDirectory}/swagger/v1/swagger.json", $"kv.db v1");
                     c.RoutePrefix = VirtualDirectory;
-                }
-                else
-                {
-                    c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"kv.db v1");
-                    c.RoutePrefix = string.Empty;
-                }
+                });
+            }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"kv.db v1");
+                c.RoutePrefix = string.Empty;
             });
         }
     }
