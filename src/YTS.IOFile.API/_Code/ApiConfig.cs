@@ -1,29 +1,29 @@
 namespace YTS.IOFile.API
 {
     /// <summary>
-    /// API静态配置字符串内容
+    /// API闈欐�侀厤缃瓧绗︿覆鍐呭
     /// </summary>
     public static class ApiConfig
     {
         /// <summary>
-        /// API路由模板
+        /// API璺敱妯℃澘
         /// </summary>
         public const string APIRoute = "api/[controller]/[action]";
         /// <summary>
-        /// 跨域名称
+        /// 璺ㄥ煙鍚嶇О
         /// </summary>
         public const string CorsName = "YTSAllowSpecificOrigins";
         /// <summary>
-        /// Swagger 节点名称
+        /// Swagger 鑺傜偣鍚嶇О
         /// </summary>
         public const string SwaggerEndpointName = "KVDataBase API V1";
         /// <summary>
-        /// Swagger 节点文档
+        /// Swagger 鑺傜偣鏂囨。
         /// </summary>
         public const string SwaggerEndpointUrl = "/swagger/v1/swagger.json";
 
         /// <summary>
-        /// 程序配置名称: Swagger信息名曾
+        /// 绋嬪簭閰嶇疆鍚嶇О: Swagger淇℃伅鍚嶆浘
         /// </summary>
         public const string APPSettingName_SwaggerInfo = "SwaggerInfo";
     }
