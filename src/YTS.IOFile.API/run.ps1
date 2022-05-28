@@ -21,3 +21,4 @@ if ($PSScriptRoot -eq $ExecutePath) {
 # http://localhost:16129/ioapi/index.html
 # http://localhost/ioapi/swagger/v1/swagger.json
 # http://127.0.0.1:16129/api/KeyValuePairsDb/GetOperableStores
+# http://127.0.0.1/ioapi/api/KeyValuePairsDb/GetOperableStores

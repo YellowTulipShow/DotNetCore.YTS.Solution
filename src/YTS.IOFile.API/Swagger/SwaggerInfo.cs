@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace YTS.IOFile.API
+namespace YTS.IOFile.API.Swagger
 {
     /// <summary>
     /// Swagger 配置信息 (从appsetting.json配置文件中读取)

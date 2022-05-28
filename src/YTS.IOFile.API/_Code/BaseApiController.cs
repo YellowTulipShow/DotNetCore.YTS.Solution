@@ -12,6 +12,7 @@ namespace YTS.IOFile.API
     /// </summary>
     [ApiController]
     [Route(ApiConfig.APIRoute)]
+    [Route("/ioapi" + ApiConfig.APIRoute)]
     [EnableCors(ApiConfig.CorsName)]
     //[Authorize]
     public abstract class BaseApiController : ControllerBase

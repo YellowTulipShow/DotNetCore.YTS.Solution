@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+using YTS.IOFile.API.Swagger;
 
 namespace YTS.IOFile.API
 {
@@ -49,9 +52,16 @@ namespace YTS.IOFile.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             // app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseStaticFiles();
 
             // 自定义配置启用
             app.StartEnableRoute();

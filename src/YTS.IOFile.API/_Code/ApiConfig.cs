@@ -8,7 +8,7 @@ namespace YTS.IOFile.API
         /// <summary>
         /// API路由模板
         /// </summary>
-        public const string APIRoute = "/ioapi/api/[controller]/[action]";
+        public const string APIRoute = "api/[controller]/[action]";
         /// <summary>
         /// 跨域名称
         /// </summary>

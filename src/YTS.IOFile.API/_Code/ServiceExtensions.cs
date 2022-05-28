@@ -34,18 +34,6 @@ namespace YTS.IOFile.API
                 // 关闭 启用端点路由
                 option.EnableEndpointRouting = false;
             });
-
-            //services.New
-            //.AddNewtonsoftJson(option =>
-            //{
-            //    option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            //    option.SerializerSettings.ContractResolver = new DefaultContractResolver();
-
-            //    option.SerializerSettings.Converters.Add(new IsoDateTimeConverter()
-            //    {
-            //        DateTimeFormat = "yyyy-MM-dd HH:mm:ss",
-            //    });
-            //});
         }
 
         /// <summary>
@@ -73,10 +61,14 @@ namespace YTS.IOFile.API
             // 使用MVC
             app.UseMvc(routes =>
             {
-                // 配置默认MVC路由模板
-                routes.MapRoute(
-                    name: "default",
-                    template: ApiConfig.APIRoute);
+                //// 配置默认MVC路由模板
+                //routes.MapRoute(
+                //    name: "default",
+                //    template: ApiConfig.APIRoute);
+                //// 配置默认MVC路由模板
+                //routes.MapRoute(
+                //    name: "ioapi",
+                //    template: "/ioapi" + ApiConfig.APIRoute);
             });
         }
 
@@ -102,68 +94,5 @@ namespace YTS.IOFile.API
             app.UseCors(ApiConfig.CorsName);
         }
 
-        /// <summary>
-        /// 注入服务 Swagger API 浏览配置
-        /// </summary>
-        public static void EnterServiceSwagger(this IServiceCollection services, IConfiguration conf)
-        {
-            var swaggerInfo = conf.GetSection(ApiConfig.APPSettingName_SwaggerInfo);
-            var model = swaggerInfo.Get<SwaggerInfo>();
-            // Register the Swagger generator, defining 1 or more Swagger documents
-            // 注册Swagger生成器，定义1个或多个Swagger文档
-            services.AddSwaggerGen(c =>
-            {
-                // 配置 v1文档
-                c.SwaggerDoc(model.Version, new OpenApiInfo
-                {
-                    Version = model.Version,
-                    Title = model.Title,
-                    Description = model.Description,
-                    Contact = new OpenApiContact
-                    {
-                        Name = model.Contact.Name,
-                        Email = model.Contact.Email,
-                        Url = new Uri(model.Contact.Url),
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = model.License.Name,
-                        Url = new Uri(model.License.Url),
-                    }
-                });
-
-                // Set the comments path for the Swagger JSON and UI.
-                // 设置Swagger JSON和UI的注释路径。读取代码XML注释文档
-                var name = Assembly.GetExecutingAssembly().GetName().Name;
-                var xmlFile = $"{name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
-        }
-        /// <summary>
-        /// 应用程序启用 Swagger API 文档浏览
-        /// </summary>
-        public static void StartEnableSwagger(this IApplicationBuilder app, IConfiguration conf)
-        {
-            string VirtualDirectory = conf.GetValue<string>("VirtualDirectory")
-                ?.Trim()?.TrimEnd('/') ?? string.Empty;
-            if (!string.IsNullOrEmpty(VirtualDirectory))
-            {
-                app.UsePathBase(new PathString(VirtualDirectory));
-                Console.WriteLine($"VirtualDirectory: [{VirtualDirectory}]");
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint($"{VirtualDirectory}/swagger/v1/swagger.json", $"kv.db v1");
-                    c.RoutePrefix = VirtualDirectory;
-                });
-            }
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"kv.db v1");
-                c.RoutePrefix = string.Empty;
-            });
-        }
     }
 }
