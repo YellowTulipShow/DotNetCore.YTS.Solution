@@ -68,6 +68,8 @@ if (Test-Path $config_packages) {
             continue;
         }
         # 打包项目
+        Write-Output "dotnet build $item"
+        dotnet build $item
         Write-Output "dotnet pack $item --output '$save_path_packages'"
         dotnet pack $item --output "$save_path_packages"
     }
