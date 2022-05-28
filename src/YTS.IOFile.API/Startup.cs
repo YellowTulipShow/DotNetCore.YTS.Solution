@@ -61,8 +61,6 @@ namespace YTS.IOFile.API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseStaticFiles();
-
             // 自定义配置启用
             app.StartEnableRoute();
             app.StartEnableCors();
