@@ -30,7 +30,7 @@ namespace YTS.IOFile.API.Test
             {
                 [root] = new StoreConfiguration()
                 {
-                    SystemAbsolutePath = @"C:\_code_test",
+                    SystemAbsolutePath = @"D:\_code_test",
                     DescriptionRemarks = "¼Æ»®±Ê¼Ç",
                     Git = new Repository()
                     {

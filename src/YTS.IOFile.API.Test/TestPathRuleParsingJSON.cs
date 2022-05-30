@@ -15,7 +15,7 @@ namespace YTS.IOFile.API.Test
     [TestClass]
     public class TestPathRuleParsingJSON
     {
-        public const string root_dire = @"C:\_code_test";
+        public const string root_dire = @"D:\_code_test";
 
         private ILog log;
         private IPathRuleParsingRootConfig ruleParsing;
@@ -46,11 +46,11 @@ namespace YTS.IOFile.API.Test
 
             PathResolutionResult result;
             result = ruleParsing.ToWrite(@"plan:list");
-            Assert.AreEqual(@"C:\_code_test\_data\plan\list.json", result.AbsolutePathAddress);
+            Assert.AreEqual($"{root_dire}\\_data\\plan\\list.json", result.AbsolutePathAddress);
 
-            ruleParsing.SetRoot(@"C:\_code_test\");
+            ruleParsing.SetRoot($"{root_dire}\\");
             result = ruleParsing.ToWrite(@"plan:list");
-            Assert.AreEqual(@"C:\_code_test\_data\plan\list.json", result.AbsolutePathAddress);
+            Assert.AreEqual($"{root_dire}\\_data\\plan\\list.json", result.AbsolutePathAddress);
         }
 
         [TestMethod]
@@ -67,28 +67,28 @@ namespace YTS.IOFile.API.Test
 
             // 写入内容
             string json = JsonConvert.SerializeObject(new { });
-            FileExtend.WriteAllText(@"C:\_code_test\_data\plan\list.json", json);
+            FileExtend.WriteAllText($"{root_dire}\\_data\\plan\\list.json", json);
 
             // 读取地址
             list = ruleParsing.ToRead(@"plan:list");
             Assert.AreEqual(1, list.Count);
             result = list[0];
             Assert.AreEqual(@"plan:list", result.Key);
-            Assert.AreEqual(@"C:\_code_test\_data\plan\list.json", result.AbsolutePathAddress);
+            Assert.AreEqual($"{root_dire}\\_data\\plan\\list.json", result.AbsolutePathAddress);
 
             // 写入第二个文件
-            FileExtend.WriteAllText(@"C:\_code_test\_data\zwang\list.json", json);
+            FileExtend.WriteAllText($"{root_dire}\\_data\\zwang\\list.json", json);
 
             // 再次读取
             list = ruleParsing.ToRead(@"/\w+/i:list");
             Assert.AreEqual(2, list.Count);
             result = list[0];
             Assert.AreEqual(@"plan:list", result.Key);
-            Assert.AreEqual(@"C:\_code_test\_data\plan\list.json", result.AbsolutePathAddress);
+            Assert.AreEqual($"{root_dire}\\_data\\plan\\list.json", result.AbsolutePathAddress);
 
             result = list[1];
             Assert.AreEqual(@"zwang:list", result.Key);
-            Assert.AreEqual(@"C:\_code_test\_data\zwang\list.json", result.AbsolutePathAddress);
+            Assert.AreEqual($"{root_dire}\\_data\\zwang\\list.json", result.AbsolutePathAddress);
         }
     }
 }

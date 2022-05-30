@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
@@ -29,10 +30,18 @@ namespace YTS.IOFile.API
         public static void EnterServiceControllers(this IServiceCollection services)
         {
             // 增加 Controller 注册启用
-            services.AddControllers(option =>
+            var mvc = services.AddControllers(option =>
             {
                 // 关闭 启用端点路由
                 option.EnableEndpointRouting = false;
+            });
+            mvc.AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";                        // 设置时间格式
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;            // 忽略循环引用
+                // options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 数据格式首字母小写
+                // options.SerializerSettings.ContractResolver = new DefaultContractResolver();                // 数据格式按原样输出
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;                    // 忽略空值
             });
         }
 
