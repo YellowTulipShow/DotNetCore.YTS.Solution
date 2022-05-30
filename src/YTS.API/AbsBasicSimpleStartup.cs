@@ -11,9 +11,9 @@ using YTS.WEBAPI.Swagger;
 namespace YTS.WEBAPI
 {
     /// <summary>
-    /// 最基础的简单开始程序
+    /// 抽象类: 最基础的简单开始程序
     /// </summary>
-    public class BasicSimpleStartup
+    public abstract class AbsBasicSimpleStartup
     {
         /// <summary>
         /// 配置项
@@ -24,14 +24,14 @@ namespace YTS.WEBAPI
         /// 实例化开始程序
         /// </summary>
         /// <param name="conf"></param>
-        public BasicSimpleStartup(IConfiguration conf)
+        public AbsBasicSimpleStartup(IConfiguration conf)
         {
             this.conf = conf;
         }
 
         /// <summary>
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// 运行时将调用此方法。 使用此方法将服务添加到容器。
+        /// 运行时将调用此方法
+        /// 使用此方法将服务添加到容器。
         /// </summary>
         /// <param name="services">服务</param>
         public void ConfigureServices(IServiceCollection services)

@@ -7,7 +7,7 @@ namespace YTS.WEBAPI.CaseTest
     /// <summary>
     /// Web API 启动项
     /// </summary>
-    public class Program : BasicSimpleStartup
+    public class Program : AbsBasicSimpleStartup
     {
         /// <summary>
         /// 实例化 - 启动项
