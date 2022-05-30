@@ -8,7 +8,7 @@
         <PackageId>YTS.WEBAPI</PackageId>
         <Version>0.0.1</Version>
         <Authors>YellowTulipShow</Authors>
-        <Description>基础的 WEB API 搭建环境</Description>
+        <Description>基础的 WEB API 搭建环境, 基于 .Net Core 3.1 环境</Description>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RepositoryType>git</RepositoryType>
         <NeutralLanguage>zh</NeutralLanguage>
