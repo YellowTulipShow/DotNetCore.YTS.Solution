@@ -39,8 +39,8 @@ namespace YTS.IOFile.API
             {
                 options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";                        // 设置时间格式
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;            // 忽略循环引用
-                // options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 数据格式首字母小写
-                // options.SerializerSettings.ContractResolver = new DefaultContractResolver();                // 数据格式按原样输出
+                //options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 数据格式首字母小写
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();                // 数据格式按原样输出
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;                    // 忽略空值
             });
         }
