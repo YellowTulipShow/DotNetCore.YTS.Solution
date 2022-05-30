@@ -16,20 +16,9 @@ namespace YTS.WEBAPI
     public class BasicSimpleStartup
     {
         /// <summary>
-        /// 开始创建Startup示例
+        /// 配置项
         /// </summary>
-        /// <param name="args"></param>
-        public static void StartCreateStartup(string[] args)
-        {
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<BasicSimpleStartup>();
-                })
-                .Build().Run();
-        }
-
-        private readonly IConfiguration conf;
+        protected readonly IConfiguration conf;
 
         /// <summary>
         /// 实例化开始程序
