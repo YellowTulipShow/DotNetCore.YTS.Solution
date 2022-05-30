@@ -3,27 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.Cache", "YTS.Cache\YTS.Cache.csproj", "{0C96B6E4-0C0F-4B4E-B493-1B7C93490F64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Cache", "YTS.Cache\YTS.Cache.csproj", "{0C96B6E4-0C0F-4B4E-B493-1B7C93490F64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.Log", "YTS.Log\YTS.Log.csproj", "{E0D5632C-A460-4157-8CFF-1604BB1F436E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Log", "YTS.Log\YTS.Log.csproj", "{E0D5632C-A460-4157-8CFF-1604BB1F436E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.Git", "YTS.Git\YTS.Git.csproj", "{38F1E9B4-B3D3-47D4-AB4D-A10067C8DF4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Git", "YTS.Git\YTS.Git.csproj", "{38F1E9B4-B3D3-47D4-AB4D-A10067C8DF4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.IOFile.API", "YTS.IOFile.API\YTS.IOFile.API.csproj", "{A6A70E79-BC8E-44AC-B0DC-93A0037E63A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Logic", "YTS.Logic\YTS.Logic.csproj", "{8780558C-5C48-4F44-BF4B-7FDB40E929F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.IOFile.API.Test", "YTS.IOFile.API.Test\YTS.IOFile.API.Test.csproj", "{77CFAC3A-16B4-4329-98CD-4AB42FA2DC4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Logic.Test", "YTS.Logic.Test\YTS.Logic.Test.csproj", "{FB76FA7E-AF9A-47C3-AF92-2BAEA7057B0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.Logic", "YTS.Logic\YTS.Logic.csproj", "{8780558C-5C48-4F44-BF4B-7FDB40E929F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.WEBAPI", "YTS.API\YTS.WEBAPI.csproj", "{82F62561-1128-406A-81CF-44BE3C8524C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.Logic.Test", "YTS.Logic.Test\YTS.Logic.Test.csproj", "{FB76FA7E-AF9A-47C3-AF92-2BAEA7057B0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.WEBAPI.CaseTest", "YTS.WEBAPI.CaseTest\YTS.WEBAPI.CaseTest.csproj", "{8D2C03A9-24EB-4C12-B49C-61C36510FC6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0C96B6E4-0C0F-4B4E-B493-1B7C93490F64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -38,14 +35,6 @@ Global
 		{38F1E9B4-B3D3-47D4-AB4D-A10067C8DF4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38F1E9B4-B3D3-47D4-AB4D-A10067C8DF4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38F1E9B4-B3D3-47D4-AB4D-A10067C8DF4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6A70E79-BC8E-44AC-B0DC-93A0037E63A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6A70E79-BC8E-44AC-B0DC-93A0037E63A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6A70E79-BC8E-44AC-B0DC-93A0037E63A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6A70E79-BC8E-44AC-B0DC-93A0037E63A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{77CFAC3A-16B4-4329-98CD-4AB42FA2DC4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{77CFAC3A-16B4-4329-98CD-4AB42FA2DC4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77CFAC3A-16B4-4329-98CD-4AB42FA2DC4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{77CFAC3A-16B4-4329-98CD-4AB42FA2DC4C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8780558C-5C48-4F44-BF4B-7FDB40E929F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8780558C-5C48-4F44-BF4B-7FDB40E929F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8780558C-5C48-4F44-BF4B-7FDB40E929F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -54,5 +43,19 @@ Global
 		{FB76FA7E-AF9A-47C3-AF92-2BAEA7057B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB76FA7E-AF9A-47C3-AF92-2BAEA7057B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB76FA7E-AF9A-47C3-AF92-2BAEA7057B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82F62561-1128-406A-81CF-44BE3C8524C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82F62561-1128-406A-81CF-44BE3C8524C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82F62561-1128-406A-81CF-44BE3C8524C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82F62561-1128-406A-81CF-44BE3C8524C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D2C03A9-24EB-4C12-B49C-61C36510FC6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D2C03A9-24EB-4C12-B49C-61C36510FC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D2C03A9-24EB-4C12-B49C-61C36510FC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D2C03A9-24EB-4C12-B49C-61C36510FC6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EDFFD416-974F-414E-8082-162583280E98}
 	EndGlobalSection
 EndGlobal

@@ -350,16 +350,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-
-# YellowTulipShow add file:
-.vscode/
-release.projects.json
-DataBaseSource/
-DataBaseSourceBackup/
-!YTS.Log/
-_release_*/
-
-*.sh
-*.bat
-!_scripts/*.sh
-!_scripts/*.bat
