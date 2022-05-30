@@ -79,28 +79,8 @@ namespace YTS.WEBAPI.Swagger
             var xml_files = files.Where(b => b.Extension.ToLower() == ".xml").ToArray();
             foreach (FileInfo file in xml_files)
             {
-                if (file.Name.Contains(ApiXmlName ?? ""))
-                {
-                    c.IncludeXmlComments(file.FullName, true);
-                    return;
-                }
+                c.IncludeXmlComments(file.FullName, true);
             }
-            if ((xml_files?.Length ?? 0) > 0)
-            {
-                c.IncludeXmlComments(xml_files[0].FullName, true);
-            }
-            return;
-
-            //Console.WriteLine($"ApplicationBasePath: [{app_basic_path}]");
-
-            //var assembly = Assembly.GetExecutingAssembly();
-            //var assemblyName = assembly.GetName();
-            //var name = assemblyName.Name;
-            //Console.WriteLine($"XmlCommentName: [{name}]");
-            //var xmlFile = $"{name}.xml";
-            //var xmlPath = Path.Combine(app_basic_path, xmlFile);
-            //c.IncludeXmlComments(xmlPath);
-            //c.IncludeXmlComments(xmlPath);
         }
 
         /// <summary>
