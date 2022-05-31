@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Logic.Test", "YTS.Logic
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YTS.API", "YTS.API", "{858FC82C-EA54-41E0-9015-106A198DB44D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.WEBAPI", "YTS.API\YTS.WEBAPI\YTS.WEBAPI.csproj", "{23AA5EAE-D327-4345-824A-AAD98DBCA17F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.WEBAPI", "YTS.API\YTS.WEBAPI\YTS.WEBAPI.csproj", "{23AA5EAE-D327-4345-824A-AAD98DBCA17F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.WEBAPI.CaseTest", "YTS.API\YTS.WEBAPI.CaseTest\YTS.WEBAPI.CaseTest.csproj", "{27E64BEC-E676-4A73-A2FF-EC59969CCA8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.WEBAPI.CaseTest", "YTS.API\YTS.WEBAPI.CaseTest\YTS.WEBAPI.CaseTest.csproj", "{27E64BEC-E676-4A73-A2FF-EC59969CCA8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,11 +57,11 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EDFFD416-974F-414E-8082-162583280E98}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{23AA5EAE-D327-4345-824A-AAD98DBCA17F} = {858FC82C-EA54-41E0-9015-106A198DB44D}
 		{27E64BEC-E676-4A73-A2FF-EC59969CCA8D} = {858FC82C-EA54-41E0-9015-106A198DB44D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EDFFD416-974F-414E-8082-162583280E98}
 	EndGlobalSection
 EndGlobal
