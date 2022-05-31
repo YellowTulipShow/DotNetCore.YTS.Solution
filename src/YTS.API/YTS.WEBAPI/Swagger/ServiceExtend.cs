@@ -94,6 +94,7 @@ namespace YTS.WEBAPI.Swagger
                 c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"v1");
                 c.RoutePrefix = string.Empty;
             });
+            app.SetDefaultHTML();
         }
 
         /// <summary>
@@ -118,6 +119,18 @@ namespace YTS.WEBAPI.Swagger
                 return;
             }
             app.StartEnableSwagger();
+        }
+
+        /// <summary>
+        /// 配置默认页面
+        /// </summary>
+        public static void SetDefaultHTML(this IApplicationBuilder app)
+        {
+            DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
+            defaultFilesOptions.DefaultFileNames.Clear();
+            defaultFilesOptions.DefaultFileNames.Add("index.html");
+            app.UseDefaultFiles(defaultFilesOptions);
+            app.UseStaticFiles();
         }
     }
 }

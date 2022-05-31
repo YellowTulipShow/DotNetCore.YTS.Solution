@@ -5,20 +5,20 @@ using Microsoft.Extensions.Hosting;
 namespace YTS.WEBAPI.CaseTest
 {
     /// <summary>
-    /// Web API Æô¶¯Ïî
+    /// Web API å¯åŠ¨é¡¹
     /// </summary>
     public class Program : AbsBasicSimpleStartup
     {
         /// <summary>
-        /// ÊµÀı»¯ - Æô¶¯Ïî
+        /// å®ä¾‹åŒ– - å¯åŠ¨é¡¹
         /// </summary>
-        /// <param name="conf">ÅäÖÃÏî</param>
+        /// <param name="conf">é…ç½®é¡¹</param>
         public Program(IConfiguration conf) : base(conf) { }
 
         /// <summary>
-        /// Èë¿Ú³ÌĞò
+        /// å…¥å£ç¨‹åº
         /// </summary>
-        /// <param name="args">²ÎÊı</param>
+        /// <param name="args">å‚æ•°</param>
         public static void Main(string[] args)
         {
             Host.CreateDefaultBuilder(args)
