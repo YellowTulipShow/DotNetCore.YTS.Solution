@@ -116,6 +116,7 @@ namespace YTS.WEBAPI.Swagger
                     //c.RoutePrefix = VirtualDirectory;
                     c.RoutePrefix = string.Empty;
                 });
+                app.SetDefaultHTML();
                 return;
             }
             app.StartEnableSwagger();

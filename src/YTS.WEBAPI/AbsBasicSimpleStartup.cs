@@ -11,17 +11,17 @@ using YTS.WEBAPI.Swagger;
 namespace YTS.WEBAPI
 {
     /// <summary>
-    /// ³éÏóÀà: ×î»ù´¡µÄ¼òµ¥¿ªÊ¼³ÌĞò
+    /// æŠ½è±¡ç±»: æœ€åŸºç¡€çš„ç®€å•å¼€å§‹ç¨‹åº
     /// </summary>
     public abstract class AbsBasicSimpleStartup
     {
         /// <summary>
-        /// ÅäÖÃÏî
+        /// é…ç½®é¡¹
         /// </summary>
         protected readonly IConfiguration conf;
 
         /// <summary>
-        /// ÊµÀı»¯¿ªÊ¼³ÌĞò
+        /// å®ä¾‹åŒ–å¼€å§‹ç¨‹åº
         /// </summary>
         /// <param name="conf"></param>
         public AbsBasicSimpleStartup(IConfiguration conf)
@@ -30,13 +30,13 @@ namespace YTS.WEBAPI
         }
 
         /// <summary>
-        /// ÔËĞĞÊ±½«µ÷ÓÃ´Ë·½·¨
-        /// Ê¹ÓÃ´Ë·½·¨½«·şÎñÌí¼Óµ½ÈİÆ÷¡£
+        /// è¿è¡Œæ—¶å°†è°ƒç”¨æ­¤æ–¹æ³•
+        /// ä½¿ç”¨æ­¤æ–¹æ³•å°†æœåŠ¡æ·»åŠ åˆ°å®¹å™¨ã€‚
         /// </summary>
-        /// <param name="services">·şÎñ</param>
+        /// <param name="services">æœåŠ¡</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            // ×Ô¶¨Òå×¢Èë·şÎñ
+            // è‡ªå®šä¹‰æ³¨å…¥æœåŠ¡
             services.EnterServiceControllers();
             services.EnterServiceCors();
             services.EnterServiceSwagger(conf);
@@ -44,10 +44,10 @@ namespace YTS.WEBAPI
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        /// ÔËĞĞÊ±½«µ÷ÓÃ´Ë·½·¨¡£ Ê¹ÓÃ´Ë·½·¨À´ÅäÖÃHTTPÇëÇó¹ÜµÀ¡£
+        /// è¿è¡Œæ—¶å°†è°ƒç”¨æ­¤æ–¹æ³•ã€‚ ä½¿ç”¨æ­¤æ–¹æ³•æ¥é…ç½®HTTPè¯·æ±‚ç®¡é“ã€‚
         /// </summary>
-        /// <param name="app">Ó¦ÓÃ³ÌĞòÉú³ÉÆ÷</param>
-        /// <param name="env">IWebHost»·¾³</param>
+        /// <param name="app">åº”ç”¨ç¨‹åºç”Ÿæˆå™¨</param>
+        /// <param name="env">IWebHostç¯å¢ƒ</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -64,7 +64,7 @@ namespace YTS.WEBAPI
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // ×Ô¶¨ÒåÅäÖÃÆôÓÃ
+            // è‡ªå®šä¹‰é…ç½®å¯ç”¨
             app.StartEnableRoute();
             app.StartEnableCors();
             app.StartEnableSwagger();

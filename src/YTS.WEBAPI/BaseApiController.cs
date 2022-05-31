@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace YTS.WEBAPI
 {
     /// <summary>
-    /// »ù´¡API
+    /// åŸºç¡€API
     /// </summary>
     [ApiController]
     [Route("api/[controller]/[action]")]
