@@ -11,17 +11,16 @@ namespace YTS.Log
     /// </summary>
     public class FilePrintLog : ConsolePrintLog
     {
-        private readonly string logFilePath;
+        private readonly FileInfo logFile;
         private readonly Encoding encoding;
 
         /// <summary>
         /// 初始化实现类: 文件打印日志输出实现
         /// </summary>
-        /// <param name="absFilePath">绝对路径文件地址</param>
+        /// <param name="logFile">文件信息</param>
         /// <param name="encoding">文件编码内容</param>
-        public FilePrintLog(string absFilePath, Encoding encoding)
+        public FilePrintLog(FileInfo logFile, Encoding encoding)
         {
-            FileInfo logFile = new FileInfo(absFilePath);
             var dire = logFile.Directory;
             if (!dire.Exists)
             {
@@ -31,7 +30,7 @@ namespace YTS.Log
             {
                 logFile.Create().Close();
             }
-            logFilePath = logFile.FullName;
+            this.logFile = logFile;
             this.encoding = encoding;
         }
 
@@ -43,8 +42,8 @@ namespace YTS.Log
         {
             string time_format = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             string[] log_head = new string[] { $"[{time_format}] Insert Log:" };
-            File.AppendAllLines(logFilePath, log_head, encoding);
-            File.AppendAllLines(logFilePath, msglist, encoding);
+            File.AppendAllLines(logFile.FullName, log_head, encoding);
+            File.AppendAllLines(logFile.FullName, msglist, encoding);
         }
     }
 }

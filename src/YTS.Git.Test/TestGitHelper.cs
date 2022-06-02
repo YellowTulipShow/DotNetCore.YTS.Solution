@@ -22,7 +22,8 @@ namespace YTS.Git.Test
         [TestInitialize]
         public void Init()
         {
-            log = new FilePrintLog($"./logs/TestGitHelper/{DateTime.Now:yyyy_MM_dd}.log", Encoding.UTF8);
+            var logFile = new FileInfo($"./logs/TestGitHelper/{DateTime.Now:yyyy_MM_dd}.log");
+            log = new FilePrintLog(logFile, Encoding.UTF8);
         }
 
         [TestCleanup]
