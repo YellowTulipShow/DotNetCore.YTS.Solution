@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.WEBAPI.CaseTest", "YTS.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Git", "YTS.Git\YTS.Git.csproj", "{0673E435-8838-4161-93D1-F34876EEF6C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.Git.Test", "YTS.Git.Test\YTS.Git.Test.csproj", "{EFC57A84-1993-4228-817B-1ABB5F4A4C31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YTS.Git.Test", "YTS.Git.Test\YTS.Git.Test.csproj", "{EFC57A84-1993-4228-817B-1ABB5F4A4C31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTS.Log.Test", "YTS.Log.Test\YTS.Log.Test.csproj", "{30FF851D-DFED-44A3-AC50-5C676B0FD026}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{EFC57A84-1993-4228-817B-1ABB5F4A4C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFC57A84-1993-4228-817B-1ABB5F4A4C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFC57A84-1993-4228-817B-1ABB5F4A4C31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30FF851D-DFED-44A3-AC50-5C676B0FD026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30FF851D-DFED-44A3-AC50-5C676B0FD026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30FF851D-DFED-44A3-AC50-5C676B0FD026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30FF851D-DFED-44A3-AC50-5C676B0FD026}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

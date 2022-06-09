@@ -1,11 +1,9 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
 using System.Collections.Generic;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using YTS.Log;
-
-namespace YTS.Logic.Test.Log
+namespace YTS.Log.Test
 {
     [TestClass]
     public class TestConsolePrintLog

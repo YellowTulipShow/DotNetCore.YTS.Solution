@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace YTS.Log
@@ -31,12 +32,17 @@ namespace YTS.Log
             }
         }
 
+        public IList<ILog> GetInsideLogs()
+        {
+            return logDict.Values.ToArray();
+        }
+
         /// <inheritdoc />
         public void Info(string message, params IDictionary<string, object>[] args)
         {
             foreach (var item in logDict.Values)
             {
-                item.Error(message, args);
+                item.Info(message, args);
             }
         }
 
