@@ -49,7 +49,7 @@ if ($api) {
 
         # 推送打包文件
         Write-Output "dotnet nuget push $item --api-key $api --source $nuget_source_url --skip-duplicate"
-        # dotnet nuget push $item --api-key $api --source $nuget_source_url --skip-duplicate
+        dotnet nuget push $item --api-key $api --source $nuget_source_url --skip-duplicate
     }
 } else {
     Write-Output "API-KEY:$cpath Content is Null!!!"
