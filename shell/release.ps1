@@ -26,15 +26,20 @@ function ConfigFileHandle([string]$path)
 }
 
 # 系统发布名单配置定义
+PrintLineSplit
 $cpath = ConfigFileHandle("./_configs/systems.config")
 if ($cpath -and (Test-Path $cpath)) {
     $systems = Get-Content $cpath
+    Write-Host "[Get Release Signs]: $systems";
 } else {
     Write-Host "[Systems Sign Config File] Not Existent: $cpath";
+    PrintLineSplit
     return;
 }
 
 # 发布应用程序
+PrintLineSplit
+Write-Host "[Release Apps]:";
 $cpath = ConfigFileHandle("./_configs/app.config")
 if ($cpath -and (Test-Path $cpath)) {
     $list = Get-Content $cpath
@@ -66,6 +71,8 @@ if ($cpath -and (Test-Path $cpath)) {
 }
 
 # 打包项目
+PrintLineSplit
+Write-Host "[Release Packages]:";
 $cpath = ConfigFileHandle("./_configs/packages.config")
 if ($cpath -and (Test-Path $cpath)) {
     $save_path = "./_release/packages"
