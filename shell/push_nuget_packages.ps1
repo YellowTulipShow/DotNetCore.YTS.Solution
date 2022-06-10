@@ -22,6 +22,9 @@ if ($api) {
         # 推送打包文件
         Write-Output "dotnet nuget push $item --api-key $api --source $nuget_source_url --skip-duplicate"
         dotnet nuget push $item --api-key $api --source $nuget_source_url --skip-duplicate
+        Write-Output ""
+        Write-Output "======================================================================================="
+        Write-Output ""
     }
 } else {
     Write-Output "API-KEY:$config_api_key Content is Null!!!"
