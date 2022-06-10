@@ -3,7 +3,7 @@ Set-Location $PSScriptRoot
 Set-Location ..
 
 # 查找所有项目名单
-$config_projects = "./_configs/projects.config"
+$config_projects = "./_configs/fixed/projects.config"
 if (!(Test-Path $config_projects)) {
     Write-Output "config file:${config_projects} not existence, find all *.csproj files"
     New-Item -ItemType File -Force -Path $config_projects

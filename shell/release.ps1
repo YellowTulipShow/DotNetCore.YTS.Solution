@@ -2,6 +2,12 @@ $ExecutePath = $PWD
 Set-Location $PSScriptRoot
 Set-Location ..
 
+function PrintLineSplit([string]$path)
+{
+    Write-Host ""
+    Write-Host "======================================================================================="
+    Write-Host ""
+}
 function ConfigFileHandle([string]$path)
 {
     $path = $path -replace "\\","/"
@@ -21,7 +27,6 @@ function ConfigFileHandle([string]$path)
 
 # 系统发布名单配置定义
 $cpath = ConfigFileHandle("./_configs/systems.config")
-Write-Host "config_systems: [$cpath]"
 if ($cpath -and (Test-Path $cpath)) {
     $systems = Get-Content $cpath
 } else {
@@ -50,13 +55,12 @@ if ($cpath -and (Test-Path $cpath)) {
             } else {
                 $sys = $systems[$j];
             }
+
+            PrintLineSplit
+
             # 发布项目
             Write-Host "dotnet publish $item -o './_release/$sys/$name' --runtime '$sys'"
             dotnet publish $item -o "./_release/$sys/$name" --runtime "$sys"
-
-            Write-Output ""
-            Write-Output "======================================================================================="
-            Write-Output ""
         }
     }
 }
@@ -79,17 +83,18 @@ if ($cpath -and (Test-Path $cpath)) {
         if (!$item) {
             continue;
         }
+
+        PrintLineSplit
+
         # 打包项目
         Write-Output "dotnet build $item"
         dotnet build $item
         Write-Output "dotnet pack $item --output '$save_path'"
         dotnet pack $item --output "$save_path"
-
-        Write-Output ""
-        Write-Output "======================================================================================="
-        Write-Output ""
     }
 }
+
+PrintLineSplit
 
 Set-Location $ExecutePath
 if ($PSScriptRoot -eq $ExecutePath) {
