@@ -2,8 +2,7 @@ $ExecutePath = $PWD
 Set-Location $PSScriptRoot
 Set-Location ..
 
-function PrintLineSplit([string]$path)
-{
+function PrintLineSplit([string]$path) {
     Write-Host ""
     Write-Host "======================================================================================="
     Write-Host ""
@@ -19,10 +18,15 @@ if (!(Test-Path $cpath)) {
     New-Item -ItemType File -Force -Path $cpath
 }
 $list = Get-ChildItem -Recurse -Include *.csproj -Name
-for ($i = 0; $i -lt $list.Count; $i++) {
-    $list[$i] = $list[$i] -replace "\\","/"
-    $item = $list[$i];
-    Write-Host "project: $item"
+if ($list.getType().Name -eq "String" -or $list.Count -eq 1) {
+    $list = $list -replace "\\", "/"
+}
+else {
+    for ($i = 0; $i -lt $list.Count; $i++) {
+        $list[$i] = $list[$i] -replace "\\", "/"
+        $item = $list[$i];
+        Write-Host "project: $item"
+    }
 }
 $list > $cpath
 PrintLineSplit
