@@ -2,8 +2,7 @@ $ExecutePath = $PWD
 Set-Location $PSScriptRoot
 Set-Location ..
 
-function PrintLineSplit([string]$path)
-{
+function PrintLineSplit([string]$path) {
     Write-Host ""
     Write-Host "======================================================================================="
     Write-Host ""
