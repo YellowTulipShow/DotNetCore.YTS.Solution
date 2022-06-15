@@ -19,10 +19,15 @@ if (!(Test-Path $cpath)) {
     New-Item -ItemType File -Force -Path $cpath
 }
 $list = Get-ChildItem -Recurse -Include *.csproj -Name
-for ($i = 0; $i -lt $list.Count; $i++) {
-    $list[$i] = $list[$i] -replace "\\","/"
-    $item = $list[$i];
-    Write-Host "project: $item"
+if ($list.Count -eq 1) {
+    $list = $list -replace "\\","/"
+    Write-Host "project: $list"
+} else {
+    for ($i = 0; $i -lt $list.Count; $i++) {
+        $list[$i] = $list[$i] -replace "\\","/"
+        $item = $list[$i];
+        Write-Host "project: $item"
+    }
 }
 $list > $cpath
 PrintLineSplit
