@@ -52,7 +52,7 @@ for ($i = 0; $i -lt $list.Count; $i++) {
 
     # 推送打包文件
     Write-Output "dotnet nuget push $item --api-key $api --source $nuget_source_url --skip-duplicate"
-    # dotnet nuget push $item --api-key $api --source $nuget_source_url --skip-duplicate
+    dotnet nuget push $item --api-key $api --source $nuget_source_url --skip-duplicate
 }
 
 PrintLineSplit

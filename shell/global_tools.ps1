@@ -1,10 +1,3 @@
-param([string]$runMethod)
-if ($runMethod -ne "toolScript") {
-    $ExecutePath = $PWD
-    Set-Location $PSScriptRoot
-    Set-Location ..
-}
-
 function PrintLineSplit([string]$path) {
     Write-Host ""
     Write-Host "======================================================================================="
@@ -26,12 +19,5 @@ function ConfigFileHandle([string]$path) {
     }
     else {
         return $path;
-    }
-}
-
-if ($runMethod -ne "toolScript") {
-    Set-Location $ExecutePath
-    if ($PSScriptRoot -eq $ExecutePath) {
-        timeout.exe /T -1
     }
 }
