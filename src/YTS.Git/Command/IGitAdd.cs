@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace YTS.Git.SubCommands
+namespace YTS.Git.Command
 {
     /// <summary>
     /// 接口: Git - status 子命令
     /// </summary>
-    public interface IGitAdd
+    public interface IGitAdd : IGitSubCommand
     {
         /// <summary>
         /// 执行命令: git add .

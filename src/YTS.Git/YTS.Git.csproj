@@ -6,7 +6,7 @@
 		<xmlDoc>true</xmlDoc>
 		<Title>Git相关支持库</Title>
 		<PackageId>YTS.Git</PackageId>
-		<Version>0.1.0</Version>
+		<Version>0.1.1</Version>
 		<Authors>YellowTulipShow</Authors>
 		<Description>Git相关支持库</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>

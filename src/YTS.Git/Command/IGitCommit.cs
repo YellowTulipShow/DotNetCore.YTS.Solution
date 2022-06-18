@@ -1,9 +1,9 @@
-﻿namespace YTS.Git.SubCommands
+﻿namespace YTS.Git.Command
 {
     /// <summary>
     /// 接口: Git - commit 子命令
     /// </summary>
-    public interface IGitCommit
+    public interface IGitCommit : IGitSubCommand
     {
         /// <summary>
         /// 执行命令: git commit -m "{message}"
