@@ -9,7 +9,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta3.22107.1" />
   </ItemGroup>
 
   <ItemGroup>
