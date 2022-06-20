@@ -1,11 +1,10 @@
-$ExecutePath = $PWD
-Set-Location $PSScriptRoot
-Set-Location ..
+param([string]$runMethod)
+if ($runMethod -ne "toolScript") {
+    $ExecutePath = $PWD
+    Set-Location $PSScriptRoot
+    Set-Location ..
 
-function PrintLineSplit([string]$path) {
-    Write-Host ""
-    Write-Host "======================================================================================="
-    Write-Host ""
+    . ./shell/global_tools.ps1
 }
 
 # 查找所有项目名单
@@ -31,7 +30,9 @@ if ($list.Count -eq 1) {
 $list > $cpath
 PrintLineSplit
 
-Set-Location $ExecutePath
-if ($PSScriptRoot -eq $ExecutePath) {
-    timeout.exe /T -1
+if ($runMethod -ne "toolScript") {
+    Set-Location $ExecutePath
+    if ($PSScriptRoot -eq $ExecutePath) {
+        timeout.exe /T -1
+    }
 }
