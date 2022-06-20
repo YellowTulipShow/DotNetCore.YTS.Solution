@@ -1,8 +1,0 @@
-{
-    "Path": "E:\\Work\\YTS.ZRQ\\UndergraduateStudy\\EnglishLevel4Words\\Kingsoft",
-    "FileExtension": ".md",
-    "Re_Input": "([a-zA-Z]+) \\| \\[([^\\[\\]]+)\\] \\| ([^\\r\\n]+)",
-    "Re_Print": "[ $1 ] : $3",
-    "Re_Answer": "$1",
-    "CountWorkRepeat": 8
-}
