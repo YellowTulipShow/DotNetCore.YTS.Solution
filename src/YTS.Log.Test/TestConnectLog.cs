@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+ï»¿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
 using System.IO;
@@ -41,17 +41,17 @@ namespace YTS.Log.Test
             }
 
             ILog log = new TestCreateLog(action);
-            log.Info("²âÊÔInfo");
-            log.Error("²âÊÔError");
+            log.Info("æµ‹è¯•Info");
+            log.Error("æµ‹è¯•Error");
             Assert.AreEqual(2, dict.Count);
             Assert.AreEqual(1, dict["Info"]);
             Assert.AreEqual(1, dict["Error"]);
             Assert.IsFalse(dict.ContainsKey("ErrorException"));
 
             log = log.Connect(new TestCreateLog(action), new TestCreateLog(action));
-            log.Info("²âÊÔInfo");
-            log.Error("²âÊÔError");
-            log.Error("²âÊÔErrorException", (Exception)null, null);
+            log.Info("æµ‹è¯•Info");
+            log.Error("æµ‹è¯•Error");
+            log.Error("æµ‹è¯•ErrorException", (Exception)null, null);
             Assert.AreEqual(3, dict.Count);
             Assert.AreEqual(4, dict["Info"]);
             Assert.AreEqual(4, dict["Error"]);
@@ -60,26 +60,26 @@ namespace YTS.Log.Test
             dict.Clear();
 
             ILog log1 = new TestCreateLog(action);
-            log1.Info("²âÊÔInfo");
-            log1.Error("²âÊÔError");
+            log1.Info("æµ‹è¯•Info");
+            log1.Error("æµ‹è¯•Error");
             Assert.AreEqual(2, dict.Count);
             Assert.AreEqual(1, dict["Info"]);
             Assert.AreEqual(1, dict["Error"]);
             Assert.IsFalse(dict.ContainsKey("ErrorException"));
 
             log1 = log1.Connect(new TestCreateLog(action), new TestCreateLog(action));
-            log1.Info("²âÊÔInfo");
-            log1.Error("²âÊÔError");
-            log1.Error("²âÊÔErrorException", (Exception)null, null);
+            log1.Info("æµ‹è¯•Info");
+            log1.Error("æµ‹è¯•Error");
+            log1.Error("æµ‹è¯•ErrorException", (Exception)null, null);
             Assert.AreEqual(3, dict.Count);
             Assert.AreEqual(4, dict["Info"]);
             Assert.AreEqual(4, dict["Error"]);
             Assert.AreEqual(3, dict["ErrorException"]);
 
             ILog log2 = log1.Connect(log);
-            log2.Info("²âÊÔInfo");
-            log2.Error("²âÊÔError");
-            log2.Error("²âÊÔErrorException", (Exception)null, null);
+            log2.Info("æµ‹è¯•Info");
+            log2.Error("æµ‹è¯•Error");
+            log2.Error("æµ‹è¯•ErrorException", (Exception)null, null);
             Assert.AreEqual(3, dict.Count);
             Assert.AreEqual(10, dict["Info"]);
             Assert.AreEqual(10, dict["Error"]);
@@ -90,9 +90,9 @@ namespace YTS.Log.Test
             dict.Clear();
             Assert.AreEqual(0, dict.Count);
 
-            log2.Info("²âÊÔInfo");
-            log2.Error("²âÊÔError");
-            log2.Error("²âÊÔErrorException", (Exception)null, null);
+            log2.Info("æµ‹è¯•Info");
+            log2.Error("æµ‹è¯•Error");
+            log2.Error("æµ‹è¯•ErrorException", (Exception)null, null);
             Assert.AreEqual(3, dict.Count);
             Assert.AreEqual(6, dict["Info"]);
             Assert.AreEqual(6, dict["Error"]);
@@ -101,9 +101,9 @@ namespace YTS.Log.Test
             dict.Clear();
             Assert.AreEqual(0, dict.Count);
 
-            log.Info("²âÊÔInfo");
-            log.Error("²âÊÔError");
-            log.Error("²âÊÔErrorException", (Exception)null, null);
+            log.Info("æµ‹è¯•Info");
+            log.Error("æµ‹è¯•Error");
+            log.Error("æµ‹è¯•ErrorException", (Exception)null, null);
             Assert.AreEqual(3, dict.Count);
             Assert.AreEqual(3, dict["Info"]);
             Assert.AreEqual(3, dict["Error"]);

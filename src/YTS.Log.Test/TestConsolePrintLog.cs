@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+Ôªøusing Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
 using System.Collections.Generic;
@@ -13,11 +13,11 @@ namespace YTS.Log.Test
         {
             IDictionary<string, object> logArgs = new Dictionary<string, object>()
             {
-                { "Name", "’≈»˝" },
+                { "Name", "Âº†‰∏â" },
                 { "fileUrl", "D:\\Work\\Image\\1.jpg" },
             };
             ILog log = new ConsolePrintLog();
-            log.Info("≤‚ ‘÷¥––ILog.Info", logArgs);
+            log.Info("ÊµãËØïÊâßË°åILog.Info", logArgs);
             Assert.IsTrue(true);
         }
 
@@ -26,11 +26,11 @@ namespace YTS.Log.Test
         {
             IDictionary<string, object> logArgs = new Dictionary<string, object>()
             {
-                { "Name", "’≈»˝" },
+                { "Name", "Âº†‰∏â" },
                 { "fileUrl", "D:\\Work\\Image\\1.jpg" },
             };
             ILog log = new ConsolePrintLog();
-            log.Error("≤‚ ‘÷¥––ILog.Error", logArgs);
+            log.Error("ÊµãËØïÊâßË°åILog.Error", logArgs);
         }
 
         [TestMethod]
@@ -38,12 +38,12 @@ namespace YTS.Log.Test
         {
             IDictionary<string, object> logArgs = new Dictionary<string, object>()
             {
-                { "Name", "’≈»˝" },
+                { "Name", "Âº†‰∏â" },
                 { "fileUrl", "D:\\Work\\Image\\1.jpg" },
             };
             ILog log = new ConsolePrintLog();
-            Exception exception = new Exception("≤‚ ‘¥•∑¢µƒ“Ï≥£");
-            log.Error("≤‚ ‘÷¥––ILog.Error<Exception>", exception, logArgs);
+            Exception exception = new Exception("ÊµãËØïËß¶ÂèëÁöÑÂºÇÂ∏∏");
+            log.Error("ÊµãËØïÊâßË°åILog.Error<Exception>", exception, logArgs);
         }
     }
 }

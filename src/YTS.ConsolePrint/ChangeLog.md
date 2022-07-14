@@ -1,4 +1,4 @@
-# YTS.ConsolePrint 控制台打印输出操作库
+﻿# YTS.ConsolePrint 控制台打印输出操作库
 
 ## 版本更新日志
 

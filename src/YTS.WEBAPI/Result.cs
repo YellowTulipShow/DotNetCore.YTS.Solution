@@ -1,4 +1,4 @@
-namespace YTS.WEBAPI
+﻿namespace YTS.WEBAPI
 {
     /// <summary>
     /// 响应结果模板

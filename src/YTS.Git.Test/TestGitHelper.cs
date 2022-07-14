@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+ï»¿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
 using System.IO;
@@ -38,7 +38,7 @@ namespace YTS.Git.Test
         [TestMethod]
         public void Test_ALL()
         {
-            // Î´ÍêÈ«ÊµÏÖ
+            // æœªå®Œå…¨å®ç°
             if (Directory.Exists(root_dire))
             {
                 Directory.Delete(root_dire, true);
@@ -85,10 +85,10 @@ namespace YTS.Git.Test
     public static class StringListAssert
     {
         /// <summary>
-        /// ÊÇ·ñ²âÊÔÍ¨¹ı
+        /// æ˜¯å¦æµ‹è¯•é€šè¿‡
         /// </summary>
-        /// <param name="actual">´ğ°¸</param>
-        /// <param name="expected">Ô¤ÆÚ</param>
+        /// <param name="actual">ç­”æ¡ˆ</param>
+        /// <param name="expected">é¢„æœŸ</param>
         public static void Test(this IList<string> actual, IList<string> expected)
         {
             Assert.IsNotNull(actual);
@@ -204,8 +204,8 @@ The file will have its original line endings in your working directory
 
 
 
-$ git commit -m "±£´æ"
-[master 1aed01b] ±£´æ
+$ git commit -m "ä¿å­˜"
+[master 1aed01b] ä¿å­˜
  1 file changed, 1 insertion(+)
  create mode 100644 3.txt
 

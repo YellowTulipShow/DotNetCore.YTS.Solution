@@ -1,4 +1,4 @@
-$ExecutePath = $PWD
+﻿$ExecutePath = $PWD
 Set-Location $PSScriptRoot
 
 Write-Output "dotnet build ./YTS.WEBAPI.CaseTest.csproj"

@@ -1,4 +1,4 @@
-namespace YTS.ConsolePrint
+﻿namespace YTS.ConsolePrint
 {
     /// <summary>
     /// 接口: 打印输出接口

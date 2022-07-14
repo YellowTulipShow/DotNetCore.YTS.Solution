@@ -1,4 +1,4 @@
-# YTS.Git 与应用程序 git 联动调用库
+﻿# YTS.Git 与应用程序 git 联动调用库
 
 [点击查看 - 日志文件](ChangeLog.md)
 

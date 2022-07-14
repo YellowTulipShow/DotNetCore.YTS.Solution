@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+锘縰sing Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
 using System.IO;
@@ -16,7 +16,7 @@ namespace YTS.Log.Test
             {
                 FileInfo fileInfo = ILogExtend.GetLogFilePath("TestFilePrintLog");
                 ILog log = new FilePrintLog(fileInfo, System.Text.Encoding.UTF8);
-                log.Info("测试文件信息写入");
+                log.Info("娴嬭瘯鏂囦欢淇℃伅鍐欏叆");
                 Assert.IsNotNull(log);
                 Assert.IsTrue(fileInfo.Exists);
                 string fullPath = fileInfo.FullName;

@@ -1,4 +1,4 @@
-# YTS.Logic 基础逻辑类库
+﻿# YTS.Logic 基础逻辑类库
 
 ## 网络库
 
