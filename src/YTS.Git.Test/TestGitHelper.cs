@@ -20,7 +20,7 @@ namespace YTS.Git.Test
     [TestClass]
     public class TestGitHelper
     {
-        public const string root_dire = @"D:\_yts_git_test_run_dire";
+        public string rootDirePath;
         private ILog log;
 
         [TestInitialize]
@@ -28,6 +28,7 @@ namespace YTS.Git.Test
         {
             var logFile = new FileInfo($"./logs/TestGitHelper/{DateTime.Now:yyyy_MM_dd}.log");
             log = new FilePrintLog(logFile, Encoding.UTF8);
+            rootDirePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "./_yts_git_test_run_dire");
         }
 
         [TestCleanup]
@@ -38,28 +39,34 @@ namespace YTS.Git.Test
         [TestMethod]
         public void Test_ALL()
         {
+            DirectoryInfo rootDire = new DirectoryInfo(rootDirePath);
+
             // 未完全实现
-            if (Directory.Exists(root_dire))
+            if (Directory.Exists(rootDirePath))
             {
-                Directory.Delete(root_dire, true);
-                Directory.CreateDirectory(root_dire);
+                DirectoryInfo[] haveDires = rootDire.GetDirectories();
+                for (int i = 0; i < haveDires.Length; i++)
+                    haveDires[i].Delete(true);
+                FileInfo[] havefiles = rootDire.GetFiles();
+                for (int i = 0; i < havefiles.Length; i++)
+                    havefiles[i].Delete();
             }
             else
             {
-                Directory.CreateDirectory(root_dire);
+                Directory.CreateDirectory(rootDirePath);
             }
 
             IGit git = new GitCommands(new Repository()
             {
-                RootPath = new DirectoryInfo(root_dire),
+                RootPath = new DirectoryInfo(rootDirePath),
             });
 
             git.Init().OnCommand();
-            Assert.AreEqual(true, Directory.Exists(root_dire));
-            Assert.AreEqual(true, Directory.Exists(Path.Combine(root_dire, ".git")));
+            Assert.AreEqual(true, Directory.Exists(rootDirePath));
+            Assert.AreEqual(true, Directory.Exists(Path.Combine(rootDirePath, ".git")));
 
             string json = JsonConvert.SerializeObject(new { });
-            File.WriteAllText(Path.Combine(root_dire, "1.json"), json);
+            File.WriteAllText(Path.Combine(rootDirePath, "1.json"), json);
 
             git.Add().OnCommand("1.json");
 
