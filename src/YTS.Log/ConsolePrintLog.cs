@@ -59,12 +59,11 @@ namespace YTS.Log
             }
             catch (Exception re_ex)
             {
-                base.Error("打印日志时发生错误! 内部错误!", re_ex, new Dictionary<string, object>()
-                {
-                    { "message", message },
-                    { "ex", ex },
-                    { "args", args },
-                });
+                var ex_logArgs = this.CreateArgDictionary();
+                ex_logArgs["message"] = message;
+                ex_logArgs["sonArgs"] = args;
+                ex_logArgs["exArg"] = ex;
+                throw new ILogParamException(ex_logArgs, "打印日志时发生错误! 内部错误!", re_ex);
             }
         }
         private dynamic ToDynamic(Exception ex)

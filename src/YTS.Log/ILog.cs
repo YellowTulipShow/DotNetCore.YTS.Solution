@@ -11,7 +11,7 @@ namespace YTS.Log
     }
 
     /// <summary>
-    /// 接口: 泛型日志
+    /// 接口: 泛型参数日志
     /// </summary>
     /// <typeparam name="T">参数数据类型</typeparam>
     public interface ILog<T>
