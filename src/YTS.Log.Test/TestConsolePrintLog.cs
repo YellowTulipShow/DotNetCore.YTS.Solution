@@ -29,12 +29,20 @@ namespace YTS.Log.Test
             }
         }
 
+        [TestMethod]
+        public void ToDataContent()
+        {
+            var print = new ConsolePrintLog();
+            ConsolePrintLog.DataContent content = print.ToDataContent(null);
+        }
 
         [TestMethod]
         public void TestBasicDataMsg()
         {
             var log = new TestRunLog();
             var logArgs = log.CreateArgDictionary();
+
+            Exception ex = new Exception("异常内容标题描述");
 
             logArgs["Name"] = "张三";
             logArgs["fileUrl"] = "D:\\Work\\Image\\1.jpg";
@@ -80,8 +88,6 @@ namespace YTS.Log.Test
                 "        ├── Name: 张三",
                 "        └── fileUrl: D:\\Work\\Image\\1.jpg",
             }, log.GetMsgLines());
-
-            Exception ex = new Exception("异常内容标题描述");
             log.Error("测试错误2", ex, logArgs, logArgs, logArgs);
             Verif(new string[] {
                 "[ErrorException] 测试错误2:" +

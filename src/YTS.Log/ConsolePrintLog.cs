@@ -31,14 +31,110 @@ namespace YTS.Log
             Print("[ErrorException]", message, ex, args);
         }
 
+        /// <summary>
+        /// 数据内容
+        /// </summary>
+        public struct DataContent
+        {
+            /// <summary>
+            /// 字符串值
+            /// </summary>
+            public string StrValue { get; set; }
+            /// <summary>
+            /// 字典值
+            /// </summary>
+            public IDictionary<string, object> Dict { get; set; }
+        }
+
+        /// <summary>
+        /// 拆箱解析数据类型值
+        /// </summary>
+        /// <param name="data">数据</param>
+        /// <returns>结果值</returns>
+        public DataContent ToDataContent(object data)
+        {
+            DataContent content = new DataContent()
+            {
+                StrValue = null,
+                Dict = null,
+            };
+
+            if (data is null)
+                return content;
+
+            if (data is bool value_bool)
+                content.StrValue = value_bool.ToString();
+
+            if (data is sbyte value_sbyte)
+                content.StrValue = value_sbyte.ToString();
+
+            if (data is byte value_byte)
+                content.StrValue = value_byte.ToString();
+
+            if (data is short value_short)
+                content.StrValue = value_short.ToString();
+
+            if (data is ushort value_ushort)
+                content.StrValue = value_ushort.ToString();
+
+            if (data is int value_int)
+                content.StrValue = value_int.ToString();
+
+            if (data is uint value_uint)
+                content.StrValue = value_uint.ToString();
+
+            if (data is long value_long)
+                content.StrValue = value_long.ToString();
+
+            if (data is ulong value_ulong)
+                content.StrValue = value_ulong.ToString();
+
+            if (data is float value_float)
+                content.StrValue = value_float.ToString();
+
+            if (data is double value_double)
+                content.StrValue = value_double.ToString();
+
+            if (data is decimal value_decimal)
+                content.StrValue = value_decimal.ToString();
+
+            if (data is char value_char)
+                content.StrValue = value_char.ToString();
+
+            if (data is Enum value_enum)
+                content.StrValue = value_enum.ToString();
+
+            return content;
+        }
+
+
         private void Print(string sign, string message, Exception ex, params IDictionary<string, object>[] args)
         {
             try
             {
-                var msglist = new List<string>
+                List<string> msglist = new List<string> { $"{sign} {message}:" };
+                // 层级
+                int layer = 0;
+                List<string> signlist = new List<string> { };
+                while (true)
                 {
-                    $"{sign} {message}"
-                };
+                    args
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 if (args.Length == 1)
                 {
                     msglist.AddRange(ToTree(sign.Length, $"arg", args[0]));
@@ -52,7 +148,7 @@ namespace YTS.Log
                 }
                 if (ex != null)
                 {
-                    var exArgs = ToDynamic(ex);
+                    var exArgs = ToIDictionary(ex);
                     msglist.AddRange(ToTree(sign.Length, $"Exception", exArgs));
                 }
                 PrintLines(msglist.ToArray());
@@ -66,17 +162,29 @@ namespace YTS.Log
                 throw new ILogParamException(ex_logArgs, "打印日志时发生错误! 内部错误!", re_ex);
             }
         }
-        private dynamic ToDynamic(Exception ex)
+        private IDictionary<string, object> ToIDictionary(Exception ex)
         {
-            return ex == null ? null : new
-            {
-                ex.Message,
-                ex.Data,
-                StackTrace = (ex.StackTrace ?? string.Empty).Split('\n'),
-                InnerException = ToDynamic(ex.InnerException),
-                ex.Source,
-            };
+            var args = this.CreateArgDictionary();
+            args["Message"] = ex.Message;
+            args["Data"] = ex.Data;
+            args["Source"] = ex.Source;
+            args["StackTrace"] = (ex.StackTrace ?? string.Empty).Split('\n');
+            args["InnerException"] = ToIDictionary(ex.InnerException);
+            return args;
         }
+
+        /// <summary>
+        /// 排序字符串键名队列
+        /// </summary>
+        /// <param name="dict">字典对象</param>
+        /// <returns>排序结果</returns>
+        public IList<string> GetSortStrKeys(IDictionary<string, object> dict)
+        {
+            ICollection<string> keys = dict.Keys;
+            IList<string> rlist = keys.OrderBy(b => b).ToArray();
+            return rlist;
+        }
+
         private IList<string> ToTree(int leftSpaceWidth, string name, object value)
         {
             var msglist = new List<string>();
