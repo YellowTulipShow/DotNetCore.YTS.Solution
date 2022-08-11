@@ -17,6 +17,7 @@ namespace YTS.Log.Test
             }
             protected override void PrintLines(params string[] msglist)
             {
+                lines.Clear();
                 lines.AddRange(msglist);
             }
             public IList<string> GetMsgLines()
@@ -44,62 +45,75 @@ namespace YTS.Log.Test
 
             Exception ex = new Exception("异常内容标题描述");
 
-            logArgs["Name"] = "张三";
-            logArgs["fileUrl"] = "D:\\Work\\Image\\1.jpg";
+            logArgs["aName"] = "张三";
+            logArgs["bFileUrl"] = "D:\\Work\\Image\\1.jpg";
+
+            static void Verif(IList<string> expected, IList<string> actual)
+            {
+                Assert.IsNotNull(expected);
+                Assert.IsNotNull(actual);
+                Assert.AreEqual(expected.Count, actual.Count);
+                for (int i = 0; i < expected.Count; i++)
+                {
+                    string expected_str = expected[i];
+                    string actual_str = actual[i];
+                    Assert.AreEqual(expected_str, actual_str);
+                }
+            };
 
             log.Info("测试信息1", logArgs);
             Verif(new string[] {
-                "[Info] 测试信息1:" +
-                "    ├── Name: 张三",
-                "    └── fileUrl: D:\\Work\\Image\\1.jpg",
+                "[Info] 测试信息1:",
+                "    ├── aName: 张三",
+                "    └── bFileUrl: D:\\Work\\Image\\1.jpg",
             }, log.GetMsgLines());
 
             log.Error("测试信息1", logArgs);
             Verif(new string[] {
-                "[Error] 测试信息1:" +
-                "    ├── Name: 张三",
-                "    └── fileUrl: D:\\Work\\Image\\1.jpg",
+                "[Error] 测试信息1:",
+                "    ├── aName: 张三",
+                "    └── bFileUrl: D:\\Work\\Image\\1.jpg",
             }, log.GetMsgLines());
 
             log.Info("测试错误2", logArgs, logArgs, logArgs);
             Verif(new string[] {
-                "[Info] 测试错误2:" +
+                "[Info] 测试错误2:",
                 "    ├── arg[0]:",
-                "    |   ├── Name: 张三",
-                "    |   └── fileUrl: D:\\Work\\Image\\1.jpg",
+                "    |   ├── aName: 张三",
+                "    |   └── bFileUrl: D:\\Work\\Image\\1.jpg",
                 "    ├── arg[1]:",
-                "    |   ├── Name: 张三",
-                "    |   └── fileUrl: D:\\Work\\Image\\1.jpg",
+                "    |   ├── aName: 张三",
+                "    |   └── bFileUrl: D:\\Work\\Image\\1.jpg",
                 "    └── arg[2]:",
-                "        ├── Name: 张三",
-                "        └── fileUrl: D:\\Work\\Image\\1.jpg",
+                "        ├── aName: 张三",
+                "        └── bFileUrl: D:\\Work\\Image\\1.jpg",
             }, log.GetMsgLines());
 
             log.Error("测试错误2", logArgs, logArgs, logArgs);
             Verif(new string[] {
-                "[Error] 测试错误2:" +
+                "[Error] 测试错误2:",
                 "    ├── arg[0]:",
-                "    |   ├── Name: 张三",
-                "    |   └── fileUrl: D:\\Work\\Image\\1.jpg",
+                "    |   ├── aName: 张三",
+                "    |   └── bFileUrl: D:\\Work\\Image\\1.jpg",
                 "    ├── arg[1]:",
-                "    |   ├── Name: 张三",
-                "    |   └── fileUrl: D:\\Work\\Image\\1.jpg",
+                "    |   ├── aName: 张三",
+                "    |   └── bFileUrl: D:\\Work\\Image\\1.jpg",
                 "    └── arg[2]:",
-                "        ├── Name: 张三",
-                "        └── fileUrl: D:\\Work\\Image\\1.jpg",
+                "        ├── aName: 张三",
+                "        └── bFileUrl: D:\\Work\\Image\\1.jpg",
             }, log.GetMsgLines());
             log.Error("测试错误2", ex, logArgs, logArgs, logArgs);
             Verif(new string[] {
-                "[ErrorException] 测试错误2:" +
+                "[ErrorException] 测试错误2:",
                 "    ├── arg[0]:",
-                "    |   ├── Name: 张三",
-                "    |   └── fileUrl: D:\\Work\\Image\\1.jpg",
+                "    |   ├── aName: 张三",
+                "    |   └── bFileUrl: D:\\Work\\Image\\1.jpg",
                 "    ├── arg[1]:",
-                "    |   ├── Name: 张三",
-                "    |   └── fileUrl: D:\\Work\\Image\\1.jpg",
+                "    |   ├── aName: 张三",
+                "    |   └── bFileUrl: D:\\Work\\Image\\1.jpg",
                 "    ├── arg[2]:",
-                "    |   ├── Name: 张三",
-                "    |   └── fileUrl: D:\\Work\\Image\\1.jpg",
+                "    |   ├── aName: 张三",
+                "    |   └── bFileUrl: D:\\Work\\Image\\1.jpg",
                 "    └── Exception:",
                 "        ├── Message: 异常内容标题描述",
                 "        ├── Data:",
@@ -114,7 +128,7 @@ namespace YTS.Log.Test
             logArgs["StructModel"] = new StructModel()
             {
                 Id = 21,
-                Name = "张飞",
+                aName = "张飞",
                 UpdateTime = new DateTime(2015, 11, 14, 22, 23, 24),
                 UserID = null,
                 Ex = new ArgumentOutOfRangeException("DDD", "StructModel的内容Ex赋值异常类型"),
@@ -126,7 +140,7 @@ namespace YTS.Log.Test
                     new ClassModel()
                     {
                         Id = 21,
-                        Name = "张飞",
+                        aName = "张飞",
                         UpdateTime = new DateTime(2015, 11, 14, 22, 23, 24),
                         UserID = null,
                         Ex = new ArgumentOutOfRangeException("DDD", "StructModel的内容Ex赋值异常类型"),
@@ -135,13 +149,13 @@ namespace YTS.Log.Test
             };
             log.Error("测试错误2", ex, logArgs);
             Verif(new string[] {
-                "[ErrorException] 测试错误2:" +
+                "[ErrorException] 测试错误2:",
                 "    ├── arg[0]:",
-                "    |   ├── Name: 张三",
-                "    |   ├── fileUrl: D:\\Work\\Image\\1.jpg",
+                "    |   ├── aName: 张三",
+                "    |   ├── bFileUrl: D:\\Work\\Image\\1.jpg",
                 "    |   └── StructModel:",
                 "    |       ├── Id: 21",
-                "    |       ├── Name: 张飞",
+                "    |       ├── aName: 张飞",
                 "    |       ├── UpdateTime: 2015-11-14 22:23:24",
                 "    |       ├── UserID: null",
                 "    |       ├── Ex:",
@@ -159,7 +173,7 @@ namespace YTS.Log.Test
                 "    |       ├── ClassModels: null",
                 "    |       |   └── [0]:",
                 "    |       |       └── Id: 21",
-                "    |       |       └── Name: 张飞",
+                "    |       |       └── aName: 张飞",
                 "    |       |       └── UpdateTime: 2015-11-14 22:23:24",
                 "    |       |       └── UserID: null",
                 "    |       |       └── Ex:",
@@ -188,7 +202,7 @@ namespace YTS.Log.Test
         {
             public int Id { get; set; }
             public long? UserID { get; set; }
-            public string Name;
+            public string aName;
             public DateTime? AddTime { get; set; }
             public DateTime UpdateTime { get; set; }
 
@@ -205,25 +219,9 @@ namespace YTS.Log.Test
         {
             public int Id { get; set; }
             public long? UserID { get; set; }
-            public string Name;
+            public string aName;
             public DateTime UpdateTime { get; set; }
             public Exception Ex { get; set; }
-        }
-
-        /// <summary>
-        /// 验证是否相等
-        /// </summary>
-        /// <param name="expected">预期</param>
-        /// <param name="actual">实际</param>
-        private void Verif(IList<string> expected, IList<string> actual)
-        {
-            Assert.IsNotNull(expected);
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(expected.Count, actual.Count);
-            for (int i = 0; i < expected.Count; i++)
-            {
-                Assert.AreEqual(expected[i], actual[i]);
-            }
         }
     }
 }
