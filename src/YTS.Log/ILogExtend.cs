@@ -52,9 +52,9 @@ namespace YTS.Log
         /// </summary>
         /// <typeparam name="TKey">字典键类型</typeparam>
         /// <typeparam name="TValue">字典值类型</typeparam>
-        /// <param name="log">键值类型日志对象</param>
+        /// <param name="_">无操作</param>
         /// <returns>空字典</returns>
-        public static IDictionary<TKey, TValue> CreateArgDictionary<TKey, TValue>(this ILog<IDictionary<TKey, TValue>> log)
+        public static IDictionary<TKey, TValue> CreateArgDictionary<TKey, TValue>(this ILog<IDictionary<TKey, TValue>> _)
         {
             return new Dictionary<TKey, TValue>();
         }

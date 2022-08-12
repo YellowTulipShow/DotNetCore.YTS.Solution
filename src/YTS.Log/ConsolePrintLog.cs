@@ -10,7 +10,7 @@ namespace YTS.Log
     /// </summary>
     public class ConsolePrintLog : BasicJSONConsolePrintLog, ILog
     {
-        private HashSet<string> modelUsingHash;
+        private readonly HashSet<string> modelUsingHash;
 
         /// <summary>
         /// 实例化: 控制台打印日志输出实现
