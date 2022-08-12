@@ -102,9 +102,10 @@ namespace YTS.Log.Test
                 "        ├── aName: 张三",
                 "        └── bFileUrl: D:\\Work\\Image\\1.jpg",
             }, log.GetMsgLines());
-            log.Error("测试错误2", ex, logArgs, logArgs, logArgs);
+
+            log.Error("测试错误带有异常", ex, logArgs, logArgs, logArgs);
             Verif(new string[] {
-                "[ErrorException] 测试错误2:",
+                "[ErrorException] 测试错误带有异常:",
                 "    ├── Exception:",
                 "    |   ├── Message: 异常内容标题描述",
                 "    |   ├── Data:",
@@ -125,81 +126,74 @@ namespace YTS.Log.Test
             logArgs["StructModel"] = new StructModel()
             {
                 Id = 21,
-                aName = "张飞",
-                UpdateTime = new DateTime(2015, 11, 14, 22, 23, 24),
+                Name = "张飞",
                 UserID = null,
-                Ex = new ArgumentOutOfRangeException("DDD", "StructModel的内容Ex赋值异常类型"),
                 AddTime = null,
-                ClassModelsField = null,
+                UpdateTime = new DateTime(2015, 11, 14, 22, 23, 24),
+
+                Ex = new ArgumentOutOfRangeException("DDD", "StructModel的内容Ex赋值异常类型"),
+
                 StructModels = null,
                 StructModelsField = null,
                 ClassModels = new ClassModel[] {
                     new ClassModel()
                     {
                         Id = 21,
-                        aName = "张飞",
-                        UpdateTime = new DateTime(2015, 11, 14, 22, 23, 24),
+                        Name = "张飞",
                         UserID = null,
+                        UpdateTime = new DateTime(2015, 11, 14, 22, 23, 24),
                         Ex = new ArgumentOutOfRangeException("DDD", "StructModel的内容Ex赋值异常类型"),
                     },
                 },
+                ClassModelsField = null,
             };
             log.Error("测试错误2", ex, logArgs);
             Verif(new string[] {
                 "[ErrorException] 测试错误2:",
-                "    ├── arg[0]:",
-                "    |   ├── aName: 张三",
-                "    |   ├── bFileUrl: D:\\Work\\Image\\1.jpg",
-                "    |   └── StructModel:",
-                "    |       ├── Id: 21",
-                "    |       ├── aName: 张飞",
-                "    |       ├── UpdateTime: 2015-11-14 22:23:24",
-                "    |       ├── UserID: null",
-                "    |       ├── Ex:",
-                "    |       |   ├── Message: (DDD) StructModel的内容Ex赋值异常类型",
-                "    |       |   ├── Data:",
-                "    |       |   └── StackTrace:",
-                "    |       |       ├── [0]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "    |       |       ├── [1]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "    |       |       ├── [2]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "    |       |       ├── [3]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "    |       |       └── [4]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "    |       ├── AddTime: null",
-                "    |       ├── StructModels: null",
-                "    |       ├── StructModelsField: null",
-                "    |       ├── ClassModels: null",
-                "    |       |   └── [0]:",
-                "    |       |       └── Id: 21",
-                "    |       |       └── aName: 张飞",
-                "    |       |       └── UpdateTime: 2015-11-14 22:23:24",
-                "    |       |       └── UserID: null",
-                "    |       |       └── Ex:",
-                "    |       |           ├── Message: (DDD) StructModel的内容Ex赋值异常类型",
-                "    |       |           ├── Data:",
-                "    |       |           └── StackTrace:",
-                "    |       |               ├── [0]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "    |       |               ├── [1]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "    |       |               ├── [2]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "    |       |               ├── [3]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "    |       |               └── [4]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "    |       └── ClassModelsField: null",
-                "    └── Exception:",
-                "        ├── Message: 异常内容标题描述",
-                "        ├── Data:",
-                "        └── StackTrace:",
-                "            ├── [0]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "            ├── [1]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "            ├── [2]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "            ├── [3]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "            └── [4]: at YTS.Log.Test(IList`1 rlist) in  110",
+                "    ├── Exception:",
+                "    |   ├── Message: 异常内容标题描述",
+                "    |   ├── Data:",
+                "    |   ├── Source:",
+                "    |   ├── StackTrace:",
+                "    |   └── InnerException:",
+                "    └── arg[0]:",
+                "        ├── aName: 张三",
+                "        ├── bFileUrl: D:\\Work\\Image\\1.jpg",
+                "        └── StructModel:",
+                "            ├── Id: 21",
+                "            ├── UserID: null",
+                "            ├── AddTime: null",
+                "            ├── UpdateTime: 2015-11-14 22:23:24",
+                "            ├── Ex:",
+                "            |   ├── Message: StructModel的内容Ex赋值异常类型 (Parameter 'DDD')",
+                "            |   ├── Data:",
+                "            |   ├── Source:",
+                "            |   ├── StackTrace:",
+                "            |   └── InnerException:",
+                "            ├── StructModels: null",
+                "            ├── ClassModels:",
+                "            |   └── [0]:",
+                "            |       ├── Id: 21",
+                "            |       ├── UserID: null",
+                "            |       ├── UpdateTime: 2015-11-14 22:23:24",
+                "            |       ├── Ex:",
+                "            |       |   ├── Message: StructModel的内容Ex赋值异常类型 (Parameter 'DDD')",
+                "            |       |   ├── Data:",
+                "            |       |   ├── Source:",
+                "            |       |   ├── StackTrace:",
+                "            |       |   └── InnerException:",
+                "            |       └── Name: 张飞",
+                "            ├── Name: 张飞",
+                "            ├── StructModelsField: null",
+                "            └── ClassModelsField: null",
             }, log.GetMsgLines());
         }
 
         private struct StructModel
         {
             public int Id { get; set; }
+            public string Name;
             public long? UserID { get; set; }
-            public string aName;
             public DateTime? AddTime { get; set; }
             public DateTime UpdateTime { get; set; }
 
@@ -215,8 +209,8 @@ namespace YTS.Log.Test
         private class ClassModel
         {
             public int Id { get; set; }
+            public string Name;
             public long? UserID { get; set; }
-            public string aName;
             public DateTime UpdateTime { get; set; }
             public Exception Ex { get; set; }
         }

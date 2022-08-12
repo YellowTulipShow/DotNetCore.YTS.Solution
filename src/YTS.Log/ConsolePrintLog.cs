@@ -6,6 +6,7 @@ using System.Reflection;
 
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using System.Data.SqlTypes;
 
 namespace YTS.Log
 {
@@ -198,7 +199,11 @@ namespace YTS.Log
                 StrValue = null,
                 Dict = null,
             };
-            if (data is null) return content;
+            if (data is null)
+            {
+                content.StrValue = "null";
+                return content;
+            }
 
             // 字符串
             if (data is string value_str)
@@ -241,6 +246,13 @@ namespace YTS.Log
             if (data is Exception value_ex)
             {
                 content.Dict = ToPrintItems(value_ex);
+                return content;
+            }
+
+            // 时间
+            if (data is DateTime value_datetime)
+            {
+                content.StrValue = value_datetime.ToString("yyyy-MM-dd HH:mm:ss");
                 return content;
             }
 
