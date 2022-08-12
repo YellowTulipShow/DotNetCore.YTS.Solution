@@ -116,6 +116,29 @@ namespace YTS.Log.Test
                 "        └── bFileUrl: D:\\Work\\Image\\1.jpg",
             }, log.GetMsgLines());
 
+            ILogParamException logParamEx = new ILogParamException(logArgs, "日志参数异常消息", ex);
+            log.Error("测试错误带有异常", logParamEx, logArgs);
+            Verif(new string[] {
+                "[ErrorException] 测试错误带有异常:",
+                "    ├── Exception:",
+                "    |   ├── Message: 日志参数异常消息",
+                "    |   ├── Data:",
+                "    |   ├── Source:",
+                "    |   ├── StackTrace:",
+                "    |   ├── InnerException:",
+                "    |   |   ├── Message: 异常内容标题描述",
+                "    |   |   ├── Data:",
+                "    |   |   ├── Source:",
+                "    |   |   ├── StackTrace:",
+                "    |   |   └── InnerException:",
+                "    |   └── Param:",
+                "    |       ├── aName: 张三",
+                "    |       └── bFileUrl: D:\\Work\\Image\\1.jpg",
+                "    └── arg[0]:",
+                "        ├── aName: 张三",
+                "        └── bFileUrl: D:\\Work\\Image\\1.jpg",
+            }, log.GetMsgLines());
+
             var model = new StructModel()
             {
                 Id = 21,

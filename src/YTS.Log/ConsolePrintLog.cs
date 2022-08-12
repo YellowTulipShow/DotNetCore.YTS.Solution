@@ -236,23 +236,6 @@ namespace YTS.Log
                 return content;
             }
 
-            // 日志参数异常
-            if (data is ILogParamException value_logArgs_ex)
-            {
-                IList<PrintItem> arr = ToPrintItems(value_logArgs_ex);
-                IDictionary<string, object> param = value_logArgs_ex.GetParam();
-                arr.Add(new PrintItem()
-                {
-                    Name = "Param",
-                    Content = new DataContent()
-                    {
-                        Dict = ToPrintItems(param),
-                    },
-                });
-                content.Dict = arr;
-                return content;
-            }
-
             // 异常
             if (data is Exception value_ex)
             {
@@ -355,6 +338,16 @@ namespace YTS.Log
         {
             if (ex == null)
                 return new PrintItem[] { };
+
+            if (ex is ILogParamException logParamEx)
+                return ToPrintItems(logParamEx);
+
+            return ExceptionToPrintItems(ex);
+        }
+        private IList<PrintItem> ExceptionToPrintItems(Exception ex)
+        {
+            if (ex == null)
+                return new PrintItem[] { };
             return new List<PrintItem>
             {
                 new PrintItem()
@@ -384,6 +377,23 @@ namespace YTS.Log
                     Content = new DataContent() { Dict = ToPrintItems(ex.InnerException) } ,
                 },
             };
+        }
+        private IList<PrintItem> ToPrintItems(ILogParamException ex)
+        {
+            if (ex == null)
+                return new PrintItem[] { };
+
+            IList<PrintItem> arr = ExceptionToPrintItems(ex);
+            IDictionary<string, object> param = ex.GetParam();
+            arr.Add(new PrintItem()
+            {
+                Name = "Param",
+                Content = new DataContent()
+                {
+                    Dict = ToPrintItems(param),
+                },
+            });
+            return arr;
         }
 
         private DataContent ModelToDataContent(object data, DataContent content, Type type)
