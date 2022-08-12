@@ -2,11 +2,6 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-
-using Newtonsoft.Json;
-using System.Text.RegularExpressions;
-using System.Data.SqlTypes;
 
 namespace YTS.Log
 {
@@ -15,6 +10,16 @@ namespace YTS.Log
     /// </summary>
     public class ConsolePrintLog : BasicJSONConsolePrintLog, ILog
     {
+        private HashSet<string> modelUsingHash;
+
+        /// <summary>
+        /// 实例化: 控制台打印日志输出实现
+        /// </summary>
+        public ConsolePrintLog()
+        {
+            modelUsingHash = new HashSet<string>();
+        }
+
         /// <inheritdoc />
         public new void Info(string message, params IDictionary<string, object>[] args)
         {
@@ -61,12 +66,14 @@ namespace YTS.Log
             catch (Exception re_ex)
             {
                 var ex_logArgs = this.CreateArgDictionary();
+                ex_logArgs["sign"] = sign;
                 ex_logArgs["message"] = message;
                 ex_logArgs["sonArgs"] = args;
                 ex_logArgs["exArg"] = ex;
                 throw new ILogParamException(ex_logArgs, "打印日志时发生错误! 内部错误!", re_ex);
             }
         }
+
         private IList<PrintItem> CalcOperableList(Exception ex, params IDictionary<string, object>[] args)
         {
             IList<PrintItem> operlist = new List<PrintItem>();
@@ -98,6 +105,7 @@ namespace YTS.Log
             }
             return operlist;
         }
+
         private IList<string> ToMsgList(IList<PrintItem> operlist, IList<int> parentPrefixSigns = null)
         {
             parentPrefixSigns = parentPrefixSigns ?? new List<int>() { 0 };
@@ -106,7 +114,8 @@ namespace YTS.Log
             for (int i = 0; i < len; i++)
             {
                 bool isLast = i == len - 1;
-                IList<int> prefixSigns = new List<int>(parentPrefixSigns) { isLast ? 2 : 1 };
+                IList<int> prefixSigns = new List<int>(parentPrefixSigns)
+                    { isLast ? 2 : 1 };
                 string prefix = CalcPrefix(prefixSigns);
                 prefixSigns[prefixSigns.Count - 1] = isLast ? 0 : 3;
                 PrintItem oper = operlist[i];
@@ -119,6 +128,7 @@ namespace YTS.Log
             }
             return msglist;
         }
+
         private string CalcPrefix(IList<int> prefixSigns)
         {
             int len = prefixSigns.Count;
@@ -142,7 +152,7 @@ namespace YTS.Log
         /// <summary>
         /// 打印项
         /// </summary>
-        public struct PrintItem
+        private struct PrintItem
         {
             /// <summary>
             /// 名称
@@ -158,7 +168,7 @@ namespace YTS.Log
         /// <summary>
         /// 数据内容
         /// </summary>
-        public struct DataContent
+        private struct DataContent
         {
             /// <summary>
             /// 字符串值
@@ -170,28 +180,12 @@ namespace YTS.Log
             public IList<PrintItem> Dict { get; set; }
         }
 
-        private IList<PrintItem> ToPrintItems(IDictionary<string, object> dict)
-        {
-            IList<PrintItem> list = new List<PrintItem>();
-            IList<string> keys = GetSortStrKeys(dict) ?? new string[] { };
-            for (int i = 0; i < keys.Count; i++)
-            {
-                string key = keys[i];
-                list.Add(new PrintItem()
-                {
-                    Name = key,
-                    Content = ToDataContent(dict[key])
-                });
-            }
-            return list;
-        }
-
         /// <summary>
         /// 拆箱解析数据类型值
         /// </summary>
         /// <param name="data">数据</param>
         /// <returns>结果值</returns>
-        public DataContent ToDataContent(object data)
+        private DataContent ToDataContent(object data)
         {
             IList<PrintItem> args = new List<PrintItem>();
             DataContent content = new DataContent()
@@ -242,7 +236,24 @@ namespace YTS.Log
                 return content;
             }
 
-            // 异常参数
+            // 日志参数异常
+            if (data is ILogParamException value_logArgs_ex)
+            {
+                IList<PrintItem> arr = ToPrintItems(value_logArgs_ex);
+                IDictionary<string, object> param = value_logArgs_ex.GetParam();
+                arr.Add(new PrintItem()
+                {
+                    Name = "Param",
+                    Content = new DataContent()
+                    {
+                        Dict = ToPrintItems(param),
+                    },
+                });
+                content.Dict = arr;
+                return content;
+            }
+
+            // 异常
             if (data is Exception value_ex)
             {
                 content.Dict = ToPrintItems(value_ex);
@@ -313,29 +324,31 @@ namespace YTS.Log
             return content;
         }
 
-        private DataContent ModelToDataContent(object data, DataContent content, Type type)
+        private IList<PrintItem> ToPrintItems(IDictionary<string, object> dict)
         {
-            IList<PrintItem> args = new List<PrintItem>();
-            foreach (var item in type.GetProperties())
+            if (dict == null)
+                return new PrintItem[] { };
+            IList<PrintItem> list = new List<PrintItem>();
+            IList<string> keys = GetSortStrKeys(dict) ?? new string[] { };
+            for (int i = 0; i < keys.Count; i++)
             {
-                object item_value = item.GetValue(data, null);
-                args.Add(new PrintItem()
+                string key = keys[i];
+                list.Add(new PrintItem()
                 {
-                    Name = item.Name,
-                    Content = ToDataContent(item_value),
+                    Name = key,
+                    Content = ToDataContent(dict[key])
                 });
             }
-            foreach (var item in type.GetFields())
-            {
-                object item_value = item.GetValue(data);
-                args.Add(new PrintItem()
-                {
-                    Name = item.Name,
-                    Content = ToDataContent(item_value),
-                });
-            }
-            content.Dict = args;
-            return content;
+            return list;
+        }
+
+        private IList<string> GetSortStrKeys(IDictionary<string, object> dict)
+        {
+            if (dict == null)
+                return new string[] { };
+            ICollection<string> keys = dict.Keys;
+            IList<string> rlist = keys.OrderBy(b => b).ToArray();
+            return rlist;
         }
 
         private IList<PrintItem> ToPrintItems(Exception ex)
@@ -373,16 +386,41 @@ namespace YTS.Log
             };
         }
 
-        /// <summary>
-        /// 排序字符串键名队列
-        /// </summary>
-        /// <param name="dict">字典对象</param>
-        /// <returns>排序结果</returns>
-        public IList<string> GetSortStrKeys(IDictionary<string, object> dict)
+        private DataContent ModelToDataContent(object data, DataContent content, Type type)
         {
-            ICollection<string> keys = dict.Keys;
-            IList<string> rlist = keys.OrderBy(b => b).ToArray();
-            return rlist;
+            IList<PrintItem> args = new List<PrintItem>();
+            if (data == null || type == null)
+                return content;
+
+            // 判断是否已经输出过的模型数据
+            string class_sign = $"{type.FullName}_{data.GetHashCode()}";
+            if (modelUsingHash.Contains(class_sign))
+            {
+                content.StrValue = "重复赋值参数输出";
+                return content;
+            }
+            modelUsingHash.Add(class_sign);
+
+            foreach (var item in type.GetProperties())
+            {
+                object item_value = item.GetValue(data, null);
+                args.Add(new PrintItem()
+                {
+                    Name = item.Name,
+                    Content = ToDataContent(item_value),
+                });
+            }
+            foreach (var item in type.GetFields())
+            {
+                object item_value = item.GetValue(data);
+                args.Add(new PrintItem()
+                {
+                    Name = item.Name,
+                    Content = ToDataContent(item_value),
+                });
+            }
+            content.Dict = args;
+            return content;
         }
     }
 }

@@ -31,13 +31,6 @@ namespace YTS.Log.Test
         }
 
         [TestMethod]
-        public void ToDataContent()
-        {
-            var print = new ConsolePrintLog();
-            ConsolePrintLog.DataContent content = print.ToDataContent(null);
-        }
-
-        [TestMethod]
         public void TestBasicDataMsg()
         {
             var log = new TestRunLog();
@@ -123,7 +116,7 @@ namespace YTS.Log.Test
                 "        └── bFileUrl: D:\\Work\\Image\\1.jpg",
             }, log.GetMsgLines());
 
-            logArgs["StructModel"] = new StructModel()
+            var model = new StructModel()
             {
                 Id = 21,
                 Name = "张飞",
@@ -147,6 +140,8 @@ namespace YTS.Log.Test
                 },
                 ClassModelsField = null,
             };
+            model.StructModels = new StructModel[] { model };
+            logArgs["StructModel"] = model;
             log.Error("测试错误2", ex, logArgs);
             Verif(new string[] {
                 "[ErrorException] 测试错误2:",
@@ -170,7 +165,8 @@ namespace YTS.Log.Test
                 "            |   ├── Source:",
                 "            |   ├── StackTrace:",
                 "            |   └── InnerException:",
-                "            ├── StructModels: null",
+                "            ├── StructModels:",
+                "            |   └── [0]: 重复赋值参数输出",
                 "            ├── ClassModels:",
                 "            |   └── [0]:",
                 "            |       ├── Id: 21",
