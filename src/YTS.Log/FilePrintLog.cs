@@ -2,8 +2,6 @@
 using System.IO;
 using System.Text;
 
-using YTS.Log;
-
 namespace YTS.Log
 {
     /// <summary>
