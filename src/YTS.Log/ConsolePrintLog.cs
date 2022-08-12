@@ -40,7 +40,6 @@ namespace YTS.Log
                     $"{sign} {message}:"
                 };
                 IList<PrintItem> operlist = CalcOperableList(ex, args);
-                string prefix = " ".PadLeft(4);
                 if (operlist == null || operlist.Count == 0)
                 {
                     msglist[0] += " ->>> <空参数内容>";
@@ -48,12 +47,12 @@ namespace YTS.Log
                 else if (operlist.Count == 1)
                 {
                     PrintItem oper = operlist[0];
-                    IList<string> son_msgs = ToMsgList(oper.Content.Dict, prefix);
+                    IList<string> son_msgs = ToMsgList(oper.Content.Dict);
                     msglist.AddRange(son_msgs);
                 }
                 else
                 {
-                    IList<string> opermsgs = ToMsgList(operlist, prefix);
+                    IList<string> opermsgs = ToMsgList(operlist);
                     msglist.AddRange(opermsgs);
                 }
                 PrintLines(msglist.ToArray());
@@ -98,28 +97,45 @@ namespace YTS.Log
             }
             return operlist;
         }
-        private IList<string> ToMsgList(IList<PrintItem> operlist, string parent_prefix)
+        private IList<string> ToMsgList(IList<PrintItem> operlist, IList<int> parentPrefixSigns = null)
         {
+            parentPrefixSigns = parentPrefixSigns ?? new List<int>() { 0 };
             List<string> msglist = new List<string>();
-            for (int i = 0; i < operlist.Count; i++)
+            int len = operlist.Count;
+            for (int i = 0; i < len; i++)
             {
-                string prefix = CalcPrefix(parent_prefix, i == operlist.Count - 1);
+                bool isLast = i == len - 1;
+                IList<int> prefixSigns = new List<int>(parentPrefixSigns) { isLast ? 2 : 1 };
+                string prefix = CalcPrefix(prefixSigns);
+                prefixSigns[prefixSigns.Count - 1] = isLast ? 0 : 3;
                 PrintItem oper = operlist[i];
                 msglist.Add($"{prefix}{oper.Name}: {oper.Content.StrValue ?? string.Empty}".TrimEnd());
                 if (oper.Content.Dict != null && oper.Content.Dict.Count > 0)
                 {
-                    IList<string> son_msgs = ToMsgList(oper.Content.Dict, prefix);
+                    IList<string> son_msgs = ToMsgList(oper.Content.Dict, prefixSigns);
                     msglist.AddRange(son_msgs);
                 }
             }
             return msglist;
         }
-        private string CalcPrefix(string parent, bool isLast)
+        private string CalcPrefix(IList<int> prefixSigns)
         {
-            parent = parent.Replace('─', ' ');
-            parent = Regex.Replace(parent, @"[^\s]$", "│");
-            char head = isLast ? '└' : '├';
-            return $"{parent}{head}── ";
+            int len = prefixSigns.Count;
+            string[] prefixs = new string[len];
+            for (int i = 0; i < len; i++)
+            {
+                switch (prefixSigns[i])
+                {
+                    case 0: prefixs[i] = "    "; break;
+                    case 1: prefixs[i] = "├── "; break;
+                    case 2: prefixs[i] = "└── "; break;
+                    case 3: prefixs[i] = "|   "; break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(prefixSigns),
+                            $"解析前缀标识出错: {prefixSigns[i]}");
+                }
+            }
+            return string.Join("", prefixs);
         }
 
         /// <summary>
@@ -264,6 +280,12 @@ namespace YTS.Log
 
             Type type = data.GetType();
 
+            // struct : 结构体
+            if (!type.IsPrimitive && !type.IsEnum && type.IsValueType)
+            {
+                return ModelToDataContent(data, content, type);
+            }
+
             // 值类型
             if (type.IsValueType)
             {
@@ -274,32 +296,40 @@ namespace YTS.Log
             // 对象类型
             if (type.IsClass)
             {
-                foreach (var item in type.GetProperties())
-                {
-                    object item_value = item.GetValue(data, null);
-                    args.Add(new PrintItem()
-                    {
-                        Name = item.Name,
-                        Content = ToDataContent(item_value),
-                    });
-                }
-                foreach (var item in type.GetFields())
-                {
-                    object item_value = item.GetValue(data);
-                    args.Add(new PrintItem()
-                    {
-                        Name = item.Name,
-                        Content = ToDataContent(item_value),
-                    });
-                }
-                content.Dict = args;
-                return content;
+                return ModelToDataContent(data, content, type);
             }
+            return content;
+        }
+
+        private DataContent ModelToDataContent(object data, DataContent content, Type type)
+        {
+            IList<PrintItem> args = new List<PrintItem>();
+            foreach (var item in type.GetProperties())
+            {
+                object item_value = item.GetValue(data, null);
+                args.Add(new PrintItem()
+                {
+                    Name = item.Name,
+                    Content = ToDataContent(item_value),
+                });
+            }
+            foreach (var item in type.GetFields())
+            {
+                object item_value = item.GetValue(data);
+                args.Add(new PrintItem()
+                {
+                    Name = item.Name,
+                    Content = ToDataContent(item_value),
+                });
+            }
+            content.Dict = args;
             return content;
         }
 
         private IList<PrintItem> ToPrintItems(Exception ex)
         {
+            if (ex == null)
+                return new PrintItem[] { };
             return new List<PrintItem>
             {
                 new PrintItem()
@@ -320,7 +350,8 @@ namespace YTS.Log
                 new PrintItem()
                 {
                     Name = "StackTrace",
-                    Content = ToDataContent((ex.StackTrace ?? string.Empty).Split('\n')),
+                    Content = ToDataContent((ex.StackTrace ?? string.Empty)
+                        .Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)),
                 },
                 new PrintItem()
                 {
@@ -329,7 +360,6 @@ namespace YTS.Log
                 },
             };
         }
-
 
         /// <summary>
         /// 排序字符串键名队列

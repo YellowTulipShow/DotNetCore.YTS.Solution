@@ -105,24 +105,21 @@ namespace YTS.Log.Test
             log.Error("测试错误2", ex, logArgs, logArgs, logArgs);
             Verif(new string[] {
                 "[ErrorException] 测试错误2:",
+                "    ├── Exception:",
+                "    |   ├── Message: 异常内容标题描述",
+                "    |   ├── Data:",
+                "    |   ├── Source:",
+                "    |   ├── StackTrace:",
+                "    |   └── InnerException:",
                 "    ├── arg[0]:",
                 "    |   ├── aName: 张三",
                 "    |   └── bFileUrl: D:\\Work\\Image\\1.jpg",
                 "    ├── arg[1]:",
                 "    |   ├── aName: 张三",
                 "    |   └── bFileUrl: D:\\Work\\Image\\1.jpg",
-                "    ├── arg[2]:",
-                "    |   ├── aName: 张三",
-                "    |   └── bFileUrl: D:\\Work\\Image\\1.jpg",
-                "    └── Exception:",
-                "        ├── Message: 异常内容标题描述",
-                "        ├── Data:",
-                "        └── StackTrace:",
-                "            ├── [0]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "            ├── [1]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "            ├── [2]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "            ├── [3]: at YTS.Log.Test(IList`1 rlist) in  110",
-                "            └── [4]: at YTS.Log.Test(IList`1 rlist) in  110",
+                "    └── arg[2]:",
+                "        ├── aName: 张三",
+                "        └── bFileUrl: D:\\Work\\Image\\1.jpg",
             }, log.GetMsgLines());
 
             logArgs["StructModel"] = new StructModel()
