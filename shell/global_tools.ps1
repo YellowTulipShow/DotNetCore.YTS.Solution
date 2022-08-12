@@ -1,4 +1,6 @@
-﻿function PrintLineSplit([string]$path) {
+﻿$PSDefaultParameterValues['*:Encoding'] = 'utf8'
+
+function PrintLineSplit([string]$path) {
     Write-Host ""
     Write-Host "======================================================================================="
     Write-Host ""
