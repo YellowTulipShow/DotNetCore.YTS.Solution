@@ -20,7 +20,6 @@ namespace YTS.Git.Test
     [TestClass]
     public class TestGitHelper
     {
-        public string rootDirePath;
         private ILog log;
 
         [TestInitialize]
@@ -28,7 +27,6 @@ namespace YTS.Git.Test
         {
             var logFile = new FileInfo($"./logs/TestGitHelper/{DateTime.Now:yyyy_MM_dd}.log");
             log = new FilePrintLog(logFile, Encoding.UTF8);
-            rootDirePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "./_yts_git_test_run_dire");
         }
 
         [TestCleanup]
@@ -39,6 +37,8 @@ namespace YTS.Git.Test
         [TestMethod]
         public void Test_ALL()
         {
+            string random_sign = Faker.RandomNumber.Next().ToString();
+            string rootDirePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"./_yts_git_test_run_dire_{random_sign}");
             DirectoryInfo rootDire = new DirectoryInfo(rootDirePath);
 
             // 未完全实现
