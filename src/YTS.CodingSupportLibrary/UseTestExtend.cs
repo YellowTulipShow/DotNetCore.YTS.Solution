@@ -12,6 +12,12 @@ namespace YTS.CodingSupportLibrary
         private const char space = ' ';
         private const int single_line_byte_number = 20;
         private const int single_byte_length = 3;
+
+        /// <summary>
+        /// 获取写入到的日志文件内容
+        /// </summary>
+        /// <param name="codeFile">文件信息</param>
+        /// <returns>字符串表示文件内容</returns>
         public static string GetWriteLogFileContentBytesContent(this FileInfo codeFile)
         {
             StringBuilder str = new StringBuilder();
@@ -52,25 +58,6 @@ namespace YTS.CodingSupportLibrary
             }
             str.AppendLine(string.Empty);
             return str;
-        }
-
-        public static string ReadFileBytesToX2FormatString(this FileInfo file)
-        {
-            byte[] buffer = File.ReadAllBytes(file.FullName);
-            return buffer.ToX2FormatString();
-        }
-        public static string ToX2FormatString(this byte[] buffer)
-        {
-            StringBuilder str = new StringBuilder();
-            for (int i = 0; i < buffer.Length; i++)
-            {
-                byte b = buffer[i];
-                string sign = ".";
-                if (i == buffer.Length - 1)
-                    sign = "";
-                str.Append($"{b:X2}{sign}");
-            }
-            return str.ToString();
         }
     }
 }

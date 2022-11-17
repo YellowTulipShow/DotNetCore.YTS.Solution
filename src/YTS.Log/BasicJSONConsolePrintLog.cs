@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Newtonsoft.Json;
 
@@ -13,21 +14,85 @@ namespace YTS.Log
         private const string null_message = "<null_message>";
 
         /// <inheritdoc />
-        public void Info(string message, params IDictionary<string, object>[] args)
+        public virtual void Info(string message, params IDictionary<string, object>[] args)
         {
-            PrintLines($"[Info] {message ?? null_message}, arg: {JsonConvert.SerializeObject(args)}");
+            PrintLines($"[Info] {message ?? null_message}, args: {ToJSON(args)}");
+        }
+        private string ToJSON(object args)
+        {
+            try
+            {
+                string args_json = JsonConvert.SerializeObject(args);
+                return args_json;
+            }
+            catch (Exception ex)
+            {
+                return $"序列化参数出错: {ex.Message}";
+            }
         }
 
         /// <inheritdoc />
-        public void Error(string message, params IDictionary<string, object>[] args)
+        public virtual void Error(string message, params IDictionary<string, object>[] args)
         {
-            PrintLines($"[Error] {message ?? null_message}, arg: {JsonConvert.SerializeObject(args)}");
+            PrintLines($"[Error] {message ?? null_message}, args: {ToJSON(args)}");
         }
 
         /// <inheritdoc />
-        public void Error(string message, Exception ex, params IDictionary<string, object>[] args)
+        public virtual void Error(string message, Exception ex, params IDictionary<string, object>[] args)
         {
-            PrintLines($"[ErrorException] {message ?? null_message}, Exception: {ex.Message + ex.StackTrace} arg: {JsonConvert.SerializeObject(args)}");
+            if (ex == null)
+            {
+                Error(message, args);
+                return;
+            }
+
+            IList<string> msglist = new List<string>();
+            if (ex is ILogParamException logParamEx)
+            {
+                string msg = string.Join(", ", new string[]
+                {
+                    $"[ErrorException] {message ?? null_message}",
+                    $"Exception: {ex.Message + ex.StackTrace}",
+                    $"args: {ToJSON(args)}",
+                    $"logParam: {ToJSON(logParamEx.GetParam())}",
+                });
+                msglist.Add(msg);
+            }
+            else
+            {
+                string msg = string.Join(", ", new string[]
+                {
+                    $"[ErrorException] {message ?? null_message}",
+                    $"Exception: {ex.Message + ex.StackTrace}",
+                    $"args: {ToJSON(args)}",
+                });
+                msglist.Add(msg);
+            }
+            Exception inex = ex.InnerException;
+            while (inex != null)
+            {
+                if (inex is ILogParamException inlogParamEx)
+                {
+                    string msg = string.Join(", ", new string[]
+                    {
+                        $"[ErrorException.InnerException] {inex.Message}",
+                        $"StackTrace: {inex.StackTrace}",
+                        $"logParam: {ToJSON(inlogParamEx.GetParam())}",
+                    });
+                    msglist.Add(msg);
+                }
+                else
+                {
+                    string msg = string.Join(", ", new string[]
+                    {
+                        $"[ErrorException.InnerException] {inex.Message}",
+                        $"StackTrace: {inex.StackTrace}",
+                    });
+                    msglist.Add(msg);
+                }
+                inex = inex.InnerException;
+            }
+            PrintLines(msglist.ToArray());
         }
 
         /// <summary>
