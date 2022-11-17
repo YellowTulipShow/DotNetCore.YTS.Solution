@@ -2,6 +2,10 @@
 
 ## 版本更新日志
 
+### v0.1.4
+
+* 优化处理 `BasicJSONConsolePrintLog` 日志实现方法, 增加异常输出时, 子异常的输出展示
+
 ### v0.1.3
 
 * 增加 `ILogParamException` 异常, 使用时可将底层的参数通过异常输出出来
