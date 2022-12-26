@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -38,10 +39,36 @@ namespace YTS.Log
         /// <param name="msglist">需要打印的多行消息列表</param>
         protected override void PrintLines(params string[] msglist)
         {
+            if (msglist == null || msglist.Length <= 0)
+                return;
             string time_format = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            string[] log_head = new string[] { $"[{time_format}] Insert Log:" };
-            File.AppendAllLines(logFile.FullName, log_head, encoding);
-            File.AppendAllLines(logFile.FullName, msglist, encoding);
+            List<string> rlist = new List<string>
+            {
+                $"[{time_format}] Insert Log:"
+            };
+            rlist.AddRange(msglist);
+            rlist.Add(string.Empty);
+            WriteFileContents(rlist);
+        }
+
+        private void WriteFileContents(IList<string> msglist)
+        {
+            if (msglist == null || msglist.Count <= 0)
+                return;
+            string fullPath = logFile.FullName;
+            FileMode fileModel = File.Exists(fullPath) ? FileMode.Append : FileMode.Create;
+            using (FileStream fs = new FileStream(fullPath, fileModel, FileAccess.Write, FileShare.ReadWrite))
+            {
+                using (StreamWriter sr = new StreamWriter(fs, encoding))
+                {
+                    for (int i = 0; i < msglist.Count; i++)
+                    {
+                        sr.WriteLine(msglist[i]);
+                    }
+                    sr.Close();
+                    fs.Close();
+                }
+            }
         }
     }
 }

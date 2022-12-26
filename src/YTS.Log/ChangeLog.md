@@ -5,6 +5,7 @@
 ### v0.1.4
 
 * 优化处理 `BasicJSONConsolePrintLog` 日志实现方法, 增加异常输出时, 子异常的输出展示
+* 优化处理 `FilePrintLog` 输出文件内容实现方法
 
 ### v0.1.3
 
