@@ -156,7 +156,7 @@ namespace YTS.CodingSupportLibrary.Test
         {
             string path;
             path = @"";
-            if (!string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(path))
                 return;
 
             FileInfo file = new FileInfo(path);
