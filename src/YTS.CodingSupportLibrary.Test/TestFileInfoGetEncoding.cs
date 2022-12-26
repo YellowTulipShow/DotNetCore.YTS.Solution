@@ -150,5 +150,23 @@ namespace YTS.CodingSupportLibrary.Test
 
             Assert.AreNotEqual(utf8, utf8NoBOM);
         }
+
+        [TestMethod]
+        public void Test_GetLocalFileEncoding()
+        {
+            string path;
+            path = @"";
+            if (!string.IsNullOrEmpty(path))
+                return;
+
+            FileInfo file = new FileInfo(path);
+            Assert.IsTrue(file.Exists);
+
+            Encoding encode = file.GetEncoding();
+            Assert.IsNotNull(encode);
+
+            string text = File.ReadAllText(file.FullName, encode);
+            Assert.IsNotNull(text);
+        }
     }
 }
