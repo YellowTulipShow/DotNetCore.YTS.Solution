@@ -1,40 +1,34 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-        <Title>命令: 文件识别</Title>
-        <PackageId>YTS.Command.FileRecognition</PackageId>
-        <Version>0.0.1</Version>
-        <Authors>YellowTulipShow</Authors>
-        <Description>识别路径中的文件, 输出文件清单</Description>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <RepositoryType>git</RepositoryType>
-        <NeutralLanguage>zh</NeutralLanguage>
-        <RepositoryUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution</RepositoryUrl>
-        <PackageProjectUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution</PackageProjectUrl>
-        <Company />
-        <PackageIconUrl />
-        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <xmlDoc>true</xmlDoc>
-
-        <OutputType>Exe</OutputType>
-        <PackAsTool>true</PackAsTool>
-        <ToolCommandName>ytsfr</ToolCommandName>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <None Include="..\.editorconfig" Link=".editorconfig" />
-    </ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Title>命令: 文件识别</Title>
+    <PackageId>YTS.Command.FileRecognition</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>YellowTulipShow</Authors>
+    <Description>识别路径中的文件, 输出文件清单</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>zh</NeutralLanguage>
+    <RepositoryUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/YellowTulipShow/DotNetCore.YTS.Solution</PackageProjectUrl>
+    <Company />
+    <PackageIconUrl />
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <xmlDoc>true</xmlDoc>
+    <OutputType>Exe</OutputType>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>ytsfr</ToolCommandName>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\YTS.Log\YTS.Log.csproj" />
     <ProjectReference Include="..\YTS.ConsolePrint\YTS.ConsolePrint.csproj" />
     <ProjectReference Include="..\YTS.Logic\YTS.Logic.csproj" />
   </ItemGroup>
-
 </Project>

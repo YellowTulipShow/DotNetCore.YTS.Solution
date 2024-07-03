@@ -4,6 +4,8 @@ using System.CommandLine;
 
 using YTS.Log;
 using YTS.ConsolePrint;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace YTS.Command.FileRecognition
 {
@@ -13,14 +15,17 @@ namespace YTS.Command.FileRecognition
     public class CommandArgsParser
     {
         private readonly ILog log;
+        private readonly IMain main;
 
         /// <summary>
         /// 实例化 - 命令参数解析器
         /// </summary>
         /// <param name="log">日志接口</param>
-        public CommandArgsParser(ILog log)
+        /// <param name="main">程序接口</param>
+        public CommandArgsParser(ILog log, IMain main)
         {
             this.log = log;
+            this.main = main;
         }
 
         /// <summary>
@@ -36,6 +41,7 @@ namespace YTS.Command.FileRecognition
             try
             {
                 Option<string> option_root_path = GetOption_RootPath();
+                Option<string> option_inventory_file_name = GetOption_InventoryFileName();
                 Option<bool?> option_is_Recursive = GetOption_IsRecursive();
 
                 RootCommand rootC = new RootCommand("识别路径中的文件, 输出文件清单");
@@ -48,12 +54,17 @@ namespace YTS.Command.FileRecognition
                     {
                         string root_path = context.ParseResult.GetValueForOption(option_root_path);
                         logArgs["root_path"] = root_path;
-                        bool is_Recursive = context.ParseResult.GetValueForOption(option_is_Recursive) ?? false;
-                        logArgs["is_Recursive"] = is_Recursive;
+                        string inventory_file_name = context.ParseResult.GetValueForOption(option_inventory_file_name);
+                        logArgs["inventory_file_name"] = inventory_file_name;
+                        bool is_recursive = context.ParseResult.GetValueForOption(option_is_Recursive) ?? false;
+                        logArgs["is_Recursive"] = is_recursive;
 
-                        Console.WriteLine($"路径: {root_path}");
-                        string r_name = is_Recursive ? "递归" : "不递归";
-                        Console.WriteLine($"是否递归: {r_name}");
+                        main.OnExecute(new M.ExecuteParam()
+                        {
+                            root_path = root_path,
+                            is_recursive = is_recursive,
+                            inventory_file_name = inventory_file_name,
+                        });
                     }
                     catch (Exception ex)
                     {
@@ -83,6 +94,15 @@ namespace YTS.Command.FileRecognition
                     return dire;
                 },
                 description: "需执行识别的根目录"); ;
+            option.Arity = ArgumentArity.ExactlyOne;
+            return option;
+        }
+        private Option<string> GetOption_InventoryFileName()
+        {
+            var option = new Option<string>(
+                aliases: new string[] { "-i", "--inventory" },
+                getDefaultValue: () => "_inventory",
+                description: "清单文件名称"); ;
             option.Arity = ArgumentArity.ExactlyOne;
             return option;
         }

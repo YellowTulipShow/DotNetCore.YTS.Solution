@@ -13,93 +13,93 @@ namespace YTS.Command.FileRecognition
     public class PathFileInventory
     {
         private readonly ILog log;
+        /// <summary>
+        /// 是否递归
+        /// </summary>
+        private readonly bool is_recursive;
+        /// <summary>
+        /// 清单文件名称
+        /// </summary>
+        private readonly string inventory_file_name;
 
         /// <summary>
         /// 初始化文件清单
         /// </summary>
-        public PathFileInventory(ILog log)
+        /// <param name="log">执行日志</param>
+        /// <param name="is_recursive">是否递归</param>
+        /// <param name="inventory_file_name">清单文件名称</param>
+        public PathFileInventory(ILog log, bool is_recursive, string inventory_file_name)
         {
             this.log = log;
+            this.is_recursive = is_recursive;
         }
 
-        public IDictionary<string, MInventory> ToExplainDatas(string directoryPath, bool IsCalcSub = true)
-        {
-            DirectoryInfo info = new DirectoryInfo(directoryPath);
-            return ToMDirectory(info, IsCalcSub);
-        }
-        public IDictionary<string, MInventory> ToMDirectory(DirectoryInfo directoryInfo, bool IsCalcSub = true)
+        public IDictionary<string, M.Inventory> ToMDirectory(DirectoryInfo directoryInfo)
         {
             if (directoryInfo == null || !directoryInfo.Exists)
                 return null;
-            const string inventoryJSONName = "_inventory.json";
+            IDictionary<string, object> logArgs = log.CreateArgDictionary();
+
+            string inventoryJSONName = $"{inventory_file_name}.json";
             string inventory_json_path = $"{directoryInfo.FullName}\\{inventoryJSONName}";
             inventory_json_path = FilePathExtend.ToAbsolutePath(inventory_json_path);
-            log.Info("计算JSON清单路径", new Dictionary<string, object>()
-            {
-                { "inventory_json_path", inventory_json_path },
-            });
-            var dict = new Dictionary<string, MInventory>();
-            var items = new List<MItem>();
+            logArgs["inventory_json_path"] = inventory_json_path;
+            log.Info("计算JSON清单路径", logArgs);
+
+            IDictionary<string, M.Inventory> rdict;
+            rdict = new Dictionary<string, M.Inventory>();
+            IList<M.Item> items = new List<M.Item>();
 
             var sub_files = directoryInfo.GetFiles();
-            log.Info("添加文件类型项", new Dictionary<string, object>()
-            {
-                { "sub_files.Length", sub_files.Length },
-            });
+            logArgs["sub_files.Length"] = sub_files.Length;
+
+            log.Info("添加文件类型项", logArgs);
             foreach (var file in sub_files)
             {
                 if (file.Name == inventoryJSONName)
                     continue;
-                items.Add(ToMItem(file.Name, "File"));
+                items.Add(ToItem(file));
             }
 
             var sub_directorys = directoryInfo.GetDirectories();
-            log.Info("添加目录类型项", new Dictionary<string, object>()
-            {
-                { "directoryInfo.FullName", directoryInfo.FullName },
-                { "sub_directorys.Length", sub_directorys.Length },
-            });
+            logArgs["directoryInfo.FullName"] = directoryInfo.FullName;
+            logArgs["sub_directorys.Length"] = sub_directorys.Length;
+            log.Info("添加目录类型项", logArgs);
             foreach (var dir in sub_directorys)
             {
-                if (IsCalcSub)
+                if (is_recursive)
                 {
                     var sub_dict = ToMDirectory(dir);
-                    dict = dict.Union(sub_dict).ToDictionary(kv => kv.Key, kv => kv.Value);
+                    rdict = rdict.Union(sub_dict).ToDictionary(kv => kv.Key, kv => kv.Value);
                 }
-                items.Add(ToMItem(dir.Name, "Dir"));
+                items.Add(ToItem(dir));
             }
 
-            var result = new MInventory
+            var result = new M.Inventory
             {
                 Name = directoryInfo.Name,
-                SubMItems = items.ToArray(),
+                Subs = items,
             };
-            dict[inventory_json_path] = result;
-            return dict;
+            rdict[inventory_json_path] = result;
+            return rdict;
         }
-        private MItem ToMItem(string name, string type) => new MItem() { Name = name, Type = type };
-
-        public class MInventory
+        private M.Item ToItem(FileInfo m)
         {
-            /// <summary>
-            /// 当前清单名称
-            /// </summary>
-            public string Name { get; set; }
-            /// <summary>
-            /// 下级项信息
-            /// </summary>
-            public MItem[] SubMItems { get; set; }
+            return new M.Item()
+            {
+                Name = m.Name,
+                Type = "File",
+                Extension = m.Extension.ToLower(),
+            };
         }
-        public class MItem
+        private M.Item ToItem(DirectoryInfo m)
         {
-            /// <summary>
-            /// 名称
-            /// </summary>
-            public string Name { get; set; }
-            /// <summary>
-            /// 类型
-            /// </summary>
-            public string Type { get; set; }
+            return new M.Item()
+            {
+                Name = m.Name,
+                Type = "Dir",
+                Extension = null,
+            };
         }
     }
 }
