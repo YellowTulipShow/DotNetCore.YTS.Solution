@@ -20,6 +20,18 @@
 ./shell/push_nuget_packages.ps1
 ```
 
+* 发布命令程序:
+
+```powershell
+./shell/release_command.ps1
+```
+
+* 安装已经发布的命令程序:
+
+```powershell
+./shell/install_command_packages.ps1
+```
+
 ## 学习链接
 
 * [微软官网 - .NET Core 指南](https://docs.microsoft.com/zh-cn/dotnet/core/)
