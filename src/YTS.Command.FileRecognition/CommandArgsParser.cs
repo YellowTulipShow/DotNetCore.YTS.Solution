@@ -46,6 +46,7 @@ namespace YTS.Command.FileRecognition
 
                 RootCommand rootC = new RootCommand("识别路径中的文件, 输出文件清单");
                 rootC.AddGlobalOption(option_root_path);
+                rootC.AddGlobalOption(option_inventory_file_name);
                 rootC.AddGlobalOption(option_is_Recursive);
 
                 rootC.SetHandler(context =>

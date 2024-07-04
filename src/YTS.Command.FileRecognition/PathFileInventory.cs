@@ -32,8 +32,14 @@ namespace YTS.Command.FileRecognition
         {
             this.log = log;
             this.is_recursive = is_recursive;
+            this.inventory_file_name = inventory_file_name;
         }
 
+        /// <summary>
+        /// 查找目录转为目录信息
+        /// </summary>
+        /// <param name="directoryInfo">目录目标</param>
+        /// <returns>字典结果 key:结果文件路径, value:结果文件内容</returns>
         public IDictionary<string, M.Inventory> ToMDirectory(DirectoryInfo directoryInfo)
         {
             if (directoryInfo == null || !directoryInfo.Exists)

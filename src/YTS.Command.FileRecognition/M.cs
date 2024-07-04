@@ -12,10 +12,22 @@ namespace YTS.Command.FileRecognition
     /// </summary>
     public static class M
     {
+        /// <summary>
+        /// 执行参数
+        /// </summary>
         public class ExecuteParam
         {
+            /// <summary>
+            /// 根目录
+            /// </summary>
             public string root_path;
+            /// <summary>
+            /// 清单文件名称
+            /// </summary>
             public string inventory_file_name;
+            /// <summary>
+            /// 是否递归
+            /// </summary>
             public bool is_recursive;
         }
 
