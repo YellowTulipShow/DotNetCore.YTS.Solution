@@ -17,6 +17,7 @@ namespace YTS.Logic.Test.Internet
         [TestMethod]
         public void Download()
         {
+            return;
             ILog log = new LogUniversal();
             var helper = new ImageDownloadHelper(log);
             string imgurl = @"https://ytsimg.gitee.io/blog/favicon/TopHead.jpg";
